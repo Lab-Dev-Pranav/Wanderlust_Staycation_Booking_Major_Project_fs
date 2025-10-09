@@ -12,8 +12,8 @@
     <div class="row">
       <div class="col-md-6">
         <p><strong>Booking ID:</strong> <%= booking._id %></p>
-        <p><strong>Check-In:</strong> <%= new Date(booking.checkIn).toLocaleDateString("en-IN") %></p>
-        <p><strong>Check-Out:</strong> <%= new Date(booking.checkOut).toLocaleDateString("en-IN") %></p>
+        <p><strong>Check-In:</strong> <%= new Date(booking.checkIn).toLocaleDateString("en-IN") %> at 01:00 PM</p>
+        <p><strong>Check-Out:</strong> <%= new Date(booking.checkOut).toLocaleDateString("en-IN") %> at 11:00 AM</p>
         <p><strong>Total Days:</strong> 
           <%= Math.ceil((new Date(booking.checkOut) - new Date(booking.checkIn)) / (1000 * 60 * 60 * 24)) %>
         </p>

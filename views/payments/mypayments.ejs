@@ -35,10 +35,10 @@
                 <th>Booking</th>
                 <th>Stay Dates</th>
                 <th>Guests</th>
-                <th>Status</th>
-                <th>User</th>
-                <th>Amounts</th>
+                <!-- <th>Status</th> -->
+                <!-- <th>User</th> -->
                 <th>Payment Date</th>
+                      <th>Amounts</th>
               </tr>
             </thead>
             <tbody>
@@ -68,51 +68,49 @@
                   </td>
 
                   <!-- Status -->
-                  <td class="text-center">
+                  <!-- <td class="text-center">
                     <span class="badge px-3 py-2 rounded-pill 
                       <%= record.booking.status === 'confirmed' ? 'bg-success' : (record.booking.status === 'pending' ? 'bg-primary' : 'bg-secondary') %>">
                       <%= record.booking.status.charAt(0).toUpperCase() + record.booking.status.slice(1) %>
                     </span>
-                  </td>
+                  </td> -->
 
                   <!-- User -->
-                  <td>
+                  <!-- <td>
                     <div class="d-flex align-items-center">
-                      <img src="<%= record.user.profilePhoto.url %>" 
-                           alt="User Photo" width="36" height="36" 
-                           class="rounded-circle me-2 shadow-sm">
+                      <img src="https://ui-avatars.com/api/?name=<%= record.user.username %>&background=random&size=64" alt="User Avatar" class="rounded-circle me-2" width="40" height="40">
                       <div>
                         <span class="fw-semibold"><%= record.user.username %></span><br>
                         <small class="text-muted"><%= record.user.email %></small>
                       </div>
                     </div>
+                  </td> -->
+
+                  <!-- Payment Date -->
+                  <td class="text-center">
+                    <%= new Date(record.createdAt).toLocaleDateString("en-IN", { year: "numeric", month: "long", day: "numeric" }) %>
                   </td>
 
                   <!-- Amounts -->
                   <td>
                     <div class="small">
                       <div>💰 Base: <span class="fw-semibold">₹<%= record.baseAmount.toLocaleString("en-IN") %></span></div>
-                      <div class="text-warning">+ Tax: ₹<%= record.taxAmount.toLocaleString("en-IN") %></div>
-                      <div class="text-info">+ Fee: ₹<%= record.platformAmount.toLocaleString("en-IN") %></div>
+                      <div class="text-warning">+ Tax 18%: ₹<%= record.taxAmount.toLocaleString("en-IN") %></div>
+                      <div class="text-info">+ Fee 2%: ₹<%= record.platformAmount.toLocaleString("en-IN") %></div>
                       <div class="fw-bold text-success mt-1">= ₹<%= record.totalAmount.toLocaleString("en-IN") %></div>
                     </div>
                   </td>
 
-                  <!-- Payment Date -->
-                  <td class="text-center">
-                    <%= new Date(record.createdAt).toLocaleDateString("en-IN", { year: "numeric", month: "long", day: "numeric" }) %>
-                  </td>
+                  
                 </tr>
               <% } %>
             </tbody>
 
             <!-- Totals Row -->
             <tfoot>
-              <tr class="table-secondary fw-bold">
-                <td colspan="5" class="text-end">Total Base Fee:</td>
-                <td colspan="2" class="text-start text-success">
-                  ₹<%= totalBaseFee.toLocaleString("en-IN") %>
-                </td>
+              <tr class="table-secondary fw-bold text-center">
+                <td colspan="4" class="text-end">Total Base Amount:</td>
+                <td>₹<%= totalBaseFee.toLocaleString("en-IN") %></td>
               </tr>
             </tfoot>
           </table>
