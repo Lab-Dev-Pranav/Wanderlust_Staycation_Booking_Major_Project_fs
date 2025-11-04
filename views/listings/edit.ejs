@@ -1,79 +1,94 @@
 <% layout("/layouts/boilerplate") %>
 
-<body>
-    <h3>EDIT DETAILS</h3>
-    <form action="/listings/<%= listing._id %>?_method=PUT" method="POST" class="needs-validation" novalidate enctype="multipart/form-data">
+    <body>
+        <h3>EDIT DETAILS</h3>
+        <form action="/listings/<%= listing._id %>?_method=PUT" method="POST" class="needs-validation" novalidate
+            enctype="multipart/form-data">
 
-        <div class="mb-3">
-            <label for="title" class="form-label">Title</label>
-            <input type="text" class="form-control" name="listing[title]" id="title" value="<%= listing.title %>" required>
-            <div class="invalid-feedback">Please provide a title.</div>
-        </div>
+            <div class="mb-3">
+                <label for="title" class="form-label">Title</label>
+                <input type="text" class="form-control" name="listing[title]" id="title" value="<%= listing.title %>"
+                    required>
+                <div class="invalid-feedback">Please provide a title.</div>
+            </div>
 
-        <div class="mb-3">
-            <label for="description" class="form-label">Description</label>
-            <textarea class="form-control" name="listing[description]" id="description" cols="20" rows="6" required><%= listing.description %></textarea>
-            <div class="invalid-feedback">Please provide a description.</div>
-        </div>
+            <div class="mb-3">
+                <label for="description" class="form-label">Description</label>
+                <textarea class="form-control" name="listing[description]" id="description" cols="20" rows="6"
+                    required><%= listing.description %></textarea>
+                <div class="invalid-feedback">Please provide a description.</div>
+            </div>
 
-        <div class="mb-3">
-            <label for="price" class="form-label">Price</label>
-            <input type="number" class="form-control" name="listing[price]" id="price" value="<%= listing.price %>" required>
-            <div class="invalid-feedback">Please provide a valid price.</div>
-        </div>
+            <div class="mb-3">
+                <label for="price" class="form-label">Price</label>
+                <input type="number" class="form-control" name="listing[price]" id="price" value="<%= listing.price %>"
+                    required>
+                <div class="invalid-feedback">Please provide a valid price.</div>
+            </div>
 
-        <div class="mb-3">
-            <label for="location" class="form-label">Location</label>
-            <input type="text" class="form-control" name="listing[location]" id="location" value="<%= listing.location %>" required>
-            <div class="invalid-feedback">Please provide a location.</div>
-        </div>
+            <div class="mb-3">
+                <label for="location" class="form-label">Location</label>
+                <input type="text" class="form-control" name="listing[location]" id="location"
+                    value="<%= listing.location %>" required>
+                <div class="invalid-feedback">Please provide a location.</div>
+            </div>
 
-        <div class="mb-3">
-            <label for="country" class="form-label">Country</label>
-            <input type="text" class="form-control" name="listing[country]" id="country" value="<%= listing.country %>" required>
-            <div class="invalid-feedback">Please provide a country.</div>
-        </div>
+            <div class="mb-3">
+                <label for="country" class="form-label">Country</label>
+                <input type="text" class="form-control" name="listing[country]" id="country"
+                    value="<%= listing.country %>" required>
+                <div class="invalid-feedback">Please provide a country.</div>
+            </div>
 
-        <!-- //exace lication url -->
-        <div class="mb-3">
-            <label for="exactLocation" class="form-label">Exact Location URL</label>
-            <input type="text" class="form-control" name="listing[exactLocation]" id="exactLocation" value="<%= listing.exactLocation %>" required>
-            <div class="invalid-feedback">Please provide an exact location URL.</div>
-        </div>
+            <!-- //exace lication url -->
+            <div class="mb-3">
+                <label for="exactLocation" class="form-label">Exact Location URL</label>
+                <input type="text" class="form-control" name="listing[exactLocation]" id="exactLocation"
+                    value="<%= listing.exactLocation %>" required>
+                <div class="invalid-feedback">Please provide an exact location URL.</div>
+            </div>
 
-        <div class="mb-3">
-            <label for="tag" class="form-label">Tag</label>
-            <select name="listing[tag]" class="form-select" id="tag" aria-label="Select a tag">
-                <% const tags = ["Trending", "Rooms", "Iconic", "Mountain", "Castles", "Pools", "Camping", "Farms", "Hot", "Domes"]; %>
-                <% tags.forEach(tag => { %>
-                    <option value="<%= tag %>" <%= listing.tag === tag ? "selected" : "" %>><%= tag %></option>
-                <% }) %>
-            </select>
-            <div class="invalid-feedback">Please provide a tag.</div>
-        </div>
+            <div class="mb-3">
+                <label for="tag" class="form-label">Tag</label>
+                <select name="listing[tag]" class="form-select" id="tag" aria-label="Select a tag">
+                    <% const tags=["Trending", "Rooms" , "Iconic" , "Mountain" , "Castles" , "Pools" , "Camping"
+                        , "Farms" , "Hot" , "Domes" ]; %>
+                        <% tags.forEach(tag=> { %>
+                            <option value="<%= tag %>" <%=listing.tag===tag ? "selected" : "" %>><%= tag %>
+                            </option>
+                            <% }) %>
+                </select>
+                <div class="invalid-feedback">Please provide a tag.</div>
+            </div>
 
-         <div class="mb-3">
-            <label for="capacity" class="form-label">Capacity (Number of People)</label>
-            <input type="number" class="form-control" id="capacity" name="listing[capacity]" min="1" value="<%= listing.capacity %>" required>
-            <div class="invalid-feedback">Please provide the capacity.</div>
-        </div>
+            <div class="mb-3">
+                <label for="capacity" class="form-label">Capacity (Number of People)</label>
+                <input type="number" class="form-control" id="capacity" name="listing[capacity]" min="1"
+                    value="<%= listing.capacity %>" required>
+                <div class="invalid-feedback">Please provide the capacity.</div>
+            </div>
 
-        <div class="mb-3" style="height: 250px; width: 500px;">
-            <p> Current Image </p>
-            <img src="<%= originalimgurl %>" alt="Listing Image" style="height: 250px; width: 500px;">
-        </div>
-        <br><br>
+            <div class="mb-3">
+                <p>Current Image</p>
+                <div class="img-fluid-box" style="max-width: 100%; height: auto; overflow: hidden;">
+                    <img src="<%= originalimgurl %>" alt="Listing Image" class="img-fluid rounded"
+                        style="width: 100%; height: auto; object-fit: cover;">
+                </div>
+            </div>
 
-        
 
-        <div class="mb-3">
-            <label for="image" class="form-label">Upload New Image</label>
-            <input type="file" class="form-control" name="listing[image][url]" id="image" accept="image/*">
-        </div>
+            <br><br>
 
-        <button type="submit" class="btn btn-primary show-e-btn">Update</button>
-    </form>
-    <br><br><br><br><br>
-</body>
 
-</html>
+
+            <div class="mb-3">
+                <label for="image" class="form-label">Upload New Image</label>
+                <input type="file" class="form-control" name="listing[image][url]" id="image" accept="image/*">
+            </div>
+
+            <button type="submit" class="btn btn-primary show-e-btn">Update</button>
+        </form>
+        <br><br><br><br><br>
+    </body>
+
+    </html>
