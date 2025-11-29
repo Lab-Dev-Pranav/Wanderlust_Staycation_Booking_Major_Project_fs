@@ -2,7 +2,7 @@
 
 A full-stack travel and booking web application built with Node.js, Express, MongoDB, and EJS. Users can browse listings, create bookings, handle payments, manage accounts, write reviews, and admin users can manage listings and payments.
 
-Live demo: (local/deployed URL if available — add yours here)
+Live demo: https://wanderlust-staycation-booking.onrender.com/
 
 ---
 
