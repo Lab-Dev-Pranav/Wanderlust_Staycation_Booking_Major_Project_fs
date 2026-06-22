@@ -6,6 +6,7 @@ const MAPTOKEN = process.env.MAP_TOKEN;
 const geocodingClient = mbxGeocoding({ accessToken: MAPTOKEN });
 
 module.exports.index = async (req, res) => {
+      console.log("controller called")
   const listings = await Listing.find({});
   res.render("listings/index", { listings });
 };

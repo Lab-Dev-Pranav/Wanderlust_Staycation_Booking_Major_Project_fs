@@ -50,6 +50,8 @@ async function main() {
 
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
+app.set("trust proxy", 1);
+
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 app.engine("ejs", ejsMate);
@@ -81,6 +83,8 @@ const sessionOption = {
 };
 app.use(session(sessionOption));
 // --------SESSION CREATION E-------
+
+
 
 app.use(flash());
 

@@ -11,6 +11,16 @@ body {
         align-items: center;
         padding: 20px;
     }
+
+
+
+.dancing-script-text-center {
+  font-family: "Dancing Script", cursive;
+  font-optical-sizing: auto;
+  font-weight: 700;
+  font-style: normal;
+}
+
     /* .search-section {
         width: 80%;
         height: 550px;

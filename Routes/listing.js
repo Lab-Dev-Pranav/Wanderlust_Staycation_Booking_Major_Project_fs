@@ -14,11 +14,16 @@ const { storage } = require("../cloudConfig.js")
 const upload = multer({ storage })
 
 const { islogged_in, isOwner, validateListing } = require("../MW.js");
+const { tokenBucket } = require("../middlewares/tokenBucket.js");
 
 router
   .route("/")
   // INDEX ROUTE
-  .get(wrapAsync(listingController.index))
+  .get(
+    islogged_in,
+    tokenBucket,
+     wrapAsync(listingController.index)
+    )
   // (CREATE) CREATE ROUTE
   .post(
     islogged_in,

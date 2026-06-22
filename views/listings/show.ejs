@@ -16,15 +16,14 @@
         <h1 class="show-all-text">
           <%= listing.title %>
         </h1>
-        <p class="show-all-text">
-          <%= listing.description %>
-        </p>
+       
         <div class="show-img-container">
           <img class="show-img" src="<%= listing.image.url %>" alt="<%= listing.title %>" />
         </div>
         <br />
 
-        <p class="show-all-text">Owned by:-
+        <p class="show-all-text">    
+          <b>Owned by:-</b>
           <%= listing.owner.username %>
             <% if (currUser && currUser.username !==listing.owner.username) { %>
               <a href="/userprofile/<%= listing.owner._id %>">
@@ -32,12 +31,16 @@
               </a>
               <% } %>
         </p>
-
+         <p class="show-all-text">
+            <b>   About Properties:- </b>
+         
+          <%= listing.description %>
+        </p>
 
 
 
         <p class="show-all-text">
-          Price:- <b> &#8377; <%= listing.price.toLocaleString("en-IN") %></b>
+         <b> Price:- </b> ₹ <%= listing.price.toLocaleString("en-IN") %>
           <span class="tooltip-ibtn">
             <i class="bi bi-info-circle-fill ibtn"></i>
             <span class="tooltip-text">
@@ -46,7 +49,8 @@
             </span>
           </span>
         </p>
-        <p class="show-all-text">Location:- <%= listing.location %>, <%= listing.country %>
+        <p class="show-all-text">
+          <b>Location:-</b> <%= listing.location %>, <%= listing.country %>
               <span class="tooltip-ibtn">
                 <i class="bi bi-info-circle-fill ibtn"></i>
                 <span class="tooltip-text">
@@ -55,9 +59,12 @@
               </span>
         </p>
         <!-- <p class="show-all-text">Exact Location:- <a href="<%= listing.exactLocation %>" target="_blank"><%= listing.exactLocation %></a></p> -->
-        <p class="show-all-text">Tag:- <%= listing.tag %>
+        <p class="show-all-text">
+          <b>Tag:-</b> <%= listing.tag %>
         </p>
-        <p class="show-all-text">Capacity:- <%= listing.capacity %> people</p>
+        <p class="show-all-text">
+          <b>Capacity:-</b> <%= listing.capacity %> people
+        </p>
         <br />
         <!-- <p class="show-all-text">ID:- <%= listing._id %> </p> -->
 

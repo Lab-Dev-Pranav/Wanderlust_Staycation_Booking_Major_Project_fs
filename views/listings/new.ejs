@@ -6,46 +6,46 @@
         <form action="/listings" method="POST" class="needs-validation" novalidate enctype="multipart/form-data">
             <div class="mb-3">
                 <label for="title" class="form-label">Title</label>
-                <input type="text" class="form-control" name="listing[title]" id="title" required>
+                <input type="text" class="form-control" name="listing[title]" id="title" required placeholder="ex. Beautiful Beach House by PSP Stays">
                 <div class="invalid-feedback">Please provide a title.</div>
             </div>
 
             <div class="mb-3">
                 <label for="description" class="form-label">Description</label>
-                <textarea class="form-control" name="listing[description]" id="description" required></textarea>
+                <textarea class="form-control" name="listing[description]" id="description" required placeholder="Describe the location..."></textarea>
                 <div class="invalid-feedback">Please provide a description.</div>
             </div>
 
             <div class="mb-3">
                 <label for="price" class="form-label">Price</label>
-                <input class="form-control" name="listing[price]" id="price" required>
+                <input class="form-control" name="listing[price]" id="price" required placeholder="ex. 10000" >
                 <div class="invalid-feedback">Please provide a valid price.</div>
             </div>
 
             <div class="mb-3">
                 <label for="location" class="form-label">Location</label>
-                <input type="text" class="form-control" name="listing[location]" id="location" required>
+                <input type="text" class="form-control" name="listing[location]" id="location" required placeholder="ex. lonavala">
                 <div class="invalid-feedback">Please provide a location.</div>
             </div>
 
             <div class="mb-3">
                 <label for="country" class="form-label">Country</label>
-                <input type="text" class="form-control" name="listing[country]" id="country" required>
+                <input type="text" class="form-control" name="listing[country]" id="country" required placeholder="ex. India">
                 <div class="invalid-feedback">Please provide a country...</div>
             </div>
 
             <!-- //exace lication url -->
             <div class="mb-3">
                 <label for="exactLocation" class="form-label">Exact Location URL</label>
-                <input type="text" class="form-control" name="listing[exactLocation]" id="exactLocation" required>
+                <input type="text" class="form-control" name="listing[exactLocation]" id="exactLocation" required placeholder="ex. https://maps.app.goo.gl/xyz">
                 <div class="invalid-feedback">Please provide an exact location URL.</div>
             </div>
 
             <div class="mb-3">
                 <label for="country" class="form-label">Tag</label>
-                <select name="listing[tag]" class="form-select" aria-label="Default select example">
-                    <!-- <option selected>Select an option</option> -->
-                    <option selected value="Trending">Trending</option>
+                <select name="listing[tag]" class="form-select" aria-label="Default select example" required >
+                    <!-- <option selected>Not Selected</option> -->
+                    <option value="Trending">Trending</option>
                     <option value="Rooms">Rooms</option>
                     <option value="Iconic">Iconic</option>
                     <option value="Mountain">Mountain</option>
@@ -61,7 +61,7 @@
 
              <div class="mb-3">
                 <label for="capacity" class="form-label">Capacity</label>
-                <input type="number" class="form-control" name="listing[capacity]" id="capacity" min="1" required>
+                <input type="number" class="form-control" name="listing[capacity]" id="capacity" min="1" required placeholder="ex. 10">
                 <div class="invalid-feedback">Please provide a valid capacity.</div>
             </div>
             
