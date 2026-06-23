@@ -1,10 +1,5 @@
-
 // Token bucket storage for rate limiting
 const buckets = new Map();
-
-// const CAPACITY = 5;
-// const REFILL_TIME = 15000;     
-// const TOKENS_PER_REFILL = 1;
 
 const now = () => Date.now();
 
@@ -12,9 +7,7 @@ const now = () => Date.now();
 setInterval(() => {
     const currentTime = now();
     for (const [ip, bucket] of buckets) {
-
         const inactiveTime = currentTime - bucket.lastSeen;
-
         if (inactiveTime > 30 * 60 * 1000) {
             buckets.delete(ip);
             console.log("🗑 Bucket Deleted :", ip);
@@ -22,19 +15,12 @@ setInterval(() => {
     }
 }, 10 * 60 * 1000);
 
-
-
-// ------------------------------------------------------
-
-// const tokenBucket = (req, res, next) => {
-
-
+// MW
 const tokenBucket = ({
     capacity,
     refillTime,
     tokensPerRefill
 }) => {
-
     return (req, res, next) => {
         const ip = req.ip;
         const currentTime = now();
@@ -46,7 +32,7 @@ const tokenBucket = ({
                 lastRefill: currentTime,
                 lastSeen: currentTime
             });
-            console.log("✅ New Bucket Created");
+            // console.log("✅ New Bucket Created");
         }
         const bucket = buckets.get(ip); // Get the existing bucket for the IP
         bucket.lastSeen = currentTime; // Update last seen time
@@ -68,13 +54,7 @@ const tokenBucket = ({
             return res.redirect("/");
         }
         bucket.tokens--;
-        console.log("--------------------------");
-        next();
-    }
-};
-
-exports.tokenBucket = tokenBucket;
-
+        // console.log("--------------------------");
         // console.log("IP :", ip);
         // console.log("Tokens :", bucket.tokens);
         // console.log("Elapsed :", elapsed);
@@ -82,3 +62,8 @@ exports.tokenBucket = tokenBucket;
         // console.log("Last Refill :", new Date(bucket.lastRefill));
         // console.log("Last Seen :", new Date(bucket.lastSeen));
         // console.log("Bucket Count :", buckets.size);
+        // console.log("--------------------------");
+        next();
+    }
+};
+exports.tokenBucket = tokenBucket;

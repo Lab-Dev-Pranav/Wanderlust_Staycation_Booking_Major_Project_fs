@@ -1,0 +1,6 @@
+/* Error Page Specific Stylesheet */
+
+.error-row {
+  height: 70vh;
+  border: 3px solid rgba(255, 0, 0, 0);
+}

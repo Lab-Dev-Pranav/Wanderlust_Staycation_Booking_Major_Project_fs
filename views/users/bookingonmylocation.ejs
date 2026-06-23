@@ -1,4 +1,5 @@
 <% layout("/layouts/boilerplate") %>
+<% block('styles').append('<link rel="stylesheet" href="/css/bookingonmylocation.css">') %>
 
 <body>
   <div class="container">
@@ -14,7 +15,7 @@
     </div>
     <!-- From Uiverse.io by satyamchaudharydev --> 
      <a href="/getmypayments/<%= curr_user.email %>" class="text-decoration-none">
-          <button >
+          <button class="payments-btn-link">
             <p>Payments</p>
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -204,88 +205,5 @@
     document.addEventListener("DOMContentLoaded", startExpiryCountdown);
   </script>
 
-  <style>
-    .booking-image {
-      height: 220px;
-      object-fit: cover;
-    }
 
-
-
-
-    /* From Uiverse.io by satyamchaudharydev */ 
-button {
-  padding: 0;
-  margin: 0;
-  border: none;
-  background: none;
-  cursor: pointer;
-}
-
-button {
-  --primary-color: #111;
-  --hovered-color: #c84747;
-  position: relative;
-  display: flex;
-  font-weight: 600;
-  font-size: 20px;
-  gap: 0.5rem;
-  align-items: center;
-}
-
-button p {
-  margin: 0;
-  position: relative;
-  font-size: 20px;
-  color: var(--primary-color);
-}
-
-button::after {
-  position: absolute;
-  content: "";
-  width: 0;
-  left: 0;
-  bottom: -7px;
-  background: var(--hovered-color);
-  height: 2px;
-  transition: 0.3s ease-out;
-}
-
-button p::before {
-  position: absolute;
-  /*   box-sizing: border-box; */
-  content: "Payments";
-  width: 0%;
-  inset: 0;
-  color: var(--hovered-color);
-  overflow: hidden;
-  transition: 0.3s ease-out;
-}
-
-button:hover::after {
-  width: 100%;
-}
-
-button:hover p::before {
-  width: 100%;
-}
-
-button:hover svg {
-  transform: translateX(4px);
-  color: var(--hovered-color);
-}
-
-button svg {
-  color: var(--primary-color);
-  transition: 0.2s;
-  position: relative;
-  width: 15px;
-  transition-delay: 0.2s;
-}
-
-
-
-
-
-  </style>
 </body>

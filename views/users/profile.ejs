@@ -1,4 +1,5 @@
 <% layout("/layouts/boilerplate") %>
+<% block('styles').append('<link rel="stylesheet" href="/css/users_profile.css">') %>
 
   <body>
 
@@ -192,55 +193,7 @@
                                       <% } %>
                               </div>
 
-                              <style>
-                                .blinking-badge {
-                                  animation: blinking 1s infinite ease-out;
-                                }
 
-                                @keyframes blinking {
-                                  0% {
-                                    opacity: 1;
-                                  }
-
-                                  50% {
-                                    opacity: 0.3;
-                                  }
-
-                                  100% {
-                                    opacity: 1;
-                                  }
-                                }
-
-                                .tooltip-ibtn {
-                                  position: relative;
-                                  display: inline-block;
-                                  cursor: pointer;
-                                }
-
-                                .tooltip-ibtn .tooltip-text {
-                                  visibility: hidden;
-                                  width: 220px;
-                                  background-color: #222;
-                                  color: #fff;
-                                  text-align: left;
-                                  border-radius: 6px;
-                                  padding: 8px 10px;
-                                  position: absolute;
-                                  z-index: 10;
-                                  bottom: 125%;
-                                  /* Position above the icon */
-                                  left: 50%;
-                                  transform: translateX(-50%);
-                                  opacity: 0;
-                                  transition: opacity 0.2s;
-                                  font-size: 0.95em;
-                                }
-
-                                .tooltip-ibtn:hover .tooltip-text {
-                                  visibility: visible;
-                                  opacity: 1;
-                                }
-                              </style>
 
 
 
@@ -312,12 +265,7 @@
   </body>
 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
-  <style>
-    .container {
-      background-color: #f9f9f9;
-      border-radius: 15px;
-    }
-  </style>
+
 
 
 

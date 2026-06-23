@@ -1,8 +1,9 @@
 <% layout("/layouts/boilerplate") %>
+<% block('styles').append('<link rel="stylesheet" href="/css/listings_show.css">') %>
 
   <script>
     const MAPTOKEN_A = "<%= process.env.MAP_TOKEN %>";
-    const listing = <% - JSON.stringify(listing) %>;
+    const listing = JSON.parse(decodeURIComponent('<%= encodeURIComponent(JSON.stringify(listing)) %>'));
   </script>
 
   <body class="show-body">
@@ -148,39 +149,7 @@
 
 
 
-      <style>
-        .tooltip-ibtn {
-          position: relative;
-          display: inline-block;
-          cursor: pointer;
-        }
 
-        .tooltip-ibtn .tooltip-text {
-          visibility: hidden;
-          opacity: 0;
-          width: 220px;
-          background-color: #f8f9fa;
-          color: #000;
-          text-align: center;
-          padding: 6px 10px;
-          border-radius: 6px;
-          position: absolute;
-          z-index: 1000;
-          bottom: 125%;
-          /* Show above the icon */
-          left: 50%;
-          transform: translateX(-50%);
-          box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-          transition: opacity 0.3s ease;
-          font-size: 0.75rem;
-          font-weight: 500;
-        }
-
-        .tooltip-ibtn:hover .tooltip-text {
-          visibility: visible;
-          opacity: 1;
-        }
-      </style>
 
       <div class="map-box">
         <h4>Where you'll be</h4>

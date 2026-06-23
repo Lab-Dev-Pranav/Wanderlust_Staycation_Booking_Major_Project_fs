@@ -1,4 +1,5 @@
 <% layout("/layouts/boilerplate") %>
+<% block('styles').append('<link rel="stylesheet" href="/css/auth.css">') %>
 
         <!-- <div class="row mt-3">
         <div class="col-6 offset-3">
@@ -60,16 +61,7 @@
                 </div>
         </div>
 
-        <style>
-                .is-invalid {
-                        border-color: red;
-                        background-color: #ffe6e6;
-                }
 
-                .text-danger {
-                        font-size: 0.9em;
-                }
-        </style>
 
         <script>
                 document.getElementById("loginForm").addEventListener("submit", function (e) {

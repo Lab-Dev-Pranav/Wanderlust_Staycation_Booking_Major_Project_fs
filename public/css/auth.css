@@ -1,0 +1,10 @@
+/* Auth Views form validation specific stylesheet */
+
+.is-invalid {
+  border-color: red;
+  background-color: #ffe6e6;
+}
+
+.text-danger {
+  font-size: 0.9em;
+}

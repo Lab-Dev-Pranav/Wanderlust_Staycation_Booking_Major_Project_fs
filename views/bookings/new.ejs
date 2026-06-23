@@ -125,13 +125,13 @@
     <script>
         const peopleInput = document.getElementById('people');
         const peopleError = document.getElementById('peopleError');
-        const maxCapacity = <%= listing.capacity %>;
+        const maxCapacity = Number('<%= listing.capacity %>');
 
         const checkInInput = document.getElementById('checkIn');
         const checkOutInput = document.getElementById('checkOut');
         const totalPriceInput = document.getElementById('totalPrice');
         const gstPriceDisplay = document.getElementById('gstPriceDisplay');
-        const pricePerNight = <%= listing.price %>;
+        const pricePerNight = Number('<%= listing.price %>');
 
         // Validate number of people
         peopleInput.addEventListener('input', () => {

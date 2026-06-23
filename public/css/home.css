@@ -1,164 +1,180 @@
+/* Home Page Specific Stylesheet */
+
+/* ===== Base Styles ===== */
 body {
-        font-family: Arial, sans-serif;
-        background: #f8f8f8;
-        margin: 0;
-        padding: 0;
-    }
-
-    .home-container {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        padding: 20px;
-    }
-
-
-
-.dancing-script-text-center {
-  font-family: "Dancing Script", cursive;
-  font-optical-sizing: auto;
-  font-weight: 700;
-  font-style: normal;
+    font-family: "Poppins", Arial, sans-serif;
+    background: #f8f8f8;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
 }
 
-    /* .search-section {
-        width: 80%;
-        height: 550px;
-        background: rgb(191, 64, 64);
-        border-radius: 20px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        display: flex;
-    } */
-
-    .search-section-img{
-        width: auto;
-        height: 550px;
-        border-radius: 20px;
-        z-index: 1;
-        background-size: cover;
-        position: absolute;
-    }
-    .form-boxa {
-        padding: 20px;
-        background: #fff;
-        border-radius: 8px;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        margin: 25px 0px 0px 25px;
-        width: 600px;
-        height: 60%;
-        text-align: start;
-        z-index: 2;
-    }
-    .form-boxa h2 {
-        margin-bottom: 10px;
-    }
-    .form-boxa input {
-        width: 100%;
-        padding: 10px;
-        margin: 8px 0;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-    }
-    .search-btn {
-        background: #e00060;
-        color: white;
-        padding: 10px;
-        width: 100%;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-    }
- 
-
-    .search-section{
-        width: 100vw;
-        height: 450px;
-        border:1px solid rgba(191, 64, 64, 0);
-        border-radius: 20px;
-        display: flex;
-        justify-content: center;
-    }
-    .search-section-img{
-        width: 60%;
-        height: 450px;
-        border-radius: 20px;
-        z-index: 1;
-        border:1px solid rgba(191, 174, 64, 0);
-    }
-    .search-section-img img{
-        width: 100%;
-        height: 100%;
-        border-radius: 20px;
-        object-fit: cover;
-    }
-
-    @media (max-width : 1153px) {
-        .search-section-img{
-            width: 100%;
-        }
-        .search-section-img img{
-            width: 100%;
-            height: 100%;
-            border-radius: 20px;
-            object-fit: cover;
-        }
-
-    }
-
-@media (max-width : 877px) {
-    .search-section-img{
-        width: 98%;
-    }
+.search-section {
+    width: 100%;
+    min-height: 450px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: clamp(1rem, 3vw, 3rem);
+    gap: 2rem;
 }
 
-.form-boxaa{
-    height: 350px;
-    width: 600px;
-    background-color: rgb(255, 126, 66);
+/* ===== Image Section ===== */
+.search-section-img {
+    flex: 1 1 400px;
+    max-width: 800px;
+    height: clamp(588px, 25vw, 250px);
     border-radius: 20px;
-    z-index: 2;
-    margin: 50px 0px 0px 0px;
-    color: white;
-    padding: 20px;
+    overflow: hidden;
 }
 
-@media (max-width : 625px) {
-    .form-boxaa{
-        width: 90%;
-        height: 380px;
+.search-section-img img {
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
+    object-fit: cover;
+    object-position: center;
+    transition: transform 0.5s ease;
+}
+
+.search-section-img:hover img {
+    transform: scale(1.05);
+}
+
+/* ===== Form Section ===== */
+.form-boxaa {
+    flex: 1 1 400px;
+    max-width: 600px;
+    height: 500px;
+    background: linear-gradient(135deg, rgb(255, 126, 66), rgb(255, 98, 25));
+    border-radius: 20px;
+    color: #fff;
+    padding: clamp(1rem, 3vw, 2rem);
+    box-shadow: 0 0.5rem 2rem rgba(0, 0, 0, 0.25);
+}
+
+.form-boxaa h2 {
+    font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+    line-height: 1.4;
+    margin-bottom: 10px;
+}
+
+.search-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.intro-text {
+    text-align: center;
+    color: #ffe8de;
+    font-size: clamp(0.8rem, 1vw, 1rem);
+    margin: 0;
+}
+
+.intro-text.sub {
+    margin-top: -10px;
+    color: #fff5f1;
+}
+
+.input-row {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.form-control {
+    flex: 1;
+    min-width: 130px;
+    padding: 0.7rem;
+    border: none;
+    border-radius: 8px;
+    outline: none;
+    font-size: clamp(0.85rem, 1vw, 1rem);
+}
+
+.btn-search {
+    background: #fff;
+    color: rgb(255, 98, 25);
+    font-weight: 600;
+    padding: 0.8rem 2rem;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-search:hover {
+    background: #ffebdf;
+    transform: scale(1.05);
+}
+
+/* ===== RESPONSIVENESS ===== */
+
+/* Tablet View */
+@media (max-width: 1024px) {
+    .search-section {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .search-section-img,
+    .form-boxaa {
+        max-width: 90%;
+        height: auto;
+    }
+
+    .input-row {
+        flex-direction: column;
+    }
+
+    .form-control {
+        width: 100%;
+    }
+
+    .btn-search {
+        width: 100%;
     }
 }
 
-@media (max-width : 555px) {
-    .form-boxaa h2{
-        font-size: 25px;
+/* Small Phones */
+@media (max-width: 600px) {
+    .form-boxaa {
+        padding: 1.2rem;
+        opacity: 0.9;
+    }
+
+    .form-boxaa h2 {
+        font-size: 1.1rem;
+    }
+
+    .intro-text {
+        font-size: 0.8rem;
+    }
+
+    .input-row {
+        gap: 0.7rem;
+    }
+
+    .form-control {
+        font-size: 0.85rem;
     }
 }
 
-@media (max-width : 495px) {
-    .form-boxaa h2{
-        font-size: 22px;
+/* Ultra Small Devices */
+@media (max-width: 400px) {
+    .form-boxaa {
+        padding: 1rem;
+    }
+
+    .form-boxaa h2 {
+        font-size: 1rem;
+    }
+
+    .btn-search {
+        padding: 0.6rem 1.2rem;
     }
 }
-
-@media (max-width : 368px) {
-    .form-boxaa h2{
-        font-size: 17px;
-    }
-}
-
-
-@media (max-width: 768px) {
-    .navbar-collapse {
-        background-color: rgb(255, 255, 255); /* Add a semi-transparent white background */
-        z-index: 1000; /* Ensure it appears above other elements */
-        padding: 10px; /* Add some padding for better spacing */
-        border-bottom: 5px solid #e00060;
-        border-left: 1px solid #e00060;
-        border-right: 1px solid #e00060;
-        border-radius: 0px 0px 20px 20px;
-    }
-    
-}
-
-
