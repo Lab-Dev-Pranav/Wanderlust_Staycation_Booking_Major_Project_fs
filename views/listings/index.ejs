@@ -1,250 +1,188 @@
 <% layout("/layouts/boilerplate") %>
-<% block('styles').append('<link rel="stylesheet" href="/css/listings_index.css">') %>
-<body>
-  <br />
+  <% block('styles').append('<link rel="stylesheet" href="/css/listings_index.css">') %>
+    <% const activeSearch=typeof searchedLocation !=="undefined" ? searchedLocation : "" ; const activeTag=typeof
+      selectedTag !=="undefined" ? selectedTag : "" ; const hasListings=Array.isArray(listings) && listings.length> 0;
+      const headingText = activeTag
+      ? `${activeTag.toUpperCase()} LISTINGS`
+      : activeSearch
+      ? `RESULTS FOR "${activeSearch.toUpperCase()}"`
+      : "ALL LOCATION'S";
+      const tagFilters = [
+      { name: "Trending", icon: "fa-solid fa-ranking-star" },
+      { name: "Rooms", icon: "fa-solid fa-bed" },
+      { name: "Iconic", icon: "fa-solid fa-mountain-city" },
+      { name: "Mountain", icon: "fa-solid fa-mountain-sun" },
+      { name: "Castles", icon: "fa-brands fa-fort-awesome" },
+      { name: "Pools", icon: "fa-solid fa-person-swimming" },
+      { name: "Camping", icon: "fa-solid fa-campground" },
+      { name: "Farms", icon: "fa-solid fa-cow" },
+      { name: "Hot", icon: "fa-solid fa-fire" },
+      { name: "Domes", icon: "fa-solid fa-landmark-dome" }
+      ];
+      %>
 
-  <div class="filters">
+      <body>
+        <br />
 
-        <div>
-      <div class="inputBox_container">
-        <svg
-          class="search_icon"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 48 48"
-          alt="search icon"
-        >
-          <path
-            d="M46.599 46.599a4.498 4.498 0 0 1-6.363 0l-7.941-7.941C29.028 40.749 25.167 42 21 42 9.402 42 0 32.598 0 21S9.402 0 21 0s21 9.402 21 21c0 4.167-1.251 8.028-3.342 11.295l7.941 7.941a4.498 4.498 0 0 1 0 6.363zM21 6C12.717 6 6 12.714 6 21s6.717 15 15 15c8.286 0 15-6.714 15-15S29.286 6 21 6z"
-          ></path>
-        </svg>
-        <input
-          class="inputBox inputBox_search"
-          id="inputBox"
-          type="text"
-          placeholder="Location/name"
-        />
-        
-      </div>
-      <span class="inputBox-error"></span>
-    </div>
-    <br>
+        <div class="filters-toolbar">
 
-    <div class="filter-a">
-      <div class="filter-close" onclick="closefilters()">
-        <i class="fa-solid fa-xmark"></i>
-      </div>
-      <!-- #1 -->
-      <div class="filter" onclick="applyfilters('Trending')" data-filter="Trending">
-        <div><i class="fa-solid fa-ranking-star"></i></div>
-        <p>Trending</p>
-      </div>
-      <!-- #2 -->
-      <div class="filter" onclick="applyfilters('Rooms')" data-filter="Rooms">
-        <div><i class="fa-solid fa-bed"></i></div>
-        <p>Rooms</p>
-      </div>
-      <!-- #3 -->
-      <div class="filter"onclick="applyfilters('Iconic')" data-filter="Iconic">
-        <div><i class="fa-solid fa-mountain-city"></i></div>
-        <p>Iconic</p>
-      </div>
-      <!-- #4 -->
-      <div class="filter" onclick="applyfilters('Mountain')" data-filter="Mountain">
-        <div><i class="fa-solid fa-mountain-sun"></i></div>
-        <p>Mountain</p>
-      </div>
-      <!-- #5 -->
-      <div class="filter" onclick="applyfilters('Castles')" data-filter="Castles">
-        <div><i class="fa-brands fa-fort-awesome"></i></div>
-        <p>Castles</p>
-      </div>
-      <!-- #6 -->
-      <div class="filter" onclick="applyfilters('Pools')" data-filter="Pools">
-        <div><i class="fa-solid fa-person-swimming"></i></div>
-        <p>Pools</p>
-      </div>
-      <!-- #7 -->
-      <div class="filter" onclick="applyfilters('Camping')" data-filter="Camping">
-        <div><i class="fa-solid fa-campground"></i></div>
-        <p>Camping</p>
-      </div>
-      <!-- #8 -->
-      <div class="filter" onclick="applyfilters('Farms')" data-filter="Farms">
-        <div><i class="fa-solid fa-cow"></i></div>
-        <p>Farms</p>
-      </div>
-      <!-- #9 -->
-      <div class="filter" onclick="applyfilters('Hot')" data-filter="Hot">
-        <div><i class="fa-solid fa-fire"></i></div>
-        <p>Hot</p>
-      </div>
-      <!-- #10 -->
-      <div class="filter" onclick="applyfilters('Domes')" data-filter="Domes">
-        <div><i class="fa-solid fa-landmark-dome"></i></div>
-        <p>Domes</p>
-      </div>
-    </div>
+          <div class="filter-search-wrap">
+            <div class="inputBox_container">
+              <svg class="search_icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" alt="search icon">
+                <path
+                  d="M46.599 46.599a4.498 4.498 0 0 1-6.363 0l-7.941-7.941C29.028 40.749 25.167 42 21 42 9.402 42 0 32.598 0 21S9.402 0 21 0s21 9.402 21 21c0 4.167-1.251 8.028-3.342 11.295l7.941 7.941a4.498 4.498 0 0 1 0 6.363zM21 6C12.717 6 6 12.714 6 21s6.717 15 15 15c8.286 0 15-6.714 15-15S29.286 6 21 6z">
+                </path>
+              </svg>
+              <form action="/listings/searchatlistings" method="GET" class="allLForm" id="searchForm">
+                <input class="inputBox inputBox_search" id="inputBox" type="text" name="location" placeholder="Location"
+                  value="<%= activeSearch %>" />
+              </form>
 
-    <!-- ----------------------------- -->
+              <script>
+                const input = document.getElementById("inputBox");
+                const form = document.getElementById("searchForm");
 
- <div class="tax-toggle">
-  <div class="form-check-reverse form-switch">
-    <input
-      class="form-check-input"
-      type="checkbox"
-      role="switch"
-      id="flexSwitchCheckDefault"
-      data-bs-toggle="tooltip"
-      data-bs-placement="top"
-      title="Display price with applicable taxes"
-    />
-    <label class="form-check-label" for="flexSwitchCheckDefault"></label>
-  </div>
-</div>
+                let timer;
 
-<script>
-  document.addEventListener('DOMContentLoaded', function () {
-    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-    tooltipTriggerList.forEach(function (tooltipTriggerEl) {
-      new bootstrap.Tooltip(tooltipTriggerEl);
-    });
-  });
-</script>
+                input.addEventListener("input", () => {
+                  clearTimeout(timer);
 
-    <!-- ----------------------------------- -->
-
-
-    
-    
-    <!-- ------------------------------------- -->
-  </div>
-
-  
-
-
-
-  <br />
-  <% if (listings) { %>
-    <h6 class="explore-page-title-ALL-LOCATION">ALL LOCATION'S</h6>
-  <% } %>
-  <div class="row row-cols-lg-3 row-cols-lg-2 row-cols-lg-1 mt-1">
-    <% for(let LISTING of listings){ %>
-    <div class="card" style="width: 20rem" data-tags="<%= LISTING.category %>">
-      <img src="<%= LISTING.image.url %>" class="card-img-top" alt="..." />
-      <div class="card-body">
-        <h6><%= LISTING.title %></h6>
-        <h6><%= LISTING.tag %> | <%= LISTING.location %></h6>
-        
-        <p class="card-text">
-          &#8377; <%= LISTING.price.toLocaleString("en-IN") %>-/night
-          <i class="taxinfo">
-            +18% GST ( ₹ <%= (LISTING.price * 1.18).toLocaleString("en-IN") %> ) 
-
-                  <span class="tooltip-ibtn">
-                    <i class="bi bi-info-circle-fill ibtn"></i>
-                    <span class="tooltip-text">
-                      2% platform fee (2% of the booking price while booking on a base price of ₹ <%= LISTING.price.toLocaleString("en-IN") %> X days you are booking )<br>
-                    </span>
-                  </span>
-
-          </i>
-        </p>
-        <form action="/listings/<%= LISTING.id %>" method="GET" style="display:inline;">
-          <% if (typeof bookingdata !== "undefined" && bookingdata) { %>
-            <input type="hidden" name="bookingdata" value='<%= JSON.stringify(bookingdata) %>'>
-          <% } %>
-          <button class="button" type="submit">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75"></path>
-            </svg>
-            <div class="text">
-              More
+                  timer = setTimeout(() => {
+                    form.submit();
+                  }, 3000); // waits 3000ms after user stops typing
+                });
+              </script>
             </div>
-          </button>
-        </form>
-      </div>
-    </div>
-    <% } %>
-  </div>
-  <br /><br /><br /><br />
-</body>
+            <span class="inputBox-error"></span>
+          </div>
 
+          <div class="filter-dropdown-wrap">
+            <button type="button" class="filter-dropdown-btn" id="filterDropdownBtn" onclick="toggleFilterDropdown()">
+              <i class="fa-solid fa-sliders"></i>
+              <span id="filterBtnLabel">
+                <%= activeTag ? "Filtered" : "Filter by Category" %>
+              </span>
+              <i class="fa-solid fa-chevron-down filter-chevron" id="filterChevron"></i>
+            </button>
 
+            <div class="active-filter-chip" id="activeFilterChip" style="display:<%= activeTag ? " flex" : "none" %>;">
+              <span id="activeFilterLabel">
+                <%= activeTag %>
+              </span>
+              <a class="chip-close-btn" href="/listings" title="Remove filter">
+                <i class="fa-solid fa-xmark"></i>
+              </a>
+            </div>
 
-<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+            <div class="filter-dropdown-panel" id="filterDropdownPanel">
+              <p class="filter-dropdown-heading">Select a category</p>
+              <div class="filter-grid">
+                <% tagFilters.forEach((filter)=> { %>
+                  <a class="filter-chip <%= activeTag === filter.name ? 'active-chip' : '' %>"
+                    href="/listings/filter?tag=<%= encodeURIComponent(filter.name) %>" data-filter="<%= filter.name %>">
+                    <i class="<%= filter.icon %>"></i>
+                    <span>
+                      <%= filter.name %>
+                    </span>
+                  </a>
+                  <% }) %>
+              </div>
+            </div>
+          </div>
 
-<script>
-const filters = document.querySelectorAll(".filters");
-const listings = document.querySelectorAll(".card");
-const filter_close = document.querySelector(".filter-close");
-const inputBox_search = document.querySelector(".inputBox_search");
-const inputBox_error = document.querySelector(".inputBox-error");
-const filter_a = document.querySelector(".filter-a");
+          <div class="tax-toggle">
+            <div class="form-check-reverse form-switch">
+              <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault"
+                data-bs-toggle="tooltip" data-bs-placement="top" title="Display price with applicable taxes" />
+              <label class="form-check-label" for="flexSwitchCheckDefault"></label>
+            </div>
+          </div>
+        </div>
 
-const explore_page_title = document.querySelector(".explore-page-title-ALL-LOCATION");
+        <script>
+          document.addEventListener("DOMContentLoaded", function () {
+            var tooltipTriggerList = [].slice.call(document.querySelectorAll("[data-bs-toggle='tooltip']"));
+            tooltipTriggerList.forEach(function (tooltipTriggerEl) {
+              new bootstrap.Tooltip(tooltipTriggerEl);
+            });
+          });
+        </script>
 
-          function applyfilters(tagss) {
+        <br />
+        <h6 class="explore-page-title-ALL-LOCATION">
+          <%= headingText %>
+        </h6>
 
-              filter_a.scrollLeft = 0;
+        <% if (!hasListings) { %>
+          <p class="explore-page-title-ALL-LOCATION">No listings found.</p>
+          <% } else { %>
+            <div class="row row-cols-lg-3 row-cols-lg-2 row-cols-lg-1 mt-1">
+              <% for (let LISTING of listings) { %>
+                <div class="card" style="width: 20rem">
+                  <img src="<%= LISTING.image.url %>" class="card-img-top" alt="listing image" />
+                  <div class="card-body">
+                    <h6>
+                      <%= LISTING.title %>
+                    </h6>
+                    <h6>
+                      <%= LISTING.tag %> | <%= LISTING.location %>
+                    </h6>
 
-                  // console.log(tagss);
-                  for (const listing of listings) {
-                    if(listing.innerHTML.includes(tagss) == true){
-                      listing.style.display = "block";
-                    }else{
-                      listing.style.display = "none";
-                    }
-                  }
-                  filter_close.style.display = "block"
-                }
-          function closefilters(){
-            for (const listing of listings) {
-              listing.style.display = "block";
-            }
-            filter_close.style.display = "none"
+                    <p class="card-text">
+                      &#8377; <%= LISTING.price.toLocaleString("en-IN") %>-/night
+                        <i class="taxinfo">
+                          +18% GST ( â‚¹ <%= (LISTING.price * 1.18).toLocaleString("en-IN") %> )
+
+                            <span class="tooltip-ibtn">
+                              <i class="bi bi-info-circle-fill ibtn"></i>
+                              <span class="tooltip-text">
+                                2% platform fee (2% of the booking price while booking on a base price of â‚¹ <%=
+                                  LISTING.price.toLocaleString("en-IN") %> X days you are booking )<br>
+                              </span>
+                            </span>
+                        </i>
+                    </p>
+
+                    <form action="/listings/<%= LISTING.id %>" method="GET" style="display:inline;">
+                      <% if (typeof bookingdata !=="undefined" && bookingdata) { %>
+                        <input type="hidden" name="bookingdata" value='<%= JSON.stringify(bookingdata) %>'>
+                        <% } %>
+                          <button class="button" type="submit">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                              stroke="currentColor" class="w-6 h-6">
+                              <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75"></path>
+                            </svg>
+                            <div class="text">More</div>
+                          </button>
+                    </form>
+                  </div>
+                </div>
+                <% } %>
+            </div>
+            <% } %>
+
+              <br /><br /><br /><br />
+      </body>
+
+      <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+
+      <script>
+        const dropdownPanel = document.getElementById("filterDropdownPanel");
+        const dropdownBtn = document.getElementById("filterDropdownBtn");
+        const filterChevron = document.getElementById("filterChevron");
+
+        function toggleFilterDropdown() {
+          const isOpen = dropdownPanel.classList.toggle("open");
+          dropdownBtn.classList.toggle("open", isOpen);
+          filterChevron.classList.toggle("rotated", isOpen);
+        }
+
+        document.addEventListener("click", (e) => {
+          if (!dropdownBtn.contains(e.target) && !dropdownPanel.contains(e.target)) {
+            dropdownPanel.classList.remove("open");
+            dropdownBtn.classList.remove("open");
+            filterChevron.classList.remove("rotated");
           }
-
-// -----------------------------------------------------------
-
-
-  inputBox_search.addEventListener("input", () => {
-  const searchQuery = inputBox_search.value.trim().toLowerCase();
-
-  const validSearchPattern = /^[a-zA-Z\s]+$/;
-  let matchFound = false;
-
-  if (!validSearchPattern.test(searchQuery) && searchQuery !== "") {
-    inputBox_error.style.color = "#ff6e6e";
-    inputBox_error.style.display = "flex"; // Makes sure the error message and icon align 
-    inputBox_error.style.alignItems = "center"; // Centers icon with text
-    inputBox_error.style.margin = "5px 0px 0px 20px";
-
-    inputBox_error.innerHTML = `
-      <svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#ff6e6e" style="margin-right: 5px;">
-        <path d="M2.20164 18.4695L10.1643 4.00506C10.9021 2.66498 13.0979 2.66498 13.8357 4.00506L21.7984 18.4695C22.4443 19.6428 21.4598 21 19.9627 21H4.0373C2.54022 21 1.55571 19.6428 2.20164 18.4695Z" stroke="#ff6e6e" stroke-width="1.94" stroke-linecap="round" stroke-linejoin="round"></path>
-        <path d="M12 9V13" stroke="#ff6e6e" stroke-width="1.94" stroke-linecap="round" stroke-linejoin="round"></path>
-        <path d="M12 17.0195V17" stroke="#ff6e6e" stroke-width="1.94" stroke-linecap="round" stroke-linejoin="round"></path>
-      </svg>
-      <span>Search a valid location</span>
-    `;
-    return;
-  } else {
-    inputBox_error.innerHTML = ""; // Clear error if valid input
-  }
-
-  for (const listing of listings) {
-    const title = listing.querySelector("h6:nth-of-type(1)")?.innerText.toLowerCase() || "";
-    const location = listing.querySelector("h6:nth-of-type(2)")?.innerText.toLowerCase() || "";
-
-    // Check if the search query matches either the title or the location
-    if (title.includes(searchQuery) || location.includes(searchQuery)) {
-      listing.style.display = "block";
-      matchFound = true; // Mark match as found
-    } else {
-      listing.style.display = "none";
-    }
-  }
-  explore_page_title.innerText = matchFound ? "ALL LOCATION'S" : "NO RESULT'S AVAILABLE!";
-});
-</script>
-
+        });
+      </script>

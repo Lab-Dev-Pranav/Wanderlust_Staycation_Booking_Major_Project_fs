@@ -131,6 +131,11 @@ app.use("/", bookingRouter);
 app.use("/", homeRouter);
 // ---------------------------------------------
 
+app.use((req, res, next) => {
+  console.log(req.method, req.originalUrl);
+  next();
+});
+
 app.all("*", (req, res, next) => {
   next(new ExpressError(404, "Page Not Found!"));
 });

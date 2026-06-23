@@ -5,10 +5,17 @@ const mbxGeocoding = require("@mapbox/mapbox-sdk/services/geocoding");
 const MAPTOKEN = process.env.MAP_TOKEN;
 const geocodingClient = mbxGeocoding({ accessToken: MAPTOKEN });
 
+function escapeRegex(value = "") {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
 module.exports.index = async (req, res) => {
-      console.log("controller called")
   const listings = await Listing.find({});
-  res.render("listings/index", { listings });
+  res.render("listings/index", {
+    listings,
+    searchedLocation: "",
+    selectedTag: "",
+  });
 };
 
 module.exports.rendernewform = (req, res) => {
@@ -60,7 +67,7 @@ module.exports.showAllListings = async (req, res) => {
 
   // console.log("Booking Data:", bookingdata);
 
-    // console.log("Listing Item:", listingItem);
+  // console.log("Listing Item:", listingItem);
   const rearr = [];
   for await (const ele of listingItem.review) {
     let re = await Review.findById(ele);
@@ -78,7 +85,7 @@ module.exports.showAllListings = async (req, res) => {
     req.flash("error", "Listing Dose Not Exist");
     res.redirect("/listings");
   }
-  res.render("listings/show", { listing: listingItem, reviews: rearr , curr_user , bookingdata});
+  res.render("listings/show", { listing: listingItem, reviews: rearr, curr_user, bookingdata });
 };
 
 module.exports.editAListing = async (req, res) => {
@@ -122,4 +129,54 @@ module.exports.deleteAListing = async (req, res) => {
   await Listing.findByIdAndDelete(id);
   req.flash("Success", "Listing Deleted!");
   res.redirect("/listings");
+};
+
+
+
+module.exports.searchatlistings = async (req, res) => {
+
+  // console.log("Search Query:", req.query);
+
+  const location = req.query.location?.trim() || "";
+  if (!location) {
+    return res.redirect("/listings");
+  }
+
+  const locationRegex = new RegExp(escapeRegex(location), "i");
+  const listingItem = await Listing.find({
+    $or: [
+      { location: { $regex: locationRegex } },
+      { title: { $regex: locationRegex } },
+    ],
+  });
+
+  if (listingItem.length === 0) {
+    req.flash("error", "No listings found for that search");
+  }
+
+  res.render("listings/index", {
+    listings: listingItem,
+    searchedLocation: location,
+    selectedTag: "",
+  });
+};
+
+module.exports.filterListingsByTag = async (req, res) => {
+  const tag = req.query.tag?.trim() || "";
+  if (!tag) {
+    return res.redirect("/listings");
+  }
+
+  const tagRegex = new RegExp(`^${escapeRegex(tag)}$`, "i");
+  const listings = await Listing.find({ tag: { $regex: tagRegex } });
+
+  if (listings.length === 0) {
+    req.flash("error", "No listings found for that category");
+  }
+
+  res.render("listings/index", {
+    listings,
+    searchedLocation: "",
+    selectedTag: tag,
+  });
 };

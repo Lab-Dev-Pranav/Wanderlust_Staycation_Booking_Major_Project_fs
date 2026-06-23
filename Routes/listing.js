@@ -8,7 +8,7 @@ const Listing = require("../models/listing");
 const Booking = require("../models/booking");
 const listingController = require("../controller/listing.js");
 
-const multer  = require('multer')
+const multer = require('multer')
 const { storage } = require("../cloudConfig.js")
 const upload = multer({ storage })
 
@@ -30,14 +30,20 @@ const rateLimitLight = {
   tokensPerRefill: 2
 };
 
+const rateLimitLighter = {
+  capacity: 50,
+  refillTime: 15000,
+  tokensPerRefill: 10
+};
+
 router
   .route("/")
   // INDEX ROUTE (heavy read)
   .get(
     islogged_in,
     tokenBucket(rateLimitModerate),
-     wrapAsync(listingController.index)
-    )
+    wrapAsync(listingController.index)
+  )
   // (CREATE) CREATE ROUTE (heavy write / upload)
   .post(
     islogged_in,
@@ -46,8 +52,6 @@ router
     validateListing,
     wrapAsync(listingController.createListings)
   );
-  
-
 
 // (CREATE) NEW ROUTE
 router.get(
@@ -57,6 +61,19 @@ router.get(
   listingController.rendernewform
 );
 
+router.get(
+  "/searchatlistings",
+  islogged_in,
+  tokenBucket(rateLimitLighter),
+  wrapAsync(listingController.searchatlistings)
+);
+
+router.get(
+  "/filter",
+  islogged_in,
+  tokenBucket(rateLimitModerate),
+  wrapAsync(listingController.filterListingsByTag)
+);
 
 router
   .route("/:id")

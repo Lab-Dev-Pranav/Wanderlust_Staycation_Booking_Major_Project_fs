@@ -3,14 +3,22 @@ const buckets = new Map();
 
 const now = () => Date.now();
 
+const resolveBucketScope = (req, customBucketKey) => {
+    if (customBucketKey) return customBucketKey;
+    if (req.route?.path) {
+        return `${req.baseUrl || ""}:${req.route.path}`;
+    }
+    return `${req.baseUrl || ""}:${req.path}`;
+};
+
 // every 10 minutes - cleanup
 setInterval(() => {
     const currentTime = now();
-    for (const [ip, bucket] of buckets) {
+    for (const [bucketId, bucket] of buckets) {
         const inactiveTime = currentTime - bucket.lastSeen;
         if (inactiveTime > 30 * 60 * 1000) {
-            buckets.delete(ip);
-            console.log("🗑 Bucket Deleted :", ip);
+            buckets.delete(bucketId);
+            console.log("Bucket Deleted :", bucketId);
         }
     }
 }, 10 * 60 * 1000);
@@ -19,51 +27,51 @@ setInterval(() => {
 const tokenBucket = ({
     capacity,
     refillTime,
-    tokensPerRefill
+    tokensPerRefill,
+    bucketKey
 }) => {
     return (req, res, next) => {
         const ip = req.ip;
         const currentTime = now();
+        const scopeKey = resolveBucketScope(req, bucketKey);
+        const bucketId = `${ip}:${scopeKey}`;
 
-        // Create a new bucket for the IP if it doesn't exist
-        if (!buckets.has(ip)) {
-            buckets.set(ip, {
-                capacity, tokens: capacity,
+        // Create a new bucket for the IP + route scope if it doesn't exist
+        if (!buckets.has(bucketId)) {
+            buckets.set(bucketId, {
+                capacity,
+                tokens: capacity,
                 lastRefill: currentTime,
                 lastSeen: currentTime
             });
-            // console.log("✅ New Bucket Created");
         }
-        const bucket = buckets.get(ip); // Get the existing bucket for the IP
-        bucket.lastSeen = currentTime; // Update last seen time
-        const elapsed = currentTime - bucket.lastRefill; // Calculate elapsed time since last refill
-        const refillCount = Math.floor(elapsed / refillTime); // Calculate how many refills are needed based on elapsed time
 
-        if (refillCount > 0) { // If there are refills needed, update the token count and last refill time
+        const bucket = buckets.get(bucketId);
+        bucket.lastSeen = currentTime;
+
+        const elapsed = currentTime - bucket.lastRefill;
+        const refillCount = Math.floor(elapsed / refillTime);
+
+        if (refillCount > 0) {
             bucket.tokens = Math.min(
                 bucket.tokens + refillCount * tokensPerRefill,
                 bucket.capacity
             );
             bucket.lastRefill += refillCount * refillTime;
         }
-        if (bucket.tokens === 0) { // If no tokens are available, send a 429 Too Many Requests response
+
+        if (bucket.tokens === 0) {
+            // console.log("Rate Limit Exceeded :", bucketId);
             req.flash(
                 "error",
                 "Error code: 429 : Too many requests - Please try again after a few seconds."
             );
             return res.redirect("/");
         }
+
         bucket.tokens--;
-        // console.log("--------------------------");
-        // console.log("IP :", ip);
-        // console.log("Tokens :", bucket.tokens);
-        // console.log("Elapsed :", elapsed);
-        // console.log("Refill Count :", refillCount);
-        // console.log("Last Refill :", new Date(bucket.lastRefill));
-        // console.log("Last Seen :", new Date(bucket.lastSeen));
-        // console.log("Bucket Count :", buckets.size);
-        // console.log("--------------------------");
         next();
-    }
+    };
 };
+
 exports.tokenBucket = tokenBucket;
