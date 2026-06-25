@@ -99,6 +99,20 @@ router
     wrapAsync(listingController.deleteAListing)
   );
 
+// --------------------------------------------------
+router
+  .route("/x/:id")
+  // SHOW ROUTE (moderate read)
+  .get(
+      wrapAsync(listingController.showXListings)
+  );
+
+
+
+
+
+
+
 // (UPDATE) EDIT ROUTE
 router.get(
   "/:id/edit",

@@ -133,8 +133,10 @@ module.exports.forgotpassword_forgot_post = async (req, res) => {
 
     try {
         const token = crypto.randomBytes(20).toString('hex');
+
         // Use the correct reference to the User model
-        const userwanttoforgotpassword = await user.findOne({ email: req.body.email });
+        const useremail = req.body.email;
+        const userwanttoforgotpassword = await user.findOne({ email: useremail });
         // console.log( "USER by body" ,  req.body.email)
         // console.log( "USER from db" ,  userwanttoforgotpassword)
  

@@ -1,95 +1,387 @@
 <% layout("/layouts/boilerplate") %>
-<% block('styles').append('<link rel="stylesheet" href="/css/listings_form.css">') %>
+    <% block('styles').append('<link rel="stylesheet" href="/css/listings_form.css">') %>
 
-    <body>
-        <h3>EDIT DETAILS</h3>
-        <form action="/listings/<%= listing._id %>?_method=PUT" method="POST" class="needs-validation" novalidate
-            enctype="multipart/form-data">
+        <body>
+            <h3>EDIT DETAILS</h3>
+            <form action="/listings/<%= listing._id %>?_method=PUT" method="POST" class="needs-validation" novalidate
+                enctype="multipart/form-data">
 
-            <div class="mb-3">
-                <label for="title" class="form-label">Title</label>
-                <input type="text" class="form-control" name="listing[title]" id="title" value="<%= listing.title %>"
-                    required>
-                <div class="invalid-feedback">Please provide a title.</div>
-            </div>
-
-            <div class="mb-3">
-                <label for="description" class="form-label">Description</label>
-                <textarea class="form-control" name="listing[description]" id="description" cols="20" rows="6"
-                    required><%= listing.description %></textarea>
-                <div class="invalid-feedback">Please provide a description.</div>
-            </div>
-
-            <div class="mb-3">
-                <label for="price" class="form-label">Price</label>
-                <input type="number" class="form-control" name="listing[price]" id="price" value="<%= listing.price %>"
-                    required>
-                <div class="invalid-feedback">Please provide a valid price.</div>
-            </div>
-
-            <div class="mb-3">
-                <label for="location" class="form-label">Location</label>
-                <input type="text" class="form-control" name="listing[location]" id="location"
-                    value="<%= listing.location %>" required>
-                <div class="invalid-feedback">Please provide a location.</div>
-            </div>
-
-            <div class="mb-3">
-                <label for="country" class="form-label">Country</label>
-                <input type="text" class="form-control" name="listing[country]" id="country"
-                    value="<%= listing.country %>" required>
-                <div class="invalid-feedback">Please provide a country.</div>
-            </div>
-
-            <!-- //exace lication url -->
-            <div class="mb-3">
-                <label for="exactLocation" class="form-label">Exact Location URL</label>
-                <input type="text" class="form-control" name="listing[exactLocation]" id="exactLocation"
-                    value="<%= listing.exactLocation %>" required>
-                <div class="invalid-feedback">Please provide an exact location URL.</div>
-            </div>
-
-            <div class="mb-3">
-                <label for="tag" class="form-label">Tag</label>
-                <select name="listing[tag]" class="form-select" id="tag" aria-label="Select a tag">
-                    <% const tags=["Trending", "Rooms" , "Iconic" , "Mountain" , "Castles" , "Pools" , "Camping"
-                        , "Farms" , "Hot" , "Domes" ]; %>
-                        <% tags.forEach(tag=> { %>
-                            <option value="<%= tag %>" <%=listing.tag===tag ? "selected" : "" %>><%= tag %>
-                            </option>
-                            <% }) %>
-                </select>
-                <div class="invalid-feedback">Please provide a tag.</div>
-            </div>
-
-            <div class="mb-3">
-                <label for="capacity" class="form-label">Capacity (Number of People)</label>
-                <input type="number" class="form-control" id="capacity" name="listing[capacity]" min="1"
-                    value="<%= listing.capacity %>" required>
-                <div class="invalid-feedback">Please provide the capacity.</div>
-            </div>
-
-            <div class="mb-3">
-                <p>Current Image</p>
-                <div class="img-fluid-box" style="max-width: 100%; height: auto; overflow: hidden;">
-                    <img src="<%= originalimgurl %>" alt="Listing Image" class="img-fluid rounded"
-                        style="width: 100%; height: auto; object-fit: cover;">
+                <div class="mb-3">
+                    <label for="title" class="form-label">Title</label>
+                    <input type="text" class="form-control" name="listing[title]" id="title"
+                        value="<%= listing.title %>" required>
+                    <div class="invalid-feedback">Please provide a title.</div>
                 </div>
+
+                <div class="mb-3">
+                    <label for="description" class="form-label">Description</label>
+                    <textarea class="form-control" name="listing[description]" id="description" cols="20" rows="6"
+                        required><%= listing.description %></textarea>
+                    <div class="invalid-feedback">Please provide a description.</div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="price" class="form-label">Price</label>
+                    <input type="number" class="form-control" name="listing[price]" id="price"
+                        value="<%= listing.price %>" required>
+                    <div class="invalid-feedback">Please provide a valid price.</div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="location" class="form-label">Location</label>
+                    <input type="text" class="form-control" name="listing[location]" id="location"
+                        value="<%= listing.location %>" required>
+                    <div class="invalid-feedback">Please provide a location.</div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="country" class="form-label">Country</label>
+                    <input type="text" class="form-control" name="listing[country]" id="country"
+                        value="<%= listing.country %>" required>
+                    <div class="invalid-feedback">Please provide a country.</div>
+                </div>
+
+                <!-- //exace lication url -->
+                <div class="mb-3">
+                    <label for="exactLocation" class="form-label">Exact Location URL</label>
+                    <input type="text" class="form-control" name="listing[exactLocation]" id="exactLocation"
+                        value="<%= listing.exactLocation %>" required>
+                    <div class="invalid-feedback">Please provide an exact location URL.</div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="tag" class="form-label">Tag</label>
+                    <select name="listing[tag]" class="form-select" id="tag" aria-label="Select a tag">
+                        <% const tags=["Trending", "Rooms" , "Iconic" , "Mountain" , "Castles" , "Pools" , "Camping"
+                            , "Farms" , "Hot" , "Domes" ]; %>
+                            <% tags.forEach(tag=> { %>
+                                <option value="<%= tag %>" <%=listing.tag===tag ? "selected" : "" %>><%= tag %>
+                                </option>
+                                <% }) %>
+                    </select>
+                    <div class="invalid-feedback">Please provide a tag.</div>
+                </div>
+                <!-- ------------------------------------------------------------------ -->
+
+                <div class="card shadow-sm mt-3">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">Room Configuration</h5>
+
+                        <button type="button" class="btn btn-success btn-sm" id="addRoomBtn">
+                            + Add Room
+                        </button>
+                    </div>
+
+                    <div class="card-body">
+
+                        <div id="roomsContainer">
+
+                            <% listing.rooms.forEach((room,index)=>{ %>
+
+                                <div class="card mb-3 room-card">
+
+                                    <div class="card-body">
+
+                                        <div class="d-flex justify-content-between align-items-center mb-3">
+
+                                            <h5 class="mb-0">
+                                                Room <%= room.roomNo %>
+                                            </h5>
+
+                                            <button type="button" class="btn btn-outline-danger btn-sm remove-room">
+
+                                                Remove
+
+                                            </button>
+
+                                        </div>
+
+                                        <div class="row">
+
+                                            <div class="col-md-3 mb-3">
+
+                                                <label class="form-label">
+                                                    Room Number
+                                                </label>
+
+                                                <input type="number" class="form-control room-no"
+                                                    name="listing[rooms][<%= index %>][roomNo]"
+                                                    value="<%= room.roomNo %>" readonly>
+
+                                            </div>
+
+                                            <div class="col-md-5 mb-3">
+
+                                                <label class="form-label">
+                                                    Room Type
+                                                </label>
+
+                                                <select class="form-select room-type"
+                                                    name="listing[rooms][<%= index %>][roomType]" required>
+
+                                                    <% const roomTypes=[ "Suite Bedroom" , "Premium Bedroom"
+                                                        , "Normal Bedroom" , "Master Bedroom" , "Kids Bedroom"
+                                                        , "Guest Room" , "Dormitory" ]; %>
+
+                                                        <% roomTypes.forEach(type=>{ %>
+
+                                                            <option value="<%= type %>" <%=room.roomType===type
+                                                                ? "selected" : "" %>>
+
+                                                                <%= type %>
+
+                                                            </option>
+
+                                                            <% }) %>
+
+                                                </select>
+
+                                            </div>
+
+                                            <div class="col-md-4 mb-3">
+
+                                                <label class="form-label">
+                                                    People Capacity
+                                                </label>
+
+                                                <input type="number" class="form-control room-capacity"
+                                                    name="listing[rooms][<%= index %>][capacity]"
+                                                    value="<%= room.capacity %>" min="1" required>
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                                <% }) %>
+
+                        </div>
+
+                        <hr>
+
+                        <div class="row">
+
+                            <div class="col-md-4">
+
+                                <label class="form-label fw-bold">
+
+                                    Total Capacity
+
+                                </label>
+
+                                <input type="number" id="totalCapacity" class="form-control" name="listing[capacity]"
+                                    value="<%= listing.capacity %>" readonly>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- ------------------------------------------------------------------------------------------------------- -->
+
+                <br><br>
+
+
+
+                <div class="mb-3">
+                    <label for="image" class="form-label">Upload New Image</label>
+                    <input type="file" class="form-control" name="listing[image][url]" id="image" accept="image/*">
+                </div>
+
+                <button type="submit" class="btn btn-primary show-e-btn">Update</button>
+            </form>
+            <br><br><br><br><br>
+        </body>
+
+        </html>
+
+
+        <script>
+            const roomsContainer = document.getElementById("roomsContainer");
+            const addRoomBtn = document.getElementById("addRoomBtn");
+            const totalCapacityInput = document.getElementById("totalCapacity");
+
+            // Existing rooms count
+            let roomCount = document.querySelectorAll(".room-card").length;
+
+            // ---------------- Add New Room ----------------
+
+            function createRoom() {
+
+                roomCount++;
+
+                const room = document.createElement("div");
+
+                room.className = "card mb-3 room-card";
+
+                room.innerHTML = `
+        <div class="card-body">
+
+            <div class="d-flex justify-content-between align-items-center mb-3">
+
+                <h5 class="mb-0">Room ${roomCount}</h5>
+
+                <button
+                    type="button"
+                    class="btn btn-outline-danger btn-sm remove-room">
+
+                    Remove
+
+                </button>
+
             </div>
 
+            <div class="row">
 
-            <br><br>
+                <div class="col-md-3 mb-3">
 
+                    <label class="form-label">
+                        Room Number
+                    </label>
 
+                    <input
+                        type="number"
+                        class="form-control room-no"
+                        name="listing[rooms][${roomCount - 1}][roomNo]"
+                        value="${roomCount}"
+                        readonly>
 
-            <div class="mb-3">
-                <label for="image" class="form-label">Upload New Image</label>
-                <input type="file" class="form-control" name="listing[image][url]" id="image" accept="image/*">
+                </div>
+
+                <div class="col-md-5 mb-3">
+
+                    <label class="form-label">
+                        Room Type
+                    </label>
+
+                    <select
+                        class="form-select room-type"
+                        name="listing[rooms][${roomCount - 1}][roomType]"
+                        required>
+
+                        <option value="Suite Bedroom">Suite Bedroom</option>
+                        <option value="Premium Bedroom">Premium Bedroom</option>
+                        <option value="Normal Bedroom" selected>Normal Bedroom</option>
+                        <option value="Master Bedroom">Master Bedroom</option>
+                        <option value="Kids Bedroom">Kids Bedroom</option>
+                        <option value="Guest Room">Guest Room</option>
+                        <option value="Dormitory">Dormitory</option>
+
+                    </select>
+
+                </div>
+
+                <div class="col-md-4 mb-3">
+
+                    <label class="form-label">
+                        People Capacity
+                    </label>
+
+                    <input
+                        type="number"
+                        class="form-control room-capacity"
+                        name="listing[rooms][${roomCount - 1}][capacity]"
+                        value="1"
+                        min="1"
+                        required>
+
+                </div>
+
             </div>
 
-            <button type="submit" class="btn btn-primary show-e-btn">Update</button>
-        </form>
-        <br><br><br><br><br>
-    </body>
+        </div>
+    `;
 
-    </html>
+                attachEvents(room);
+
+                roomsContainer.appendChild(room);
+
+                updateTotalCapacity();
+            }
+
+            // ---------------- Common Events ----------------
+
+            function attachEvents(room) {
+
+                room.querySelector(".remove-room").addEventListener("click", () => {
+
+                    room.remove();
+
+                    updateRooms();
+
+                    updateTotalCapacity();
+
+                });
+
+                room.querySelector(".room-capacity").addEventListener("input", updateTotalCapacity);
+
+            }
+
+            // ---------------- Renumber Rooms ----------------
+
+            function updateRooms() {
+
+                const rooms = document.querySelectorAll(".room-card");
+
+                roomCount = 0;
+
+                rooms.forEach(room => {
+
+                    roomCount++;
+
+                    room.querySelector("h5").textContent = `Room ${roomCount}`;
+
+                    room.querySelector(".room-no").value = roomCount;
+
+                    room.querySelector(".room-no").name =
+                        `listing[rooms][${roomCount - 1}][roomNo]`;
+
+                    room.querySelector(".room-type").name =
+                        `listing[rooms][${roomCount - 1}][roomType]`;
+
+                    room.querySelector(".room-capacity").name =
+                        `listing[rooms][${roomCount - 1}][capacity]`;
+
+                });
+
+            }
+
+            // ---------------- Total Capacity ----------------
+
+            function updateTotalCapacity() {
+
+                let total = 0;
+
+                document.querySelectorAll(".room-capacity").forEach(input => {
+
+                    total += Number(input.value) || 0;
+
+                });
+
+                totalCapacityInput.value = total;
+
+            }
+
+            // ---------------- Existing Rooms ----------------
+
+            document.querySelectorAll(".room-card").forEach(room => {
+
+                attachEvents(room);
+
+            });
+
+            // ---------------- Initial Capacity ----------------
+
+            updateTotalCapacity();
+
+            // ---------------- Add Button ----------------
+
+            addRoomBtn.addEventListener("click", createRoom);
+
+        </script>

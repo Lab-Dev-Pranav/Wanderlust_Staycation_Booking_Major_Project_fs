@@ -39,9 +39,10 @@ module.exports.islogged_in = (req, res, next)=>{
                 req.session.redirectUrl = req.originalUrl
                 req.flash("error" , "You have to be logged in to go there!")
                 return res.redirect("/login")
+               
               }
-        // console.log("IS LOGGED IN")
-        next()
+                // return res.redirect("/profile")
+         next()
 }
 
 module.exports.saveRedirectUrl = (req, res, next)=>{

@@ -65,7 +65,7 @@
               <i class="fa-solid fa-chevron-down filter-chevron" id="filterChevron"></i>
             </button>
 
-            <div class="active-filter-chip" id="activeFilterChip" style="display:<%= activeTag ? " flex" : "none" %>;">
+            <div class="active-filter-chip" id="activeFilterChip" style="display: <%= activeTag ? "flex" : "none" %>;">
               <span id="activeFilterLabel">
                 <%= activeTag %>
               </span>
@@ -156,6 +156,16 @@
                             <div class="text">More</div>
                           </button>
                     </form>
+
+                    <form action="/listings/x/<%= LISTING.id %>" method="GET" style="display:inline;">
+                      <% if (typeof bookingdata !=="undefined" && bookingdata) { %>
+                        <input type="hidden" name="bookingdata" value='<%= JSON.stringify(bookingdata) %>'>
+                        <% } %>
+                          <button class="button" type="submit">
+                            <div class="text">More XXX</div>
+                          </button>
+                    </form>
+
                   </div>
                 </div>
                 <% } %>

@@ -379,7 +379,7 @@ a {
 .button {
   background-color: transparent;
   color: #fff;
-  width: 8em;
+  width: 8rem;
   height: 2.5em;
   border: #ff634798 0.2em solid;
   border-radius: 11px;
@@ -394,7 +394,7 @@ a {
 
 .button svg {
   width: 1.6em;
-  margin: -0.2em 0.8em 1em;
+  margin: 0px 0px 0px 0px;
   position: absolute;
   transition: all 0.6s ease;
   color: #ff634798;

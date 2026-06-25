@@ -10,43 +10,70 @@ const listingSchema = new schema({
         },
         description: String,
         image: {
-               url : String,
-               filename: String
+                url: String,
+                filename: String
         },
         price: Number,
         location: String,
         country: String,
         tag: String,
-        review : [
+        review: [
                 {
-                        type : schema.Types.ObjectId,
-                        ref : "Review"
+                        type: schema.Types.ObjectId,
+                        ref: "Review"
                 }
         ],
-        owner : {
-                type : schema.Types.ObjectId, 
-                ref : "User"
+        owner: {
+                type: schema.Types.ObjectId,
+                ref: "User"
         },
         geometry: {
                 type: {
-                  type: String, // Don't do `{ location: { type: String } }`
-                  enum: ['Point'], // 'location.type' must be 'Point'
-                  required: true
+                        type: String, // Don't do `{ location: { type: String } }`
+                        enum: ['Point'], // 'location.type' must be 'Point'
+                        required: true
                 },
                 coordinates: {
-                  type: [Number],
-                  required: true
+                        type: [Number],
+                        required: true
                 }
-              },
+        },
         capacity: {
                 type: Number,
                 required: true,
                 min: 1
-              },
+        },
         exactLocation: {
-               type: String,
-               required: true
-        }
+                type: String,
+                required: true
+        },
+        rooms: [
+                {
+                        roomNo: {
+                                type: Number,
+                                required: true
+                        },
+                        roomType: {
+                                type: String,
+                                enum: [
+                                        "Suite Bedroom",
+                                        "Premium Bedroom",
+                                        "Normal Bedroom",
+                                        "Master Bedroom",
+                                        "Kids Bedroom",
+                                        "Guest Room",
+                                        "Dormitory"
+                                ],
+                                required: true
+                        },
+                        capacity: {
+                                type: Number,
+                                required: true,
+                                min: 1
+                        }
+                }
+        ]
+
 })
 
 

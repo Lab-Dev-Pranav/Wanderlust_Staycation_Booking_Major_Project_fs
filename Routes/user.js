@@ -52,7 +52,7 @@ router
 router
   .route("/login")
    // LOGIN FORM RENDER
-  .get( userController.loginRender)
+  .get(  userController.loginRender)
   // LOGIN FORM USER IN TO SITE
   .post(
     tokenBucket(rateLimitModerate),
