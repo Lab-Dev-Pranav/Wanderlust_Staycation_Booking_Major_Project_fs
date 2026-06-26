@@ -21,7 +21,7 @@
 
 
 
-.deviderrr{
+.deviderrr {
   height: 50px;
   width: 5px;
   background-color: #00000057;
@@ -31,7 +31,7 @@
 
 
 @media (max-width: 768px) {
-  .deviderrr{
+  .deviderrr {
     display: none;
   }
 }
@@ -437,13 +437,37 @@
 @media (max-width:576px) {
 
   .availability-date-group {
-    flex-direction: column;
-    gap: 10px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: flex-end;
+    gap: 8px;
+    width: 100%;
   }
-.availability-search-form {
-  margin: 10px 0px 0px 0px;
-}
 
+  .availability-search-form {
+    margin: 10px 0px 0px 0px;
+    display: flex;
+    align-items: stretch;
+  }
+
+  .availability-field {
+    flex: 1 1 0;
+    min-width: 0;
+  }
+
+  .availability-date-input {
+    min-width: 0;
+    font-size: 0.85rem;
+    padding: 0 10px;
+  }
+
+  .availability-search-btn {
+    width: auto;
+    margin: 16px 0px 10px 0px;
+    padding: 0 16px;
+    white-space: nowrap;
+  }
 
 }
 
@@ -462,6 +486,12 @@
 }
 
 
+@media (max-width:576px) {
+    .search-form {
+      display: flex !important;
+    }
+}
+
 
 
 
@@ -471,6 +501,10 @@
 /* .card-parent{
   background-color: #3d3f43;
 } */
+
+.card-parent{
+  display: flex;
+}
 
 .card {
   padding: 15px;
@@ -636,6 +670,15 @@ a {
 }
 
 @media (max-width: 480px) {
+
+  .card-parent {
+    justify-content: center;
+  }
+
+  .card {
+    width: min(20rem, calc(100% - 16px)) !important;
+  }
+
   .filter-dropdown-panel {
     min-width: 260px;
     left: 0;

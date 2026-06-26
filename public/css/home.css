@@ -123,13 +123,197 @@ body {
 
 .category-card{
     height: 20px;
-    width: fit-content;
+    width: auto;
     padding: 10px;
 }
 
+/* ===========================
+      CATEGORY GRID
+=========================== */
+
+.category-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(4,1fr);
+
+    gap:24px;
+
+    margin:35px 0;
+
+}
 
 
+/* ===========================
+      CARD
+=========================== */
 
+.category-card{
+
+    background:#ffffff;
+
+    border:1px solid #ececec;
+
+    border-radius:22px;
+
+    min-height:180px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+
+    align-items:center;
+
+    padding:25px;
+
+    transition:.35s;
+
+    cursor:pointer;
+
+    box-shadow:0 8px 20px rgba(0,0,0,.05);
+
+}
+
+.category-card:hover{
+
+    transform:translateY(-6px);
+
+    border-color:rgb(241,136,50);
+
+    box-shadow:0 20px 40px rgba(241,136,50,.18);
+
+}
+
+
+/* ===========================
+      ICON
+=========================== */
+
+.category-icon{
+
+    font-size:4rem;
+
+    margin-bottom:18px;
+
+    line-height:1;
+
+}
+
+
+/* ===========================
+      TITLE
+=========================== */
+
+.category-title{
+
+    margin:0;
+
+    font-size:1.1rem;
+
+    font-weight:600;
+
+    color:#333;
+
+    text-align:center;
+
+    line-height:1.4;
+
+}
+
+
+/* ===========================
+      LAPTOP
+=========================== */
+
+@media(max-width:1200px){
+
+.category-grid{
+
+    grid-template-columns:repeat(3,1fr);
+
+}
+
+}
+
+
+/* ===========================
+      TABLET
+=========================== */
+
+@media(max-width:768px){
+
+.category-grid{
+
+    grid-template-columns:repeat(2,1fr);
+
+    gap:18px;
+
+}
+
+.category-card{
+
+    min-height:150px;
+
+    padding:18px;
+
+}
+
+.category-icon{
+
+    font-size:3.2rem;
+
+}
+
+.category-title{
+
+    font-size:1rem;
+
+}
+
+}
+
+
+/* ===========================
+      MOBILE
+=========================== */
+
+@media(max-width:480px){
+
+.category-grid{
+
+    grid-template-columns:repeat(2,1fr);
+
+    gap:12px;
+
+}
+
+.category-card{
+
+    min-height:130px;
+
+    border-radius:16px;
+
+    padding:14px;
+
+}
+
+.category-icon{
+
+    font-size:2.7rem;
+
+    margin-bottom:12px;
+
+}
+
+.category-title{
+
+    font-size:.9rem;
+
+}
+
+}
 
 
 /* ===== RESPONSIVENESS ===== */

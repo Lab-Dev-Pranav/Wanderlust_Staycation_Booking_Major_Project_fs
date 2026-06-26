@@ -6,7 +6,7 @@
       <div class="home-container" style="max-width: 1400px; width: 95vw; "></div>
       <h1 class=" home-top-title"> Wanderlust Staycation <i>Hosting</i> & <i>Booking</i> </h1>
       <br>
-
+      <br>
       <div class="search-section">
         <div class="search-section-img">
           <img src="other/IMG/homeimg.jpg" alt="homeimg" />
@@ -74,15 +74,35 @@
           <div class="row g-3 justify-content-center">
 
 
-            <% holidayCategories.forEach(category=> { %>
+            <!-- <% holidayCategories.forEach(category=> { %>
 
-              <div class="col-6 col-sm-4 col-md-3 text-center category card p-2 category-card">
+              <div class="category-card">
                 <%= category.icon %>
              
                   <%= category.name %>
               </div>
 
-              <% }) %>
+              <% }) %> -->
+
+            <div class="category-grid">
+
+              <% holidayCategories.forEach(category=> { %>
+
+                <div class="category-card">
+
+                  <div class="category-icon">
+                    <%= category.icon %>
+                  </div>
+
+                  <h5 class="category-title">
+                    <%= category.name %>
+                  </h5>
+
+                </div>
+
+                <% }) %>
+
+            </div>
 
 
           </div>
@@ -93,15 +113,35 @@
           <h3 class="text-center mb-4">Popular amenities for friendly home rentals</h3>
           <div class="row g-3 justify-content-center">
 
-            <% amenities.forEach(amenity=> { %>
+            <!-- <% amenities.forEach(amenity=> { %>
 
               <div class="col-6 col-sm-4 col-md-3 text-center category card p-2 category-card">
                 <%= amenity.icon %>
-          
+
                   <%= amenity.name %>
               </div>
 
-              <% }) %>
+              <% }) %> -->
+
+                 <div class="category-grid">
+
+              <% holidayCategories.forEach(category=> { %>
+
+                <div class="category-card">
+
+                  <div class="category-icon">
+                    <%= category.icon %>
+                  </div>
+
+                  <h5 class="category-title">
+                    <%= category.name %>
+                  </h5>
+
+                </div>
+
+                <% }) %>
+
+            </div>
 
 
           </div>
@@ -112,15 +152,26 @@
           <h3 class="text-center mb-4">Unique Experiences</h3>
           <div class="row g-3 justify-content-center">
 
-            <% experiences.forEach(experience=> { %>
+               <div class="category-grid">
 
-              <div class="col-6 col-sm-4 col-md-3 text-center category card p-2 category-card">
-                <%= experience.icon %>
-     
-                  <%= experience.name %>
-              </div>
+              <% holidayCategories.forEach(category=> { %>
 
-              <% }) %>
+                <div class="category-card">
+
+                  <div class="category-icon">
+                    <%= category.icon %>
+                  </div>
+
+                  <h5 class="category-title">
+                    <%= category.name %>
+                  </h5>
+
+                </div>
+
+                <% }) %>
+
+            </div>
+           
           </div>
         </section>
 
@@ -129,15 +180,25 @@
           <h3 class="text-center mb-4">Top Attractions</h3>
           <div class="row g-3 justify-content-center">
 
-            <% attractions.forEach(attraction=> { %>
+              <div class="category-grid">
 
-              <div class="col-6 col-sm-4 col-md-3 text-center category card p-2 category-card">
-                <%= attraction.icon %>
-   
-                  <%= attraction.name %>
-              </div>
+              <% holidayCategories.forEach(category=> { %>
 
-              <% }) %>
+                <div class="category-card">
+
+                  <div class="category-icon">
+                    <%= category.icon %>
+                  </div>
+
+                  <h5 class="category-title">
+                    <%= category.name %>
+                  </h5>
+
+                </div>
+
+                <% }) %>
+
+            </div>
 
           </div>
         </section>
