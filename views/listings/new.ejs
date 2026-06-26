@@ -1,7 +1,7 @@
 <% layout("/layouts/boilerplate") %>
     <% block('styles').append('<link rel="stylesheet" href="/css/listings_form.css">') %>
 
-        <body class="new-listing">
+        <!-- <body class="new-listing">
 
             <div class="container">
                 <h1 class="n-f-h1">Add a New Location</h1>
@@ -41,7 +41,7 @@
                         <div class="invalid-feedback">Please provide a country...</div>
                     </div>
 
-                    <!-- //exace lication url -->
+
                     <div class="mb-3">
                         <label for="exactLocation" class="form-label">Exact Location URL</label>
                         <input type="text" class="form-control" name="listing[exactLocation]" id="exactLocation"
@@ -52,7 +52,6 @@
                     <div class="mb-3">
                         <label for="country" class="form-label">Tag</label>
                         <select name="listing[tag]" class="form-select" aria-label="Default select example" required>
-                            <!-- <option selected>Not Selected</option> -->
                             <option value="Trending">Trending</option>
                             <option value="Rooms">Rooms</option>
                             <option value="Iconic">Iconic</option>
@@ -67,15 +66,7 @@
                         <div class="invalid-feedback">Please provide a tag...</div>
                     </div>
 
-                    <!-- <div class="mb-3">
-                        <label for="capacity" class="form-label">Capacity</label>
-                        <input type="number" class="form-control" name="listing[capacity]" id="capacity" min="1"
-                            required placeholder="ex. 10">
-                        <div class="invalid-feedback">Please provide a valid capacity.</div>
-                    </div> -->
 
-
-                    <!-- -------------------------------------------- -->
                     <div class="card shadow-sm mt-3">
                         <div class="card-header d-flex justify-content-between align-items-center">
                             <h5 class="mb-0">Room Configuration</h5>
@@ -104,10 +95,7 @@
 
                         </div>
                     </div>
-                    <!-- ------------------------------------------------------- -->
                     <br>
-
-
                     <div class="mb-3">
                         <label for="image" class="form-label">Upload Image</label>
                         <input type="file" class="form-control" name="listing[image][url]" id="image">
@@ -119,23 +107,416 @@
                 <br><br><br>
             </div>
 
-        </body>
+        </body> -->
 
-      <script>
-    const roomsContainer = document.getElementById("roomsContainer");
-    const addRoomBtn = document.getElementById("addRoomBtn");
-    const totalCapacityInput = document.getElementById("totalCapacity");
 
-    let roomCount = 0;
+        <div class="new-listing-page">
 
-    function createRoom() {
+            <!-- Page Header -->
+            <!-- <div class="new-listing-header">
 
-        roomCount++;
+                <h1>Add a New Location</h1>
 
-        const room = document.createElement("div");
-        room.className = "card mb-3 room-card";
+                <p>
+                    Fill in the details below to publish your stay on Wanderlust.
+                </p>
 
-        room.innerHTML = `
+            </div> -->
+
+
+            <!-- Main Form -->
+            <form action="/listings" method="POST" enctype="multipart/form-data" class="new-listing-form">
+
+                <!-- ===================================== -->
+                <!-- TOP SECTION -->
+                <!-- ===================================== -->
+
+                <div class="listing-top-section">
+
+                    <!-- Left Side -->
+                    <div class="listing-info-box">
+
+                        <!-- Property Information -->
+                        <div class="listing-info-header">
+
+                            <h2>Property Information</h2>
+
+                            <p>
+                                Fill in the details below to help guests discover your stay.
+                            </p>
+
+                        </div>
+
+
+                        <div class="listing-info-body">
+
+                            <!-- Title -->
+
+                            <div class="form-field full-width">
+
+                                <label for="title">Property Title</label>
+
+                                <input type="text" class="form-control" id="title" name="listing[title]"
+                                    placeholder="Beautiful Beach House by PSP Stays" required>
+
+                                <div class="invalid-feedback">
+                                    Please provide a title.
+                                </div>
+
+                            </div>
+
+
+                            <!-- Description -->
+
+                            <div class="form-field full-width">
+
+                                <label for="description">
+
+                                    Description
+
+                                </label>
+
+                                <textarea class="form-control" id="description" name="listing[description]" rows="5"
+                                    placeholder="Describe your stay..." required></textarea>
+
+                                <div class="invalid-feedback">
+                                    Please provide a description.
+                                </div>
+
+                            </div>
+
+
+                            <!-- Price -->
+
+                            <div class="form-field">
+
+                                <label for="price">
+
+                                    Price (â‚¹ / Night)
+
+                                </label>
+
+                                <input type="number" class="form-control" id="price" name="listing[price]"
+                                    placeholder="10000" required>
+
+                                <div class="invalid-feedback">
+                                    Please provide a valid price.
+                                </div>
+
+                            </div>
+
+
+
+
+                            <!-- Category -->
+
+                            <div class="form-field">
+
+                                <label>
+
+                                    Category
+
+                                </label>
+
+                                <select class="form-select" name="listing[tag]" required>
+
+                                    <option value="">Choose Category</option>
+
+                                    <option value="Trending">Trending</option>
+
+                                    <option value="Rooms">Rooms</option>
+
+                                    <option value="Iconic">Iconic</option>
+
+                                    <option value="Mountain">Mountain</option>
+
+                                    <option value="Castles">Castles</option>
+
+                                    <option value="Pools">Pools</option>
+
+                                    <option value="Camping">Camping</option>
+
+                                    <option value="Farms">Farms</option>
+
+                                    <option value="Hot">Hot</option>
+
+                                    <option value="Domes">Domes</option>
+
+                                </select>
+
+                                <div class="invalid-feedback">
+                                    Please select a category.
+                                </div>
+
+                            </div>
+
+
+                            <!-- Location -->
+
+                            <div class="form-field">
+
+                                <label for="location">
+
+                                    City / Location
+
+                                </label>
+
+                                <input type="text" class="form-control" id="location" name="listing[location]"
+                                    placeholder="Lonavala" required>
+
+                                <div class="invalid-feedback">
+                                    Please provide a location.
+                                </div>
+
+                            </div>
+
+
+                            <!-- Country -->
+
+                            <div class="form-field">
+
+                                <label for="country">
+
+                                    Country
+
+                                </label>
+
+                                <input type="text" class="form-control" id="country" name="listing[country]"
+                                    placeholder="India" required>
+
+                                <div class="invalid-feedback">
+                                    Please provide a country.
+                                </div>
+
+                            </div>
+
+
+
+
+
+                            <!-- Google Maps -->
+
+                            <div class="form-field full-width">
+
+                                <label for="exactLocation">
+
+                                    Google Maps Location
+
+                                </label>
+
+                                <input type="text" class="form-control" id="exactLocation" name="listing[exactLocation]"
+                                    placeholder="https://maps.app.goo.gl/..." required>
+
+                                <div class="invalid-feedback">
+                                    Please provide the Google Maps URL.
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Right Side -->
+                    <div class="listing-upload-box">
+
+                        <!-- Upload Image -->
+                        <div class="listing-upload-box">
+
+                            <div class="upload-header">
+
+                                <h2>Property Images</h2>
+
+                                <p>
+                                    Upload a high-quality cover photo for your stay.
+                                </p>
+
+                            </div>
+
+
+                            <div class="upload-body">
+
+                                <label for="image" class="image-upload-label">
+
+                                    <div class="image-upload-box">
+
+                                        <div class="upload-icon">
+                                            <i class="fa-solid fa-cloud-arrow-up"></i>
+                                        </div>
+
+                                        <h4>Choose an Image</h4>
+
+                                        <p>
+                                            Drag & Drop
+                                            <br>
+                                            or
+                                            <br>
+                                            Click to Browse
+                                        </p>
+
+                                    </div>
+
+                                </label>
+
+                                <input type="file" id="image" name="listing[image][url]" accept="image/*" hidden>
+
+
+                                <!-- Preview -->
+
+                                <div class="image-preview-container">
+
+                                    <img id="imagePreview" src="" alt="Image Preview">
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ===================================== -->
+                <!-- ROOM CONFIGURATION -->
+                <!-- ===================================== -->
+
+                <div class="listing-room-box">
+
+                    <div class="room-header">
+
+                        <div>
+
+                            <h2>Room Configuration</h2>
+
+                            <p>
+                                Add rooms and define the capacity of each room.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    <div class="room-body">
+
+                        <!-- Existing JS will append room cards here -->
+                        <div id="roomsContainer"></div>
+
+                    </div>
+
+                    <div class="room-footer">
+
+                        <button type="button" id="addRoomBtn" class="add-room-btn">
+
+                            <i class="fa-solid fa-plus"></i>
+
+                            Add Room
+
+                        </button>
+
+                        <div class="capacity-box">
+
+                            <span>Total Capacity</span>
+
+                            <input type="number" id="totalCapacity" name="listing[capacity]" value="0" readonly>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ===================================== -->
+                <!-- SUBMIT -->
+                <!-- ===================================== -->
+
+                <div class="listing-submit-box">
+
+                    <div class="submit-left">
+
+                        <h3>Ready to Publish?</h3>
+
+                        <p>
+                            Review your property information before publishing. You can edit your listing anytime after
+                            it's created.
+                        </p>
+
+                    </div>
+
+                    <div class="submit-right">
+
+                        <button type="submit" class="publish-btn">
+
+                            <i class="fa-solid fa-paper-plane"></i>
+
+                            Publish Listing
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+
+
+
+
+
+
+        <script>
+
+            const imageInput = document.getElementById("image");
+            const imagePreview = document.getElementById("imagePreview");
+
+            imageInput.addEventListener("change", function () {
+
+                const file = this.files[0];
+
+                if (!file) return;
+
+                const reader = new FileReader();
+
+                reader.onload = function (e) {
+
+                    imagePreview.src = e.target.result;
+
+                    imagePreview.style.display = "block";
+
+                };
+
+                reader.readAsDataURL(file);
+
+            });
+
+        </script>
+
+
+
+
+
+
+
+        <script>
+            const roomsContainer = document.getElementById("roomsContainer");
+            const addRoomBtn = document.getElementById("addRoomBtn");
+            const totalCapacityInput = document.getElementById("totalCapacity");
+
+            let roomCount = 0;
+
+            function createRoom() {
+
+                roomCount++;
+
+                const room = document.createElement("div");
+                room.className = "card mb-3 room-card";
+
+                room.innerHTML = `
         <div class="card-body">
 
             <div class="d-flex justify-content-between align-items-center mb-3">
@@ -221,60 +602,61 @@
         </div>
         `;
 
-        room.querySelector(".remove-room").addEventListener("click", () => {
-            room.remove();
-            updateRooms();
-            updateTotalCapacity();
-        });
+                room.querySelector(".remove-room").addEventListener("click", () => {
+                    room.remove();
+                    updateRooms();
+                    updateTotalCapacity();
+                });
 
-        room.querySelector(".room-capacity")
-            .addEventListener("input", updateTotalCapacity);
+                room.querySelector(".room-capacity")
+                    .addEventListener("input", updateTotalCapacity);
 
-        roomsContainer.appendChild(room);
+                roomsContainer.appendChild(room);
 
-        updateTotalCapacity();
-    }
+                updateTotalCapacity();
+            }
 
-    function updateRooms() {
+            function updateRooms() {
 
-        const rooms = document.querySelectorAll(".room-card");
+                const rooms = document.querySelectorAll(".room-card");
 
-        roomCount = 0;
+                roomCount = 0;
 
-        rooms.forEach(room => {
+                rooms.forEach(room => {
 
-            roomCount++;
+                    roomCount++;
 
-            room.querySelector("h5").textContent = `Room ${roomCount}`;
+                    room.querySelector("h5").textContent = `Room ${roomCount}`;
 
-            room.querySelector(".room-no").value = roomCount;
+                    room.querySelector(".room-no").value = roomCount;
 
-            room.querySelector(".room-no").name =
-                `listing[rooms][${roomCount - 1}][roomNo]`;
+                    room.querySelector(".room-no").name =
+                        `listing[rooms][${roomCount - 1}][roomNo]`;
 
-            room.querySelector(".room-type").name =
-                `listing[rooms][${roomCount - 1}][roomType]`;
+                    room.querySelector(".room-type").name =
+                        `listing[rooms][${roomCount - 1}][roomType]`;
 
-            room.querySelector(".room-capacity").name =
-                `listing[rooms][${roomCount - 1}][capacity]`;
+                    room.querySelector(".room-capacity").name =
+                        `listing[rooms][${roomCount - 1}][capacity]`;
 
-        });
+                });
 
-    }
+            }
 
-    function updateTotalCapacity() {
+            function updateTotalCapacity() {
 
-        let total = 0;
+                let total = 0;
 
-        document.querySelectorAll(".room-capacity").forEach(input => {
-            total += Number(input.value) || 0;
-        });
+                document.querySelectorAll(".room-capacity").forEach(input => {
+                    total += Number(input.value) || 0;
+                });
 
-        totalCapacityInput.value = total;
-    }
+                totalCapacityInput.value = total;
+            }
 
-    addRoomBtn.addEventListener("click", createRoom);
+            addRoomBtn.addEventListener("click", createRoom);
 
-    // Create first room automatically
-    createRoom();
-</script>
+            // Create first room automatically
+            createRoom();
+        </script>
+

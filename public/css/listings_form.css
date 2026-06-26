@@ -1,80 +1,1165 @@
-/* Stay Form Pages Specific Stylesheet (New/Edit stays) */
 
-.container {
-  max-width: 400px;
-  height: fit-content !important;
-  margin: 0 auto;
-  padding: 20px;
+
+/* ====================================================================================
+====================================================================================
+==================================================================================== */
+/* ===========================================
+        NEW LISTING PAGE
+=========================================== */
+
+.new-listing-page{
+
+    width: min(1450px,95%);
+
+    margin: 40px auto;
+
+    padding: 20px;
+
 }
 
-.n-f-h1 {
-  text-align: center;
-  margin-bottom: 20px;
+
+/* ===========================================
+        PAGE HEADER
+=========================================== */
+
+.new-listing-header{
+
+    text-align: center;
+
+    margin-bottom: 40px;
+
 }
 
-.new-listing-form {
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 4px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+.new-listing-header h1{
+
+    font-size: 2.8rem;
+
+    font-weight: 700;
+
+    color: #222;
+
+    margin-bottom: 10px;
+
 }
 
-.form-group {
-  margin-bottom: 1em;
+.new-listing-header p{
+
+    font-size: 1rem;
+
+    color: #666;
+
 }
 
-.form-group:last-of-type {
-  margin-bottom: 0;
+
+/* ===========================================
+        MAIN FORM
+=========================================== */
+
+.new-listing-form{
+
+    width: 100%;
+
 }
 
-.form-group::after {
-  content: "";
-  display: table;
-  clear: both;
+
+/* ===========================================
+        TOP SECTION
+=========================================== */
+
+.listing-top-section{
+
+    width: 100%;
+
+    display: grid;
+
+    grid-template-columns: 2fr 1fr;
+
+    gap: 30px;
+
+    align-items: start;
+
 }
 
-.form-group label {
-  display: block;
-  margin-bottom: 5px;
-  font-weight: bold;
-  color: #555;
+
+/* ===========================================
+        INFO BOX
+=========================================== */
+
+.listing-info-box{
+
+    min-height: 700px;
+
+    background: #fff;
+
+    border-radius: 20px;
+
+    border: 1px solid #ececec;
+
+    box-shadow: 0 10px 35px rgba(0,0,0,.05);
+
 }
 
-input[type="text"],
-input[type="number"],
-.new-form-t-area {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 15px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 16px;
-  box-sizing: border-box;
+
+/* ===========================================
+        UPLOAD BOX
+=========================================== */
+
+.listing-upload-box{
+
+    min-height: 700px;
+
+    background: #fff;
+
+    border-radius: 20px;
+
+    border: 1px solid #ececec;
+
+    box-shadow: 0 10px 35px rgba(0,0,0,.05);
+
+    position: sticky;
+
+    top: 100px;
+
 }
 
-input[type="number"]::-webkit-inner-spin-button,
-input[type="number"]::-webkit-outer-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
+
+/* ===========================================
+        ROOM BOX
+=========================================== */
+
+.listing-room-box{
+
+    width: 100%;
+
+    min-height: 420px;
+
+    margin-top: 35px;
+
+    background: #fff;
+
+    border-radius: 20px;
+
+    border: 1px solid #ececec;
+
+    box-shadow: 0 10px 35px rgba(0,0,0,.05);
+
 }
 
-.new-form-t-area {
-  resize: vertical;
-  min-height: 100px;
+
+/* ===========================================
+        SUBMIT BOX
+=========================================== */
+
+.listing-submit-box{
+
+    width: 100%;
+
+    margin-top: 35px;
+
+    padding: 25px;
+
+    background: #fff;
+
+    border-radius: 20px;
+
+    border: 1px solid #ececec;
+
+    box-shadow: 0 10px 35px rgba(0,0,0,.05);
+
 }
 
-.new-form-s-btn {
-  width: 20%;
-  padding: 10px;
-  font-size: 16px;
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
+
+/* ===========================================
+        TABLET
+=========================================== */
+
+@media (max-width:992px){
+
+    .listing-top-section{
+
+        grid-template-columns: 1fr;
+
+    }
+
+    .listing-upload-box{
+
+        position: relative;
+
+        top: 0;
+
+        min-height: 400px;
+
+    }
+
 }
 
-.new-form-s-btn:hover {
-  background-color: #3898ff;
+
+/* ===========================================
+        MOBILE
+=========================================== */
+
+@media (max-width:768px){
+
+    .new-listing-page{
+
+        width:95%;
+
+        padding:10px;
+
+    }
+
+    .new-listing-header h1{
+
+        font-size:2rem;
+
+    }
+
+}
+
+
+/* ====================================================================================
+====================================================================================
+==================================================================================== */
+
+/* ===========================================
+        PROPERTY INFO BOX
+=========================================== */
+
+.listing-info-box{
+
+    padding:35px;
+
+}
+
+
+/* ===========================================
+        HEADER
+=========================================== */
+
+.listing-info-header{
+
+    margin-bottom:35px;
+
+}
+
+.listing-info-header h2{
+
+    font-size:2rem;
+
+    font-weight:700;
+
+    color:#222;
+
+    margin-bottom:8px;
+
+}
+
+.listing-info-header p{
+
+    color:#777;
+
+    font-size:.95rem;
+
+}
+
+
+/* ===========================================
+        FORM GRID
+=========================================== */
+
+.listing-info-body{
+
+    display:grid;
+
+    grid-template-columns:1fr 1fr;
+
+    gap:25px;
+
+}
+
+
+/* ===========================================
+        FULL WIDTH
+=========================================== */
+
+.full-width{
+
+    grid-column:1 / -1;
+
+}
+
+
+/* ===========================================
+        FORM FIELD
+=========================================== */
+
+.form-field{
+
+    display:flex;
+
+    flex-direction:column;
+
+}
+
+
+/* ===========================================
+        LABEL
+=========================================== */
+
+.form-field label{
+
+    margin-bottom:8px;
+
+    font-size:.95rem;
+
+    font-weight:600;
+
+    color:#444;
+
+}
+
+
+/* ===========================================
+        INPUT
+=========================================== */
+
+.form-field input,
+
+.form-field textarea,
+
+.form-field select{
+
+    width:100%;
+
+    padding:14px 16px;
+
+    border:1px solid #dddddd;
+
+    border-radius:14px;
+
+    background:#fff;
+
+    font-size:15px;
+
+    transition:.3s;
+
+    outline:none;
+
+}
+
+
+/* ===========================================
+        TEXTAREA
+=========================================== */
+
+.form-field textarea{
+
+    min-height:160px;
+
+    resize:vertical;
+
+}
+
+
+/* ===========================================
+        FOCUS
+=========================================== */
+
+.form-field input:focus,
+
+.form-field textarea:focus,
+
+.form-field select:focus{
+
+    border-color:rgb(241,136,50);
+
+    box-shadow:0 0 0 4px rgba(241,136,50,.12);
+
+}
+
+
+/* ===========================================
+        PLACEHOLDER
+=========================================== */
+
+.form-field input::placeholder,
+
+.form-field textarea::placeholder{
+
+    color:#aaaaaa;
+
+}
+
+
+/* ===========================================
+        INVALID FEEDBACK
+=========================================== */
+
+.invalid-feedback{
+
+    margin-top:6px;
+
+    font-size:.85rem;
+
+}
+
+
+/* ===========================================
+        TABLET
+=========================================== */
+
+@media(max-width:992px){
+
+    .listing-info-body{
+
+        grid-template-columns:1fr;
+
+    }
+
+    .full-width{
+
+        grid-column:auto;
+
+    }
+
+}
+
+
+/* ===========================================
+        MOBILE
+=========================================== */
+
+@media(max-width:768px){
+
+    .listing-info-box{
+
+        padding:22px;
+
+    }
+
+    .listing-info-header h2{
+
+        font-size:1.6rem;
+
+    }
+
+}
+
+
+/* ====================================================================================
+====================================================================================
+==================================================================================== */
+
+
+/* ===========================================
+        UPLOAD BOX
+=========================================== */
+
+.listing-upload-box{
+
+    padding:30px;
+
+}
+
+
+/* ===========================================
+        HEADER
+=========================================== */
+
+.upload-header{
+
+    margin-bottom:25px;
+
+}
+
+.upload-header h2{
+
+    font-size:1.8rem;
+
+    font-weight:700;
+
+    margin-bottom:8px;
+
+    color:#222;
+
+}
+
+.upload-header p{
+
+    color:#777;
+
+    font-size:.95rem;
+
+}
+
+
+/* ===========================================
+        BODY
+=========================================== */
+
+.upload-body{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:25px;
+
+}
+
+
+/* ===========================================
+        LABEL
+=========================================== */
+
+.image-upload-label{
+
+    cursor:pointer;
+
+}
+
+
+
+/* ===========================================
+        UPLOAD AREA
+=========================================== */
+
+.image-upload-box{
+
+    height:300px;
+
+    border:2px dashed rgb(241,136,50);
+
+    border-radius:20px;
+
+    background:linear-gradient(
+        135deg,
+        #fffdfa,
+        #fff5eb
+    );
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+
+    align-items:center;
+
+    transition:.35s;
+
+}
+
+.image-upload-box:hover{
+
+    transform:translateY(-4px);
+
+    box-shadow:0 20px 35px rgba(241,136,50,.18);
+
+}
+
+
+/* ===========================================
+        ICON
+=========================================== */
+
+.upload-icon{
+
+    width:90px;
+
+    height:90px;
+
+    border-radius:50%;
+
+    background:rgb(255,239,223);
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    margin-bottom:20px;
+
+}
+
+.upload-icon i{
+
+    font-size:42px;
+
+    color:rgb(241,136,50);
+
+}
+
+
+/* ===========================================
+        TEXT
+=========================================== */
+
+.image-upload-box h4{
+
+    font-size:1.3rem;
+
+    font-weight:700;
+
+    margin-bottom:10px;
+
+}
+
+.image-upload-box p{
+
+    color:#777;
+
+    text-align:center;
+
+    line-height:1.7;
+
+}
+
+
+/* ===========================================
+        IMAGE PREVIEW
+=========================================== */
+
+.image-preview-container{
+
+    width:100%;
+
+    display:flex;
+
+    justify-content:center;
+    background-color: #222;
+
+}
+
+#imagePreview{
+
+    width:100%;
+
+    max-height:240px;
+
+    object-fit:cover;
+
+    border-radius:18px;
+
+    display:none;
+
+    border:1px solid #a80c0c;
+
+}
+
+/* =====================================================================================
+=====================================================================================
+===================================================================================== */
+
+/* =====================================
+
+        ROOM BOX
+
+===================================== */
+
+.listing-room-box{
+
+    margin-top:35px;
+
+    background:#fff;
+
+    border-radius:22px;
+
+    border:1px solid #ececec;
+
+    box-shadow:0 10px 35px rgba(0,0,0,.05);
+
+    overflow:hidden;
+
+}
+
+
+/* =====================================
+
+        HEADER
+
+===================================== */
+
+.room-header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:25px 30px;
+
+    border-bottom:1px solid #ececec;
+
+}
+
+.room-header h2{
+
+    margin:0;
+
+    font-size:1.7rem;
+
+    font-weight:700;
+
+}
+
+.room-header p{
+
+    margin-top:5px;
+
+    color:#777;
+
+}
+
+
+/* =====================================
+
+        ADD BUTTON
+
+===================================== */
+
+.add-room-btn{
+
+    border:none;
+
+    padding:12px 22px;
+
+    border-radius:12px;
+
+    background:rgb(241,136,50);
+
+    color:#fff;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+}
+
+.add-room-btn:hover{
+
+    background:rgb(223,119,35);
+
+    transform:translateY(-2px);
+
+}
+
+
+/* =====================================
+
+        BODY
+
+===================================== */
+
+.room-body{
+
+    padding:30px;
+
+}
+
+
+/* Existing JS appends here */
+
+#roomsContainer{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:20px;
+
+}
+
+
+/* =====================================
+
+        ROOM CARD
+
+===================================== */
+
+.room-item{
+
+    display:grid;
+
+    grid-template-columns:120px 1fr 120px auto;
+
+    gap:18px;
+
+    align-items:end;
+
+    padding:20px;
+
+    border:1px solid #ececec;
+
+    border-radius:18px;
+
+    background:#fafafa;
+
+}
+
+
+/* =====================================
+
+        LABEL
+
+===================================== */
+
+.room-item label{
+
+    display:block;
+
+    margin-bottom:6px;
+
+    font-size:.9rem;
+
+    font-weight:600;
+
+}
+
+
+/* =====================================
+
+        INPUTS
+
+===================================== */
+
+.room-item input,
+
+.room-item select{
+
+    width:100%;
+
+    padding:12px;
+
+    border:1px solid #ddd;
+
+    border-radius:10px;
+
+    outline:none;
+
+}
+
+.room-item input:focus,
+
+.room-item select:focus{
+
+    border-color:rgb(241,136,50);
+
+    box-shadow:0 0 0 3px rgba(241,136,50,.15);
+
+}
+
+
+/* =====================================
+
+        REMOVE BUTTON
+
+===================================== */
+
+.remove-room-btn{
+
+    border:none;
+
+    padding:12px 18px;
+
+    border-radius:10px;
+
+    background:#ffeded;
+
+    color:#d62828;
+
+    cursor:pointer;
+
+    font-weight:600;
+
+}
+
+.remove-room-btn:hover{
+
+    background:#ffd8d8;
+
+}
+
+
+/* =====================================
+
+        FOOTER
+
+===================================== */
+
+.room-footer{
+
+    border-top:1px solid #ececec;
+
+    padding:25px 30px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    gap:20px;
+
+}
+
+
+/* =====================================
+
+        CAPACITY
+
+===================================== */
+
+.capacity-box{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:15px;
+
+}
+
+.capacity-box span{
+
+    font-weight:700;
+
+    font-size:1rem;
+
+}
+
+.capacity-box input{
+
+    width:100px;
+
+    padding:10px;
+
+    text-align:center;
+
+    border:1px solid #ddd;
+
+    border-radius:10px;
+
+    background:#fffaf4;
+
+    color:rgb(241,136,50);
+
+    font-size:1.1rem;
+
+    font-weight:700;
+
+}
+
+
+/* =====================================
+
+        MOBILE
+
+===================================== */
+
+@media(max-width:768px){
+
+.room-header{
+
+    flex-direction:column;
+
+    align-items:flex-start;
+
+    gap:20px;
+
+}
+
+.room-item{
+
+    grid-template-columns:1fr;
+
+}
+
+.room-footer{
+
+    flex-direction:column;
+
+    align-items:stretch;
+
+    justify-content:center;
+
+}
+
+.capacity-box{
+
+    justify-content:center;
+
+}
+
+}
+
+
+
+
+/* ====================================================================================
+====================================================================================
+==================================================================================== */
+
+/* ===========================================
+        SUBMIT BOX
+=========================================== */
+
+.listing-submit-box{
+
+    margin-top:35px;
+
+    padding:30px 35px;
+
+    background:#fff;
+
+    border-radius:20px;
+
+    border:1px solid #ececec;
+
+    box-shadow:0 10px 35px rgba(0,0,0,.05);
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    gap:30px;
+
+}
+
+
+/* ===========================================
+        LEFT
+=========================================== */
+
+.submit-left{
+
+    flex:1;
+
+}
+
+.submit-left h3{
+
+    margin:0 0 10px;
+
+    font-size:1.6rem;
+
+    font-weight:700;
+
+    color:#222;
+
+}
+
+.submit-left p{
+
+    margin:0;
+
+    color:#777;
+
+    line-height:1.6;
+
+}
+
+
+/* ===========================================
+        RIGHT
+=========================================== */
+
+.submit-right{
+
+    display:flex;
+
+    align-items:center;
+
+}
+
+
+/* ===========================================
+        BUTTON
+=========================================== */
+
+.publish-btn{
+
+    border:none;
+
+    outline:none;
+
+    cursor:pointer;
+
+    padding:16px 40px;
+
+    border-radius:14px;
+
+    background:linear-gradient(
+        135deg,
+        rgb(255,155,73),
+        rgb(241,136,50)
+    );
+
+    color:#fff;
+
+    font-size:1rem;
+
+    font-weight:600;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    transition:.35s;
+
+    box-shadow:0 12px 30px rgba(241,136,50,.25);
+
+}
+
+.publish-btn:hover{
+
+    transform:translateY(-3px);
+
+    box-shadow:0 18px 40px rgba(241,136,50,.35);
+
+}
+
+.publish-btn:active{
+
+    transform:scale(.98);
+
+}
+
+
+/* ===========================================
+        RESPONSIVE
+=========================================== */
+
+@media(max-width:768px){
+
+    .listing-submit-box{
+
+        flex-direction:column;
+
+        text-align:center;
+
+    }
+
+    .submit-right{
+
+        width:100%;
+
+    }
+
+    .publish-btn{
+
+        width:100%;
+
+        justify-content:center;
+
+    }
+
 }

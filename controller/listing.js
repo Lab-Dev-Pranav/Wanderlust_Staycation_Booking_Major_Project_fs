@@ -66,38 +66,6 @@ module.exports.createListings = async (req, res, next) => {
   res.redirect("/listings");
 };
 
-// module.exports.showAllListings = async (req, res) => {
-
-//   let curr_user = res.locals.currUser;
-//   const listingItem = await Listing.findById(req.params.id)
-//     .populate("reviews")
-//     .populate("owner");
-
-//   const bookingdata = req.query.bookingdata ? JSON.parse(req.query.bookingdata) : null;
-
-//   // console.log("Booking Data:", bookingdata);
-
-//   // console.log("Listing Item:", listingItem);
-//   const rearr = [];
-//   for await (const ele of listingItem.review) {
-//     let re = await Review.findById(ele);
-//     if (re) {
-//       let autherdet = await User.findById(re.auther);
-//       if (autherdet) {
-//         re = re.toObject();
-//         re.username = autherdet.username;
-//         //     console.log("Updated object:", re);
-//         rearr.push(re);
-//       }
-//     }
-//   }
-//   if (!listingItem) {
-//     req.flash("error", "Listing Dose Not Exist");
-//     res.redirect("/listings");
-//   }
-//   res.render("listings/show", { listing: listingItem, reviews: rearr, curr_user, bookingdata });
-// };
-
 module.exports.showXListings = async (req, res) => {
 
   let curr_user = res.locals.currUser;

@@ -1,309 +1,305 @@
 <% layout("/layouts/boilerplate") %>
 <% block('styles').append('<link rel="stylesheet" href="/css/users_profile.css">') %>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+<%
+  const bookingsCount = Array.isArray(curuserbookings) ? curuserbookings.length : 0;
+  const listingsCount = Array.isArray(curuserlistings) ? curuserlistings.length : 0;
+  const pendingBookings = Array.isArray(curuserbookings) ? curuserbookings.filter(booking => booking.status === "pending").length : 0;
+  const confirmedBookings = Array.isArray(curuserbookings) ? curuserbookings.filter(booking => booking.status === "confirmed").length : 0;
+  const maskedPassword = curr_user && curr_user.username ? "*".repeat(curr_user.username.length) : "";
+%>
 
-  <body>
+<div class="profile-page">
+  <div class="profile-page-shell">
+    <section class="profile-hero-card">
+      <div class="profile-photo-panel">
+        <% if (curr_user.profilePhoto && curr_user.profilePhoto.url) { %>
+          <img src="<%= curr_user.profilePhoto.url %>" alt="Profile Photo" class="profile-avatar">
+        <% } else { %>
+          <div class="profile-avatar profile-avatar-fallback">
+            <i class="bi bi-person-fill"></i>
+          </div>
+        <% } %>
 
+        <form action="/profile/photo" method="POST" enctype="multipart/form-data" class="profile-upload-form">
+          <label class="profile-upload-label" for="profilePhoto">Update Profile Photo</label>
+          <input id="profilePhoto" type="file" name="profilePhoto" accept="image/*" class="form-control profile-upload-input">
+          <button type="submit" class="profile-btn profile-btn-primary profile-btn-block">Upload Photo</button>
+        </form>
+      </div>
 
-    <div class="container py-5">
-      <div class="card shadow-lg">
-        <div class="card-body">
-          <div class="row align-items-center">
-            <!-- Left Section: Profile Image + Upload -->
-            <div class="col-md-4 text-center">
-              <% if (curr_user.profilePhoto && curr_user.profilePhoto.url) { %>
-                <img src="<%= curr_user.profilePhoto.url %>" alt="Profile Photo"
-                  class="img-thumbnail rounded-circle mb-3" style="width: 160px; height: 160px; object-fit: cover;">
-                <% } else { %>
-                  <div
-                    class="bg-secondary text-white d-flex align-items-center justify-content-center rounded-circle mb-3"
-                    style="width: 160px; height: 160px;">
-                    <i class="bi bi-person-circle" style="font-size: 4rem;"></i>
-                  </div>
-                  <% } %>
+      <div class="profile-info-panel">
+        <div class="profile-kicker">Wanderlust Dashboard</div>
+        <h1 class="profile-username">@<%= curr_user.username %></h1>
+        <p class="profile-intro">Track your bookings, manage your locations, and keep your travel profile current from one clean dashboard.</p>
 
-                    <form action="/profile/photo" method="POST" enctype="multipart/form-data">
-                      <div class="mb-3">
-                        <input type="file" name="profilePhoto" accept="image/*" class="form-control">
-                      </div>
-                      <button type="submit" class="btn btn-outline-primary btn-sm w-100">Upload</button>
-                    </form>
-            </div>
-
-            <!-- Right Section: User Info -->
-            <div class="col-md-8">
-              <h4 class="text-primary">@<%= curr_user.username %>
-              </h4>
-              <p class="mb-2"><i class="bi bi-envelope-fill me-2"></i><strong>
-                  <%= curr_user.email %>
-                </strong></p>
-              <p class="mb-0">
-                <i class="bi bi-lock-fill me-2"></i>
-                <strong>
-                  <% for(let index=0; index < curr_user.username.length; index++) { %>*<% } %>
-                </strong>
-              </p>
-            </div>
+        <div class="profile-meta-grid">
+          <div class="profile-meta-card">
+            <span>Email</span>
+            <strong><%= curr_user.email %></strong>
+          </div>
+          <div class="profile-meta-card">
+            <span>Password</span>
+            <strong><%= maskedPassword %></strong>
+          </div>
+          <div class="profile-meta-card">
+            <span>Bookings</span>
+            <strong><%= bookingsCount %></strong>
+          </div>
+          <div class="profile-meta-card">
+            <span>Owned Locations</span>
+            <strong><%= listingsCount %></strong>
           </div>
         </div>
-      </div>
 
-
-
-      <div class="mt-4">
-        <h5 class="text-secondary my-4">Bookings Made by @<%= curr_user.username %> – <%= curuserbookings.length %>
-        </h5>
-
-        <div class="row">
-          <% if (curuserbookings.length===0) { %>
-            <div class="col-12">
-              <div class="alert alert-warning text-center">
-                No bookings made yet by @<%= curr_user.username %>
-              </div>
-            </div>
-            <% } else { %>
-              <% for (let BOOKING of curuserbookings) { const checkInDate=new Date(BOOKING.checkIn); const
-                checkOutDate=new Date(BOOKING.checkOut); const totalDays=Math.ceil((checkOutDate - checkInDate) / (1000
-                * 60 * 60 * 24)); const totalPrice=totalDays * BOOKING.listing.price; %>
-                <div class="col-md-6 col-lg-4 mb-4">
-                  <div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden">
-                    <img src="<%= BOOKING.listing.image.url %>" class="card-img-top object-fit-cover"
-                      alt="Listing Image" style="height: 220px;">
-                    <div class="card-body">
-
-     
-
-                      <h5 class="card-title fw-bold">
-                        <%= BOOKING.listing.title %> - <%= BOOKING.listing.tag %>
-                      </h5>
-                      <p class="text-muted mb-1"><i class="bi bi-geo-alt-fill"></i>
-                        <%= BOOKING.listing.location %>, <%= BOOKING.listing.country %>
-                      </p>
-
-                      <p class="mb-1"><i class="bi bi-geo-alt-fill"></i>
-                        <small>Exact Location:</small>
-                        <a href="<%= BOOKING.listing.exactLocation %>" target="_blank">View on Map</a>
-                      </p>
-
-                      <h6 class="text-muted mb-1">
-                        <small>Property Owner : <%= BOOKING.listing.owner.email %></small>
-                      </h6>
-                      <hr>
-
-                      <p class="mb-1"><strong>Capacity:</strong>
-                        <%= BOOKING.listing.capacity %> | <strong>Guests:</strong>
-                          <%= BOOKING.people %>
-                      </p>
-                      <p class="mb-1"><strong>Check-in:</strong>
-                        <%= checkInDate.toDateString() %> at 01:00PM
-                      </p>
-                      <p class="mb-1"><strong>Check-out:</strong>
-                        <%= checkOutDate.toDateString() %> at 11:00AM
-                      </p>
-                      <p class="mb-1"><strong>Total Days:</strong>
-                        <%= totalDays %>
-                      </p>
-
-                      <% if (BOOKING.status=="pending" ) { %>
-                        <p class="mb-1"
-                          style="background-color: rgb(62, 62, 255); width: fit-content; padding: 3px; border-radius: 10px; color: whitesmoke;">
-                          <strong>Status:</strong>
-                          <%= BOOKING.status %>
-                        </p>
-                        <% } %>
-
-                          <% if (BOOKING.status=="confirmed" ) { %>
-                            <p class="mb-1"
-                              style="background-color: rgb(51, 255, 102); width: fit-content; padding: 3px; border-radius: 10px; color: whitesmoke;">
-                              <strong>Status:</strong>
-                              <%= BOOKING.status %>
-                            </p>
-                            <% } %>
-
-
-
-
-                              <div class="p-3 my-3 bg-white rounded shadow-sm border">
-                                <p class="mb-2">
-                                  <strong>Booking date:</strong>
-                                  <%= new Date(BOOKING.createdAt).toLocaleDateString("en-IN", { year: "numeric" ,
-                                    month: "long" , day: "numeric" }) %>
-                                </p>
-
-                                <% if (BOOKING.expiresAt ) { %>
-                                  <p class="mb-0">
-                                    <strong>Expire date:</strong>
-                                    <span class="booking-expiry-timer"
-                                      data-expiry="<%= BOOKING.expiresAt.toISOString() %>">
-
-                                      <%= new Date(BOOKING.expiresAt).toLocaleString("en-IN", { year: "numeric" ,
-                                        month: "long" , day: "numeric" , hour: "2-digit" , minute: "2-digit" ,
-                                        second: "2-digit" }) %>
-                                    </span>
-                                    <span class="tooltip-ibtn">
-                                      <i class="bi bi-info-circle-fill ibtn"></i>
-                                      <span class="tooltip-text">
-                                        This is the expiry date and time for your booking. If you do not pay before
-                                        this, your booking will be auto-cancelled.
-                                      </span>
-                                    </span>
-                                  </p>
-                                  <% } %>
-
-                              </div>
-
-                          <%
-                            const gstAmount = totalPrice * 0.18;
-                            const platformFee = totalPrice * 0.02;
-                            const grandTotal = totalPrice + gstAmount + platformFee;
-                          %>
-
-                          <p class="mb-1 text-success">
-                            <strong>Total Price:</strong> ₹<%= totalPrice.toLocaleString("en-IN") %> <small>(base)</small><br>
-                            <small class="text-muted">+ 18% GST: ₹<%= gstAmount.toFixed(2) %></small><br>
-                            <small class="text-muted">+ 2% Platform Fee: ₹<%= platformFee.toFixed(2) %></small><br>
-                            <strong>Grand Total: ₹<%= grandTotal.toFixed(2).toLocaleString("en-IN") %></strong>
-                          </p>
-
-
-                              <div class="mt-4" style="width: 100%; border: 1px solid rgba(255, 0, 0, 0);">
-                                <% if (BOOKING.status=="pending" ) { %>
-                                  <form action="/payments/<%= BOOKING._id %>" method="get" class="d-inline">
-                                   
-                                    <button type="submit" class="btn btn-primary">
-                                      Pay to Confirm
-                                    </button>
-                                  </form>
-
-                                  <form action="/bookings/<%= BOOKING._id %>?_method=DELETE" method="POST"
-                                    class="d-inline">
-                                    <button type="submit" class="btn btn-danger">
-                                      Cancel Booking
-                                    </button>
-                                  </form>
-                                  <% } %>
-
-                                    <% if (BOOKING.status=="confirmed" ) { %>
-                                      <span class="badge bg-success blinking-badge">Booking Confirmed</span>
-                                      <form action="/payments/<%= BOOKING._id %>/makeunpay" method="get"
-                                        class="d-inline">
-                                        <button type="submit" class="btn btn-primary">
-                                          make as unpaid
-                                        </button>
-                                      </form>
-                                      <% } %>
-                              </div>
-
-
-
-
-
-                    </div>
-                  </div>
-                </div>
-                <% } %>
-                  <% } %>
+        <div class="profile-stat-strip">
+          <div class="profile-stat-pill">
+            <span>Pending</span>
+            <strong><%= pendingBookings %></strong>
+          </div>
+          <div class="profile-stat-pill profile-stat-pill-success">
+            <span>Confirmed</span>
+            <strong><%= confirmedBookings %></strong>
+          </div>
+          <div class="profile-stat-pill">
+            <span>Listings</span>
+            <strong><%= listingsCount %></strong>
+          </div>
         </div>
 
-
-        <div class="mt-5">
-          <h5 class="mb-3 text-success">Your booked locations will be shown here
-          </h5>
+        <div class="profile-hero-actions">
           <form action="/bookingonmylocation" method="GET">
-            <button class="btn btn-primary">
-              View Bookings
-            </button>
+            <button class="profile-btn profile-btn-dark" type="submit">View Incoming Bookings</button>
           </form>
 
+          <% if (listingsCount === 0) { %>
+            <a href="/listings/new" class="profile-btn profile-btn-secondary">Add New Location</a>
+          <% } else { %>
+            <a href="#owned-locations" class="profile-btn profile-btn-secondary">Jump to My Locations</a>
+          <% } %>
         </div>
+      </div>
+    </section>
 
-
-
-
-        <div class="mt-5">
-          <% if (curuserlistings.length !==0) { %>
-            <h5 class="mb-3 text-success">Locations Owned by @<%= curr_user.username %> - <%= curuserlistings.length %>
-            </h5>
-            <% } else { %>
-              <h5 class="mb-2 text-danger">No locations owned yet by @<%= curr_user.username %>
-              </h5>
-              <a href="/listings/new" class="btn btn-info">Add New Location</a>
-              <% } %>
+    <section class="profile-section">
+      <div class="profile-section-head">
+        <div>
+          <p class="profile-section-kicker">Travel Activity</p>
+          <h2>Bookings Made by @<%= curr_user.username %></h2>
         </div>
-
-        <div class="row mt-3">
-          <% for (let LISTING of curuserlistings) { %>
-            <div class="col-md-4 mb-4">
-              <div class="card h-100 shadow-sm">
-                <img src="<%= LISTING.image.url %>" class="card-img-top" alt="Listing Image">
-                <div class="card-body">
-                  <h5 class="card-title">
-                    <%= LISTING.title %>
-                  </h5>
-                  <p class="card-text text-muted">
-                    <%= LISTING.tag %>
-                  </p>
-                  <a href="/listings/<%= LISTING.id %>" class="btn btn-outline-primary btn-sm">More Info</a>
-                </div>
-              </div>
-            </div>
-            <% } %>
-        </div>
-
-
-
-
-
-        <p></p>
-
-
-
-
-
-
+        <div class="profile-count-chip"><%= bookingsCount %> total</div>
       </div>
 
-  </body>
+      <% if (bookingsCount === 0) { %>
+        <div class="profile-empty-state">
+          <div class="profile-empty-icon"><i class="bi bi-ticket-detailed"></i></div>
+          <h3>No bookings yet</h3>
+          <br>
+          <!-- <p style="text-align: center;">Your next stay will appear here with payment status, trip dates, and pricing details.</p> -->
+          <a href="/listings" class="profile-btn profile-btn-primary">Explore Locations</a>
+        </div>
+      <% } else { %>
+        <div class="profile-bookings-list">
+          <% for (let BOOKING of curuserbookings) {
+            const checkInDate = new Date(BOOKING.checkIn);
+            const checkOutDate = new Date(BOOKING.checkOut);
+            const totalDays = Math.ceil((checkOutDate - checkInDate) / (1000 * 60 * 60 * 24));
+            const totalPrice = totalDays * BOOKING.listing.price;
+            const gstAmount = totalPrice * 0.18;
+            const platformFee = totalPrice * 0.02;
+            const grandTotal = totalPrice + gstAmount + platformFee;
+          %>
+            <article class="booking-card-shell">
+              <div class="booking-card-media">
+                <img src="<%= BOOKING.listing.image.url %>" alt="<%= BOOKING.listing.title %>" class="booking-card-image">
+                <div class="booking-card-badges">
+                  <span class="booking-chip"><%= BOOKING.listing.tag %></span>
+                  <span class="booking-status-pill booking-status-<%= BOOKING.status %>"><%= BOOKING.status %></span>
+                </div>
+              </div>
 
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+              <div class="booking-card-body">
+                <div class="booking-card-top">
+                  <div>
+                    <h3><%= BOOKING.listing.title %></h3>
+                    <p class="booking-location"><i class="bi bi-geo-alt-fill"></i><span><%= BOOKING.listing.location %>, <%= BOOKING.listing.country %></span></p>
+                  </div>
 
+                  <div class="booking-night-rate">
+                    <span>Night Rate</span>
+                    <strong>Rs <%= BOOKING.listing.price.toLocaleString("en-IN") %></strong>
+                  </div>
+                </div>
 
+                <div class="booking-facts-grid">
+                  <div class="booking-fact-card">
+                    <span>Guests</span>
+                    <strong><%= BOOKING.people %></strong>
+                  </div>
+                  <div class="booking-fact-card">
+                    <span>Capacity</span>
+                    <strong><%= BOOKING.listing.capacity %></strong>
+                  </div>
+                  <div class="booking-fact-card">
+                    <span>Check-in</span>
+                    <strong><%= checkInDate.toDateString() %></strong>
+                    <small>01:00 PM</small>
+                  </div>
+                  <div class="booking-fact-card">
+                    <span>Check-out</span>
+                    <strong><%= checkOutDate.toDateString() %></strong>
+                    <small>11:00 AM</small>
+                  </div>
+                </div>
 
+                <div class="booking-inline-meta">
+                  <p><i class="bi bi-house-door-fill"></i><span>Host: <%= BOOKING.listing.owner.email %></span></p>
+                  <p><i class="bi bi-geo"></i><a href="<%= BOOKING.listing.exactLocation %>" target="_blank">View on Map</a></p>
+                  <p><i class="bi bi-calendar-range-fill"></i><span><%= totalDays %> day<%= totalDays > 1 ? "s" : "" %></span></p>
+                </div>
 
+                <div class="booking-bottom-grid">
+                  <div class="booking-date-box">
+                    <p>
+                      <strong>Booking date:</strong>
+                      <%= new Date(BOOKING.createdAt).toLocaleDateString("en-IN", { year: "numeric", month: "long", day: "numeric" }) %>
+                    </p>
 
-  <script src="/js/Profile.js"></script>
-  <script>
-    function updateExpiryTimers() {
-      const timers = document.querySelectorAll('.booking-expiry-timer');
-      timers.forEach(function (timer) {
-        const expiry = new Date(timer.dataset.expiry);
-        const now = new Date();
-        let diff = expiry - now;
+                    <% if (BOOKING.expiresAt) { %>
+                      <p class="booking-expiry-row">
+                        <strong>Expires in:</strong>
+                        <span class="booking-expiry-timer" data-expiry="<%= BOOKING.expiresAt.toISOString() %>">
+                          <%= new Date(BOOKING.expiresAt).toLocaleString("en-IN", { year: "numeric", month: "long", day: "numeric", hour: "2-digit", minute: "2-digit", second: "2-digit" }) %>
+                        </span>
+                        <span class="tooltip-ibtn">
+                          <i class="bi bi-info-circle-fill ibtn"></i>
+                          <span class="tooltip-text">This is the expiry date and time for your booking. If you do not pay before this, your booking will be auto-cancelled.</span>
+                        </span>
+                      </p>
+                    <% } %>
+                  </div>
 
-        if (diff <= 0) {
-          timer.textContent = "Expired";
-          timer.style.color = "red";
-          return;
-        }
+                  <div class="booking-price-box">
+                    <p><strong>Total Price:</strong> Rs <%= totalPrice.toLocaleString("en-IN") %> <small>(base)</small></p>
+                    <p><small>GST 18%: Rs <%= gstAmount.toLocaleString("en-IN", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) %></small></p>
+                    <p><small>Platform Fee 2%: Rs <%= platformFee.toLocaleString("en-IN", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) %></small></p>
+                    <p class="booking-grand-total">Grand Total: Rs <%= grandTotal.toLocaleString("en-IN", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) %></p>
+                  </div>
+                </div>
 
-        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-        diff -= days * (1000 * 60 * 60 * 24);
-        const hours = Math.floor(diff / (1000 * 60 * 60));
-        diff -= hours * (1000 * 60 * 60);
-        const minutes = Math.floor(diff / (1000 * 60));
-        diff -= minutes * (1000 * 60);
-        const seconds = Math.floor(diff / 1000);
+                <div class="booking-card-actions">
+                  <% if (BOOKING.status == "pending") { %>
+                    <form action="/payments/<%= BOOKING._id %>" method="get">
+                      <button type="submit" class="profile-btn profile-btn-primary">Pay to Confirm</button>
+                    </form>
 
-        let parts = [];
-        if (days > 0) parts.push(days + "d");
-        parts.push(
-          String(hours).padStart(2, '0') + "h",
-          String(minutes).padStart(2, '0') + "m",
-          String(seconds).padStart(2, '0') + "s"
-        );
-        timer.textContent = parts.join(" ");
-        timer.style.color = "#ff6600";
-      });
-    }
-    setInterval(updateExpiryTimers, 1000);
-    updateExpiryTimers();
-  </script>
+                    <form action="/bookings/<%= BOOKING._id %>?_method=DELETE" method="POST">
+                      <button type="submit" class="profile-btn profile-btn-danger">Cancel Booking</button>
+                    </form>
+                  <% } %>
+
+                  <% if (BOOKING.status == "confirmed") { %>
+                    <span class="booking-confirmed-chip blinking-badge">Booking Confirmed</span>
+                    <form action="/payments/<%= BOOKING._id %>/makeunpay" method="get">
+                      <button type="submit" class="profile-btn profile-btn-dark">Make as unpaid</button>
+                    </form>
+                  <% } %>
+                </div>
+              </div>
+            </article>
+          <% } %>
+        </div>
+      <% } %>
+    </section>
+
+    <section class="profile-banner-card">
+      <div>
+        <p class="profile-section-kicker">Hosting</p>
+        <h2>Incoming bookings on your locations</h2>
+        <p>See everyone who has booked your listed properties in one place.</p>
+      </div>
+
+      <form action="/bookingonmylocation" method="GET">
+        <button class="profile-btn profile-btn-primary" type="submit">View Bookings</button>
+      </form>
+    </section>
+
+    <section class="profile-section" id="owned-locations">
+      <div class="profile-section-head">
+        <div>
+          <p class="profile-section-kicker">Hosting Portfolio</p>
+          <% if (listingsCount !== 0) { %>
+            <h2>Locations Owned by @<%= curr_user.username %></h2>
+          <% } else { %>
+            <h2>No locations owned yet by @<%= curr_user.username %></h2>
+          <% } %>
+        </div>
+        <div class="profile-count-chip"><%= listingsCount %> total</div>
+      </div>
+
+      <% if (listingsCount === 0) { %>
+        <div class="profile-empty-state profile-empty-state-light">
+          <div class="profile-empty-icon"><i class="bi bi-house-add"></i></div>
+          <h3>Start hosting on Wanderlust</h3>
+          <p>Create your first location and manage future bookings from this dashboard.</p>
+          <a href="/listings/new" class="profile-btn profile-btn-secondary">Add New Location</a>
+        </div>
+      <% } else { %>
+        <div class="owned-locations-grid">
+          <% for (let LISTING of curuserlistings) { %>
+            <article class="owned-location-card">
+              <img src="<%= LISTING.image.url %>" class="owned-location-image" alt="<%= LISTING.title %>">
+              <div class="owned-location-body">
+                <div class="owned-location-meta">
+                  <span class="booking-chip"><%= LISTING.tag %></span>
+                  <p><i class="bi bi-geo-alt"></i><span><%= LISTING.location %>, <%= LISTING.country %></span></p>
+                </div>
+                <h3><%= LISTING.title %></h3>
+                <a href="/listings/<%= LISTING.id %>" class="profile-btn profile-btn-outline">More Info</a>
+              </div>
+            </article>
+          <% } %>
+        </div>
+      <% } %>
+    </section>
+  </div>
+</div>
+
+<script src="/js/Profile.js"></script>
+<script>
+  function updateExpiryTimers() {
+    const timers = document.querySelectorAll('.booking-expiry-timer');
+    timers.forEach(function (timer) {
+      const expiry = new Date(timer.dataset.expiry);
+      const now = new Date();
+      let diff = expiry - now;
+
+      if (diff <= 0) {
+        timer.textContent = "Expired";
+        timer.style.color = "#d63a2f";
+        return;
+      }
+
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      diff -= days * (1000 * 60 * 60 * 24);
+      const hours = Math.floor(diff / (1000 * 60 * 60));
+      diff -= hours * (1000 * 60 * 60);
+      const minutes = Math.floor(diff / (1000 * 60));
+      diff -= minutes * (1000 * 60);
+      const seconds = Math.floor(diff / 1000);
+
+      let parts = [];
+      if (days > 0) parts.push(days + "d");
+      parts.push(
+        String(hours).padStart(2, '0') + "h",
+        String(minutes).padStart(2, '0') + "m",
+        String(seconds).padStart(2, '0') + "s"
+      );
+      timer.textContent = parts.join(" ");
+      timer.style.color = "#cf6123";
+    });
+  }
+
+  setInterval(updateExpiryTimers, 1000);
+  updateExpiryTimers();
+</script>

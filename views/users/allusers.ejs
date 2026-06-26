@@ -1,81 +1,147 @@
 <% layout("/layouts/boilerplate") %>
 <% block('styles').append('<link rel="stylesheet" href="/css/users_profile.css">') %>
+<%
+  const hosts = Array.isArray(allusers)
+    ? allusers.filter(user => !curr_user || curr_user.username !== user.username)
+    : [];
+  const hostsCount = hosts.length;
+%>
 
-<div class="row mt-3">
-  <div class="col">
-    <h1>All Hosts</h1>
-    <input
-      type="text"
-      id="userSearch"
-      class="form-control mb-3"
-      placeholder="Search by username or email..."
-    />
-    <div class="user-list">
-      <% for(let user of allusers){ %> <% if (curr_user.username
-      !=user.username) { %>
-      <div
-        class="user-card all-user-indiviual-card"
-        data-username="<%= user.username.toLowerCase() %>"
-        data-email="<%= user.email.toLowerCase() %>"
-      >
-        <% if (user.profilePhoto && user.profilePhoto.url) { %>
-        <img
-          src="<%= user.profilePhoto.url %>"
-          alt="Profile Photo"
-          class="profile-photo-nev"
-        />
-        <% } else { %>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="#000000"
-          shape-rendering="geometricPrecision"
-          text-rendering="geometricPrecision"
-          image-rendering="optimizeQuality"
-          clip-rule="evenodd"
-          viewBox="0 0 512 512"
-          hight="35px"
-          width="35px"
-        >
-          <path
-            fill="#00000090"
-            fill-rule="nonzero"
-            d="M256 0c68 0 132.89 26.95 180.96 75.04C485.05 122.99 512 188.11 512 256c0 68-26.95 132.89-75.04 180.96-23.49 23.56-51.72 42.58-83.15 55.6C323.59 505.08 290.54 512 256 512c-34.55 0-67.6-6.92-97.83-19.44l-.07-.03c-31.25-12.93-59.42-31.93-83.02-55.54l-.07-.07C26.9 388.82 0 324.03 0 256 0 116.78 112.74 0 256 0zm-52.73 332.87a67.668 67.668 0 01-5.6-6.74c-10.84-14.83-20.55-31.61-30.32-47.22-7.06-10.41-10.78-19.71-10.78-27.14 0-7.95 4.22-17.23 12.64-19.34-1.11-15.99-1.49-31.77-.74-48.88.37-4.08 1.12-8.17 2.23-12.27 4.84-17.1 16.73-30.86 31.61-40.15 5.2-3.35 10.78-5.94 17.1-8.18 10.78-4.09 5.57-20.45 17.48-20.82 27.88-.74 73.61 23.06 91.46 42.38 10.41 11.16 17.1 26.03 18.22 45.74l-1.12 44.03c5.2 1.49 8.55 4.84 10.04 10.04 1.49 5.95 0 14.13-5.2 25.67 0 .36-.38.36-.38.74-11.47 18.91-23.39 40.77-36.57 58.33-6.63 8.83-12.07 7.26-6.42 15.74 26.88 36.96 79.9 31.82 112.61 56.44 35.73-40.16 55.15-91.48 55.15-145.24 0-58.34-22.8-113.35-64.07-154.61v-.08C369.44 60.1 314.23 37.32 256 37.32 134.4 37.32 37.32 135.83 37.32 256c0 53.85 19.41 105.03 55.15 145.24 32.72-24.62 85.73-19.48 112.61-56.44 4.68-7.01 3.48-6.33-1.81-11.93z"
-          />
-        </svg>
-        <% } %>
+<div class="all-users-page">
+  <div class="all-users-shell">
+    <section class="all-users-hero">
+      <div class="all-users-hero-copy">
+        <p class="all-users-kicker">Host Directory</p>
+        <h1>Discover Hosts Across Wanderlust</h1>
+        <p class="all-users-intro">Browse every host profile, search by username or email, and jump straight into the people behind the stays.</p>
+      </div>
 
-        <div class="user-card-header">
-          <h4>@<%= user.username %> | EMAIL - <%= user.email %></h4>
+      <div class="all-users-stats-grid">
+        <div class="all-users-stat-card">
+          <span>Available Hosts</span>
+          <strong id="visibleHostCount"><%= hostsCount %></strong>
         </div>
-        <div class="user-card-footer">
-          <a href="/userprofile/<%= user._id %>" class="btn btn-primary"
-            >View Profile</a
-          >
+        <div class="all-users-stat-card">
+          <span>Search Type</span>
+          <strong>Live Filter</strong>
         </div>
       </div>
-      <% } %> <% }; %>
-    </div>
+    </section>
 
-    <br /><br /><br /><br /><br /><br /><br /><br />
+    <section class="all-users-toolbar">
+      <div>
+        <h2>All Hosts</h2>
+        <p>Search the host network and open any public host profile from here.</p>
+      </div>
 
-    <script>
-      document
-        .getElementById("userSearch")
-        .addEventListener("input", function () {
-          const query = this.value.toLowerCase();
-          const userCards = document.querySelectorAll(".user-card");
+      <div class="all-users-search-wrap">
+        <label for="userSearch">Search Hosts</label>
+        <div class="all-users-search-box">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input
+            type="text"
+            id="userSearch"
+            class="all-users-search-input"
+            placeholder="Search by username or email..."
+          />
+        </div>
+      </div>
+    </section>
 
-          userCards.forEach((card) => {
-            const username = card.getAttribute("data-username");
-            const email = card.getAttribute("data-email");
+    <% if (hostsCount === 0) { %>
+      <div class="all-users-empty-state">
+        <div class="all-users-empty-icon">
+          <i class="fa-solid fa-users"></i>
+        </div>
+        <h3>No other hosts available right now</h3>
+        <p>When more hosts join Wanderlust, their profiles will appear here automatically.</p>
+      </div>
+    <% } else { %>
+      <section class="all-users-grid" id="hostsGrid">
+        <% hosts.forEach(user => { %>
+          <article
+            class="host-directory-card"
+            data-username="<%= user.username.toLowerCase() %>"
+            data-email="<%= user.email.toLowerCase() %>"
+          >
+            <div class="host-directory-top">
+              <div class="host-directory-avatar-wrap">
+                <% if (user.profilePhoto && user.profilePhoto.url) { %>
+                  <img
+                    src="<%= user.profilePhoto.url %>"
+                    alt="Profile Photo"
+                    class="host-directory-avatar"
+                  />
+                <% } else { %>
+                  <div class="host-directory-avatar host-directory-avatar-fallback">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="#000000" shape-rendering="geometricPrecision"
+                      text-rendering="geometricPrecision" image-rendering="optimizeQuality" clip-rule="evenodd"
+                      viewBox="0 0 512 512" height="38" width="38" aria-hidden="true">
+                      <path fill="#00000090" fill-rule="nonzero"
+                        d="M256 0c68 0 132.89 26.95 180.96 75.04C485.05 122.99 512 188.11 512 256c0 68-26.95 132.89-75.04 180.96-23.49 23.56-51.72 42.58-83.15 55.6C323.59 505.08 290.54 512 256 512c-34.55 0-67.6-6.92-97.83-19.44l-.07-.03c-31.25-12.93-59.42-31.93-83.02-55.54l-.07-.07C26.9 388.82 0 324.03 0 256 0 116.78 112.74 0 256 0zm-52.73 332.87a67.668 67.668 0 01-5.6-6.74c-10.84-14.83-20.55-31.61-30.32-47.22-7.06-10.41-10.78-19.71-10.78-27.14 0-7.95 4.22-17.23 12.64-19.34-1.11-15.99-1.49-31.77-.74-48.88.37-4.08 1.12-8.17 2.23-12.27 4.84-17.1 16.73-30.86 31.61-40.15 5.2-3.35 10.78-5.94 17.1-8.18 10.78-4.09 5.57-20.45 17.48-20.82 27.88-.74 73.61 23.06 91.46 42.38 10.41 11.16 17.1 26.03 18.22 45.74l-1.12 44.03c5.2 1.49 8.55 4.84 10.04 10.04 1.49 5.95 0 14.13-5.2 25.67 0 .36-.38.36-.38.74-11.47 18.91-23.39 40.77-36.57 58.33-6.63 8.83-12.07 7.26-6.42 15.74 26.88 36.96 79.9 31.82 112.61 56.44 35.73-40.16 55.15-91.48 55.15-145.24 0-58.34-22.8-113.35-64.07-154.61v-.08C369.44 60.1 314.23 37.32 256 37.32 134.4 37.32 37.32 135.83 37.32 256c0 53.85 19.41 105.03 55.15 145.24 32.72-24.62 85.73-19.48 112.61-56.44 4.68-7.01 3.48-6.33-1.81-11.93z" />
+                    </svg>
+                  </div>
+                <% } %>
+              </div>
 
-            if (username.includes(query) || email.includes(query)) {
-              card.style.display = "";
-            } else {
-              card.style.display = "none";
-            }
-          });
-        });
-    </script>
+              <div class="host-directory-copy">
+                <p class="host-directory-kicker">Wanderlust Host</p>
+                <h3>@<%= user.username %></h3>
+                <p class="host-directory-email">
+                  <i class="fa-solid fa-envelope"></i>
+                  <span><%= user.email %></span>
+                </p>
+              </div>
+            </div>
+
+            <div class="host-directory-bottom">
+              <a href="/userprofile/<%= user._id %>" class="profile-btn profile-btn-primary host-directory-btn">View Profile</a>
+            </div>
+          </article>
+        <% }) %>
+      </section>
+
+      <div id="noResultsMessage" class="all-users-empty-state d-none">
+        <div class="all-users-empty-icon">
+          <i class="fa-solid fa-user-slash"></i>
+        </div>
+        <h3>No host matches that search</h3>
+        <p>Try a different username or email to find the host you are looking for.</p>
+      </div>
+    <% } %>
   </div>
 </div>
+
+<script>
+  const userSearchInput = document.getElementById("userSearch");
+  const hostCards = document.querySelectorAll(".host-directory-card");
+  const noResultsMessage = document.getElementById("noResultsMessage");
+  const visibleHostCount = document.getElementById("visibleHostCount");
+
+  if (userSearchInput) {
+    userSearchInput.addEventListener("input", function () {
+      const query = this.value.toLowerCase().trim();
+      let visibleCount = 0;
+
+      hostCards.forEach((card) => {
+        const username = card.getAttribute("data-username") || "";
+        const email = card.getAttribute("data-email") || "";
+        const matches = username.includes(query) || email.includes(query);
+
+        card.style.display = matches ? "" : "none";
+
+        if (matches) {
+          visibleCount++;
+        }
+      });
+
+      if (visibleHostCount) {
+        visibleHostCount.textContent = visibleCount;
+      }
+
+      if (noResultsMessage) {
+        noResultsMessage.classList.toggle("d-none", visibleCount !== 0);
+      }
+    });
+  }
+</script>

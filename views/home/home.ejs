@@ -1,141 +1,154 @@
 <% layout("/layouts/boilerplate") %>
-<% block('styles').append('<link rel="stylesheet" href="/css/home.css">') %>
+  <% block('styles').append('<link rel="stylesheet" href="/css/home.css">') %>
 
     <body class="HOME-BODY" style="width:100vw;">
 
-        <div class="home-container" style="max-width: 1400px; width: 95vw;"></div>
-        <h1 class="text-center"> Wanderlust Travel Booking </h1>
-        <br><br><br>
+      <div class="home-container" style="max-width: 1400px; width: 95vw; "></div>
+      <h1 class=" home-top-title"> Wanderlust Staycation <i>Hosting</i> & <i>Booking</i> </h1>
+      <br>
 
-        <div class="search-section">
-            <div class="search-section-img">
-                <img src="other/IMG/homeimg.jpg" alt="homeimg" />
-            </div>
-
-            <div class="form-boxaa">
-                <h2>Friendly holiday rentals at your <br /><i>Dream Location</i></h2>
-                <h2>A place to call home on your next adventure</h2>
-
-                <form action="/search" method="GET" class="search-form">
-                    <p class="intro-text">Discover dreamy villas, houses, cabins & more</p>
-                    <p class="intro-text sub">
-                        Find <strike>and book</strike> unique & friendly homes on Wanderlust...
-                    </p>
-
-                    <div class="input-row">
-                        <input type="text" name="location" class="form-control" placeholder="Location" required />
-                        <input type="number" name="people" class="form-control" min="1" placeholder="No. of People"
-                            required />
-                    </div>
-
-                    <div class="input-row">
-                        <input type="date" name="checkIn" class="form-control" required />
-                        <input type="date" name="checkOut" class="form-control" required />
-                    </div>
-
-                    <div class="input-row">
-                        <button type="submit" class="btn-search">Search</button>
-                    </div>
-                </form>
-            </div>
+      <div class="search-section">
+        <div class="search-section-img">
+          <img src="other/IMG/homeimg.jpg" alt="homeimg" />
         </div>
 
+        <div class="form-boxaa">
+          <h2>Friendly holiday rentals at your <br /><i>Dream Location</i></h2>
+          <h2>A place to call home on your next adventure</h2>
+
+          <form action="/search" method="GET" class="search-form">
+            <p class="intro-text">Discover dreamy villas, houses, cabins & more</p>
+
+            <div class="input-row">
+              <input type="text" name="location" class="form-control" placeholder="Location" required />
+              <input type="number" name="people" class="form-control" min="1" placeholder="No. of People" required />
+            </div>
+
+            <div class="input-row">
+              <input type="date" name="checkIn" class="form-control" required />
+              <input type="date" name="checkOut" class="form-control" required />
+            </div>
+
+            <div class="input-row">
+              <button type="submit" class="btn-search">Search</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+
+      <div class="container my-5">
+
+        <!-- 🌟 Home Intro Section -->
+        <section class="home-intro p-4 p-md-5 bg-light rounded-4 shadow-sm text-center">
+          <h2 class="mb-3">Welcome to Wanderlust</h2>
+          <h3 class="mb-4 text-primary">Explore the world with Wanderlust</h3>
+          <p>Discover unique stays and experiences around the world.</p>
+          <p>From cozy cabins to luxurious villas, we have something for everyone.</p>
+          <p>Book your next adventure with us and create unforgettable memories.</p>
+          <p>Join our community of travelers and hosts, and experience the world like never before.</p>
+          <p>Whether you're looking for a weekend getaway or a long-term stay, we have the perfect place for you.</p>
+          <p>Explore our listings and find your dream home away from home.</p>
+          <p>Start your journey with Wanderlust today!</p>
+          <p>Happy travels!</p>
+        </section>
+
+        <% if (currUser) { %>
+          <!-- 🌟 Home Owner CTA Section -->
+          <section class="home-owner-search mt-5 p-4 p-md-5 bg-primary text-white rounded-4 shadow-sm text-center">
+            <h3 class="mb-4">Looking for a place to stay with a friendly host?</h3>
+            <p class="mb-4">Book with confidence at your trusted host</p>
+            <a class="btn btn-light btn-lg" href="/user">Find Your Host</a>
+          </section>
+          <% } %>
+
+      </div>
 
 
 
+      <div class="container my-5">
+
+        <!-- 🌟 Categories Section -->
+        <section class="mb-5">
+          <h3 class="text-center mb-4">Holiday rentals for every style</h3>
+          <div class="row g-3 justify-content-center">
 
 
+            <% holidayCategories.forEach(category=> { %>
 
-<br><br><br><br><br><br><br>
+              <div class="col-6 col-sm-4 col-md-3 text-center category card p-2 category-card">
+                <%= category.icon %>
+             
+                  <%= category.name %>
+              </div>
 
-<div class="container my-5">
-
-  <!-- 🌟 Home Intro Section -->
-  <section class="home-intro p-4 p-md-5 bg-light rounded-4 shadow-sm text-center">
-    <h2 class="mb-3">Welcome to Wanderlust</h2>
-    <h3 class="mb-4 text-primary">Explore the world with Wanderlust</h3>
-    <p>Discover unique stays and experiences around the world.</p>
-    <p>From cozy cabins to luxurious villas, we have something for everyone.</p>
-    <p>Book your next adventure with us and create unforgettable memories.</p>
-    <p>Join our community of travelers and hosts, and experience the world like never before.</p>
-    <p>Whether you're looking for a weekend getaway or a long-term stay, we have the perfect place for you.</p>
-    <p>Explore our listings and find your dream home away from home.</p>
-    <p>Start your journey with Wanderlust today!</p>
-    <p>Happy travels!</p>
-  </section>
-
-  <% if (currUser) { %>
-  <!-- 🌟 Home Owner CTA Section -->
-  <section class="home-owner-search mt-5 p-4 p-md-5 bg-primary text-white rounded-4 shadow-sm text-center">
-    <h3 class="mb-4">Looking for a place to stay with a friendly host?</h3>
-    <p class="mb-4">Book with confidence at your trusted host</p>
-    <a class="btn btn-light btn-lg" href="/user">Find Your Host</a>
-  </section>
-  <% } %>
-
-</div>
+              <% }) %>
 
 
+          </div>
+        </section>
+
+        <!-- 🌟 Amenities Section -->
+        <section class="mb-5">
+          <h3 class="text-center mb-4">Popular amenities for friendly home rentals</h3>
+          <div class="row g-3 justify-content-center">
+
+            <% amenities.forEach(amenity=> { %>
+
+              <div class="col-6 col-sm-4 col-md-3 text-center category card p-2 category-card">
+                <%= amenity.icon %>
+          
+                  <%= amenity.name %>
+              </div>
+
+              <% }) %>
 
 
+          </div>
+        </section>
 
+        <!-- 🌟 Experiences Section -->
+        <section class="mb-5">
+          <h3 class="text-center mb-4">Unique Experiences</h3>
+          <div class="row g-3 justify-content-center">
 
-<div class="container my-5">
+            <% experiences.forEach(experience=> { %>
 
-  <!-- 🌟 Categories Section -->
-  <section class="mb-5">
-    <h3 class="text-center mb-4">Holiday rentals for every style</h3>
-    <div class="row g-3 justify-content-center">
-      <div class="col-6 col-sm-4 col-md-3 text-center category card p-3">🏡<br>Cabins</div>
-      <div class="col-6 col-sm-4 col-md-3 text-center category card p-3">🏢<br>Flats</div>
-      <div class="col-6 col-sm-4 col-md-3 text-center category card p-3">🏠<br>Houses</div>
-      <div class="col-6 col-sm-4 col-md-3 text-center category card p-3">🏖<br>Beachfront</div>
-      <div class="col-6 col-sm-4 col-md-3 text-center category card p-3">🌲<br>Treehouses</div>
-      <div class="col-6 col-sm-4 col-md-3 text-center category card p-3">🏕<br>Camping</div>
-      <div class="col-6 col-sm-4 col-md-3 text-center category card p-3">🚐<br>RVs</div>
-      <div class="col-6 col-sm-4 col-md-3 text-center category card p-3">🏛<br>Historic Homes</div>
-    </div>
-  </section>
+              <div class="col-6 col-sm-4 col-md-3 text-center category card p-2 category-card">
+                <%= experience.icon %>
+     
+                  <%= experience.name %>
+              </div>
 
-  <!-- 🌟 Amenities Section -->
-  <section class="mb-5">
-    <h3 class="text-center mb-4">Popular amenities for friendly home rentals</h3>
-    <div class="row g-3 justify-content-center">
-      <div class="col-6 col-sm-4 col-md-3 text-center amenity card p-3">🍽<br>Kitchen</div>
-      <div class="col-6 col-sm-4 col-md-3 text-center amenity card p-3">📶<br>Wifi</div>
-      <div class="col-6 col-sm-4 col-md-3 text-center amenity card p-3">🏊<br>Pool</div>
-      <div class="col-6 col-sm-4 col-md-3 text-center amenity card p-3">🅿<br>Free Parking</div>
-      <div class="col-6 col-sm-4 col-md-3 text-center amenity card p-3">❄<br>Air Conditioning</div>
-      <div class="col-6 col-sm-4 col-md-3 text-center amenity card p-3">🔥<br>Fireplace</div>
-      <div class="col-6 col-sm-4 col-md-3 text-center amenity card p-3">🛁<br>Hot Tub</div>
-      <div class="col-6 col-sm-4 col-md-3 text-center amenity card p-3">🐕<br>Pet-friendly</div>
-      <div class="col-6 col-sm-4 col-md-3 text-center amenity card p-3">🧺<br>Laundry</div>
-    </div>
-  </section>
+              <% }) %>
+          </div>
+        </section>
 
-  <!-- 🌟 Experiences Section -->
-  <section class="mb-5">
-    <h3 class="text-center mb-4">Unique Experiences</h3>
-    <div class="row g-3 justify-content-center">
-      <div class="col-6 col-sm-4 col-md-3 text-center experience card p-3">⛰<br>Mountain Hiking</div>
-      <div class="col-6 col-sm-4 col-md-3 text-center experience card p-3">🚴<br>Biking Trails</div>
-      <div class="col-6 col-sm-4 col-md-3 text-center experience card p-3">🛶<br>Kayaking Adventures</div>
-      <div class="col-6 col-sm-4 col-md-3 text-center experience card p-3">🐾<br>Pet-friendly Parks</div>
-    </div>
-  </section>
+        <!-- 🌟 Local Attractions Section -->
+        <section class="mb-5">
+          <h3 class="text-center mb-4">Top Attractions</h3>
+          <div class="row g-3 justify-content-center">
 
-  <!-- 🌟 Local Attractions Section -->
-  <section class="mb-5">
-    <h3 class="text-center mb-4">Top Attractions</h3>
-    <div class="row g-3 justify-content-center">
-      <div class="col-6 col-sm-4 col-md-3 text-center attraction card p-3">🏔<br>Banff National Park</div>
-      <div class="col-6 col-sm-4 col-md-3 text-center attraction card p-3">🦌<br>Wildlife Viewing</div>
-      <div class="col-6 col-sm-4 col-md-3 text-center attraction card p-3">🏞<br>Scenic Lookouts</div>
-      <div class="col-6 col-sm-4 col-md-3 text-center attraction card p-3">🎨<br>Art Galleries</div>
-    </div>
-  </section>
+            <% attractions.forEach(attraction=> { %>
 
-</div>
+              <div class="col-6 col-sm-4 col-md-3 text-center category card p-2 category-card">
+                <%= attraction.icon %>
+   
+                  <%= attraction.name %>
+              </div>
+
+              <% }) %>
+
+          </div>
+        </section>
+
+      </div>
+
+      <style>
+        .category-card {
+          margin: 10px;
+        }
+      </style>
 
 
 
