@@ -3,16 +3,43 @@ const Booking = require("../models/booking");
 const Accounting = require("../models/accounting");
 const User = require("../models/user");
 
+function isValidDateInput(value = "") {
+  if (!value) {
+    return false;
+  }
+
+  return !Number.isNaN(new Date(value).getTime());
+}
+
 // GET Search Route
 module.exports.search = async (req, res) => {
-  const search = req.query;
-
   const { location, checkIn, checkOut, people } = req.query;
+  const normalizedLocation = location?.trim() || "";
+  const guestCount = Number(people);
+
+  if (
+    !normalizedLocation ||
+    !Number.isInteger(guestCount) ||
+    guestCount < 1 ||
+    !isValidDateInput(checkIn) ||
+    !isValidDateInput(checkOut) ||
+    new Date(checkIn) >= new Date(checkOut)
+  ) {
+    req.flash("error", "Please enter a valid location, dates, and guest count.");
+    return res.redirect("/");
+  }
+
+  const bookingdata = {
+    location: normalizedLocation,
+    checkIn,
+    checkOut,
+    people: guestCount,
+  };
 
   // Find listings in location with enough capacity
   let listings = await Listing.find({
-    location: { $regex: new RegExp(location, "i") },
-    capacity: { $gte: Number(people) },
+    location: { $regex: new RegExp(normalizedLocation, "i") },
+    capacity: { $gte: guestCount },
   });
 
   // Filter out listings that are already booked for those dates
@@ -33,7 +60,9 @@ module.exports.search = async (req, res) => {
 
   res.render("listings/index", {
     listings: availableListings,
-    bookingdata: search,
+    searchedLocation: normalizedLocation,
+    selectedTag: "",
+    bookingdata,
   });
 };
 

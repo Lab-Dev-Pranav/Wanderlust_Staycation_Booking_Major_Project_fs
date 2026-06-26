@@ -6,16 +6,34 @@
 .filters-toolbar {
   display: flex;
   align-items: center;
+  justify-content: center;
   flex-wrap: wrap;
   gap: 12px;
   padding: 10px 12px;
   background: #ffffff;
   border-bottom: 1px solid #ececec;
-  position: sticky;
-  top: 70px;
+  /* position: sticky;
+  top: 70px; */
   /* sits just below the navbar */
   z-index: 100;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+
+
+.deviderrr{
+  height: 50px;
+  width: 5px;
+  background-color: #00000057;
+  border-radius: 2px;
+}
+
+
+
+@media (max-width: 768px) {
+  .deviderrr{
+    display: none;
+  }
 }
 
 /* ─── SEARCH BOX ─── */
@@ -29,17 +47,18 @@
   display: flex;
   align-items: center;
   height: 44px;
-  background-color: #3d3f43;
+  background-color: #ffab678f;
   border-radius: 10px;
   overflow: hidden;
   width: 100%;
 }
 
-
 .allLForm {
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  background-color: rgba(255, 0, 0, 0);
 }
 
 .search-btn {
@@ -62,13 +81,14 @@
 
 .inputBox {
   background-color: transparent;
-  color: #ffffff;
+  color: #000000;
   outline: none;
   width: 100%;
   height: 100%;
   border: 0;
   padding: 0 10px;
   font-size: 0.95em;
+  background-color: rgba(255, 255, 255, 0);
 }
 
 ::placeholder {
@@ -135,7 +155,7 @@
   align-items: center;
   gap: 6px;
   background: linear-gradient(135deg, #ff6347cc, #ff9f55cc);
-  color: #fff;
+  color: #070707;
   border-radius: 10px;
   padding: 5px 12px;
   font-size: 0.85rem;
@@ -166,7 +186,7 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  color: #fff;
+  color: #838383;
   font-size: 0.7rem;
   transition: background 0.15s;
   padding: 0;
@@ -327,20 +347,141 @@
   display: none;
 }
 
+---------------------Check-in-------------Check-out------------------------------
+/* ===========================
+      Availability Search
+=========================== */
+
+.availability-search-form {
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+}
+
+.availability-date-group {
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+}
+
+.availability-field {
+  display: flex;
+  flex-direction: column;
+}
+
+.availability-field label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #555;
+  margin: -16px 0px 20px 0px;
+}
+
+.availability-date-input {
+  width: 190px;
+  height: 46px;
+  border-radius: 12px;
+  border: 1px solid #ddd;
+  padding: 0 12px;
+  font-size: 0.95rem;
+  margin: -16px 0px 10px 0px;
+}
+
+.availability-date-input:focus {
+  border-color: rgb(255, 155, 73);
+  box-shadow: 0 0 0 0.2rem rgba(255, 155, 73, .18);
+}
+
+.availability-search-btn {
+  height: 46px;
+  padding: 0 24px;
+  border: none;
+  border-radius: 12px;
+  background: rgb(255, 155, 73);
+  color: #fff;
+  font-weight: 600;
+  transition: .3s;
+  /* margin: 20px 0px 0px 10px; */
+  margin: 16px 0px 10px 10px;
+}
+
+.availability-search-btn:hover {
+  background: rgb(241, 136, 50);
+}
+
+/* ----------------------------------------------------- */
+@media (max-width:992px) {
+
+  .availability-search-form {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .availability-date-group {
+    width: 100%;
+  }
+
+  .availability-field {
+    flex: 1;
+  }
+
+  .availability-date-input {
+    width: 100%;
+  }
+
+  .availability-search-btn {
+    width: 100%;
+  }
+
+}
+
+@media (max-width:576px) {
+
+  .availability-date-group {
+    flex-direction: column;
+    gap: 10px;
+  }
+.availability-search-form {
+  margin: 10px 0px 0px 0px;
+}
+
+
+}
+
+
+
 /* ─── SECTION TITLE ─── */
 .explore-page-title-ALL-LOCATION {
   margin: 16px 0 4px 10px;
-  font-weight: 700;
+  font-weight: 400;
   color: #333;
 }
 
+/* -------------------------------------- */
+.search-form {
+  display: flex;
+}
+
+
+
+
+
+
+
 /* ─── LISTING CARDS ─── */
+/* .card-parent{
+  background-color: #3d3f43;
+} */
+
 .card {
   padding: 15px;
   border: none !important;
   margin: 5px 5px 15px 5px;
   transition: background-color 0.25s ease, transform 0.2s ease;
   border-radius: 12px;
+  background: linear-gradient(135deg,
+      rgb(255, 248, 242) 0%,
+      rgb(255, 237, 220) 40%,
+      rgb(255, 221, 190) 100%) !important;
 }
 
 .card:hover {
@@ -371,49 +512,73 @@ a {
 }
 
 .card .btn:hover {
-  background-color: #ff6347a1;
+  background-color: #ff887470;
   color: white;
 }
 
 /* ─── "MORE" ARROW BUTTON ─── */
-.button {
-  background-color: transparent;
-  color: #fff;
-  width: 8rem;
-  height: 2.5em;
-  border: #ff634798 0.2em solid;
-  border-radius: 11px;
-  text-align: right;
-  transition: all 0.6s ease;
-}
-
-.button:hover {
-  background-color: #ff634798;
+.noselect {
+  width: 150px;
+  height: 50px;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  /* background: #ff9c3fe0; */
+  border: none;
+  border-radius: 5px;
+  background: #ff7158;
 }
 
-.button svg {
-  width: 1.6em;
-  margin: 0px 0px 0px 0px;
+.noselect,
+.noselect span {
+  transition: 200ms;
+}
+
+.noselect .text {
+  transform: translateX(35px);
+  color: white;
+  font-weight: bold;
+}
+
+.noselect .icon {
   position: absolute;
-  transition: all 0.6s ease;
-  color: #ff634798;
+  border-left: 1px solid #ff7158;
+  transform: translateX(110px);
+  height: 40px;
+  width: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0px 0px 0px -10px;
 }
 
-.button:hover svg {
-  transform: translateX(30px);
-  color: #fff;
+.noselect svg {
+  width: 15px;
+  fill: #eee;
 }
 
-.text {
-  margin: 0 1.5em;
-  color: #ff634798;
-  transition: all 0.6s ease;
+.noselect:hover {
+  background: #ff7158;
 }
 
-.button:hover .text {
+.noselect:hover .text {
   color: transparent;
 }
+
+.noselect:hover .icon {
+  width: 150px;
+  border-left: none;
+  transform: translateX(0);
+}
+
+.noselect:focus {
+  outline: none;
+}
+
+.noselect:active .icon svg {
+  transform: scale(0.8);
+}
+
 
 /* ─── TOOLTIP STYLES ─── */
 .tooltip-ibtn {

@@ -11,6 +11,14 @@ function escapeRegex(value = "") {
   return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
 
+function isValidDateInput(value = "") {
+  if (!value) {
+    return false;
+  }
+
+  return !Number.isNaN(new Date(value).getTime());
+}
+
 module.exports.index = async (req, res) => {
   const listings = await Listing.find({});
   res.render("listings/index", {
@@ -58,72 +66,106 @@ module.exports.createListings = async (req, res, next) => {
   res.redirect("/listings");
 };
 
-module.exports.showAllListings = async (req, res) => {
+// module.exports.showAllListings = async (req, res) => {
 
-  let curr_user = res.locals.currUser;
-  const listingItem = await Listing.findById(req.params.id)
-    .populate("reviews")
-    .populate("owner");
+//   let curr_user = res.locals.currUser;
+//   const listingItem = await Listing.findById(req.params.id)
+//     .populate("reviews")
+//     .populate("owner");
 
-  const bookingdata = req.query.bookingdata ? JSON.parse(req.query.bookingdata) : null;
+//   const bookingdata = req.query.bookingdata ? JSON.parse(req.query.bookingdata) : null;
 
-  // console.log("Booking Data:", bookingdata);
+//   // console.log("Booking Data:", bookingdata);
 
-  // console.log("Listing Item:", listingItem);
-  const rearr = [];
-  for await (const ele of listingItem.review) {
-    let re = await Review.findById(ele);
-    if (re) {
-      let autherdet = await User.findById(re.auther);
-      if (autherdet) {
-        re = re.toObject();
-        re.username = autherdet.username;
-        //     console.log("Updated object:", re);
-        rearr.push(re);
-      }
-    }
-  }
-  if (!listingItem) {
-    req.flash("error", "Listing Dose Not Exist");
-    res.redirect("/listings");
-  }
-  res.render("listings/show", { listing: listingItem, reviews: rearr, curr_user, bookingdata });
-};
-
+//   // console.log("Listing Item:", listingItem);
+//   const rearr = [];
+//   for await (const ele of listingItem.review) {
+//     let re = await Review.findById(ele);
+//     if (re) {
+//       let autherdet = await User.findById(re.auther);
+//       if (autherdet) {
+//         re = re.toObject();
+//         re.username = autherdet.username;
+//         //     console.log("Updated object:", re);
+//         rearr.push(re);
+//       }
+//     }
+//   }
+//   if (!listingItem) {
+//     req.flash("error", "Listing Dose Not Exist");
+//     res.redirect("/listings");
+//   }
+//   res.render("listings/show", { listing: listingItem, reviews: rearr, curr_user, bookingdata });
+// };
 
 module.exports.showXListings = async (req, res) => {
 
-    
   let curr_user = res.locals.currUser;
+
   const listingItem = await Listing.findById(req.params.id)
     .populate("reviews")
     .populate("owner");
 
-  const bookingdata = req.query.bookingdata ? JSON.parse(req.query.bookingdata) : null;
-
-  // console.log("Booking Data:", bookingdata);
-
-  // console.log("Listing Item:", listingItem);
-  const rearr = [];
-  for await (const ele of listingItem.review) {
-    let re = await Review.findById(ele);
-    if (re) {
-      let autherdet = await User.findById(re.auther);
-      if (autherdet) {
-        re = re.toObject();
-        re.username = autherdet.username;
-        //     console.log("Updated object:", re);
-        rearr.push(re);
-      }
-    }
-  }
   if (!listingItem) {
-    req.flash("error", "Listing Dose Not Exist");
-    res.redirect("/listings");
+    req.flash("error", "Listing Does Not Exist");
+    return res.redirect("/listings");
   }
-  res.render("listings/showx", { listing: listingItem, reviews: rearr, curr_user, bookingdata });
 
-}
+  const bookingdata = req.query.bookingdata
+    ? JSON.parse(req.query.bookingdata)
+    : null;
+
+  const rearr = [];
+
+  for await (const ele of listingItem.review) {
+
+    let re = await Review.findById(ele);
+
+    if (re) {
+
+      let autherdet = await User.findById(re.auther);
+
+      if (autherdet) {
+
+        re = re.toObject();
+
+        re.username = autherdet.username;
+
+        rearr.push(re);
+
+      }
+
+    }
+
+  }
+
+  // ==========================
+  // Calculate Average Rating
+  // ==========================
+
+  let averageRating = "New";
+
+  if (rearr.length > 0) {
+
+    const totalRating = rearr.reduce((sum, review) => {
+      return sum + review.rating;
+    }, 0);
+
+    averageRating = (totalRating / rearr.length).toFixed(1);
+
+  }
+
+  // console.log("Average Rating :", averageRating);
+
+  res.render("listings/showx", {
+    listing: listingItem,
+    reviews: rearr,
+    curr_user,
+    bookingdata,
+    averageRating
+  });
+
+};
 
 
 
@@ -210,6 +252,42 @@ module.exports.searchatlistings = async (req, res) => {
     listings: listingItem,
     searchedLocation: location,
     selectedTag: "",
+  });
+};
+
+module.exports.searchByAvailability = async (req, res) => {
+  const checkIn = req.query.checkIn?.trim() || "";
+  const checkOut = req.query.checkOut?.trim() || "";
+
+  if (
+    !isValidDateInput(checkIn) ||
+    !isValidDateInput(checkOut) ||
+    new Date(checkIn) >= new Date(checkOut)
+  ) {
+    req.flash("error", "Please select a valid check-in and check-out range.");
+    return res.redirect("/listings");
+  }
+
+  const bookedListings = await Booking.find({
+    status: { $in: ["pending", "confirmed"] },
+    checkIn: { $lt: new Date(checkOut) },
+    checkOut: { $gt: new Date(checkIn) },
+  }).select("listing");
+
+  const bookedListingIds = bookedListings.map((booking) => booking.listing);
+
+  const availableListings = await Listing.find({
+    _id: { $nin: bookedListingIds },
+  });
+
+  res.render("listings/index", {
+    listings: availableListings,
+    searchedLocation: "",
+    selectedTag: "",
+    bookingdata: {
+      checkIn,
+      checkOut,
+    },
   });
 };
 

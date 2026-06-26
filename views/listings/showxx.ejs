@@ -1,6 +1,8 @@
 <% layout("/layouts/boilerplate") %>
   <% block('styles').append('<link rel="stylesheet" href="/css/listings_show.css">') %>
 
+  <!-- ------------------------Old page---------------------- -->
+
     <script>
       const MAPTOKEN_A = "<%= process.env.MAP_TOKEN %>";
       const listing = JSON.parse(decodeURIComponent('<%= encodeURIComponent(JSON.stringify(listing)) %>'));
@@ -9,10 +11,6 @@
     <body class="show-body">
 
       <div class="show-container">
-
-
-
-
         <div class="show-container-inner">
           <h1 class="show-all-text">
             <%= listing.title %>

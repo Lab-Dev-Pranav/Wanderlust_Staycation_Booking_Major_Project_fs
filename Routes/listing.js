@@ -41,7 +41,7 @@ router
   // INDEX ROUTE (heavy read)
   .get(
     islogged_in,
-    tokenBucket(rateLimitModerate),
+    // tokenBucket(rateLimitModerate),
     wrapAsync(listingController.index)
   )
   // (CREATE) CREATE ROUTE (heavy write / upload)
@@ -75,14 +75,24 @@ router.get(
   wrapAsync(listingController.filterListingsByTag)
 );
 
+router.get(
+  "/searchx",
+  islogged_in,
+  tokenBucket(rateLimitModerate),
+  wrapAsync(listingController.searchByAvailability)
+);
+
 router
   .route("/:id")
   // SHOW ROUTE (moderate read)
-  .get(
-    tokenBucket(rateLimitModerate),
-    wrapAsync(listingController.showAllListings)
-  )
+  // .get(
+  //   tokenBucket(rateLimitModerate),
+  //   wrapAsync(listingController.showAllListings)
+  // )
   //
+  .get(
+    wrapAsync(listingController.showXListings)
+  )
   .put(
     islogged_in,
     tokenBucket(rateLimitHeavy),
@@ -101,10 +111,10 @@ router
 
 // --------------------------------------------------
 router
-  .route("/x/:id")
+  .route("/api/:id")
   // SHOW ROUTE (moderate read)
   .get(
-      wrapAsync(listingController.showXListings)
+    wrapAsync(listingController.showXListings)
   );
 
 
@@ -123,6 +133,35 @@ router.get(
 );
 
 // SEARCH ROUTE (heavy DB query)
+router.get(
+  '/search',
+  tokenBucket(rateLimitHeavy),
+  async (req, res) => {
+    const { location, checkIn, checkOut, people } = req.query;
+
+    // Find listings in location with enough capacity
+    let listings = await Listing.find({
+      location: { $regex: new RegExp(location, 'i') },
+      capacity: { $gte: people }
+    });
+
+    // Filter out listings that are already booked for those dates
+    const availableListings = [];
+    for (let listing of listings) {
+      const overlapping = await Booking.findOne({
+        listing: listing._id,
+        status: { $in: ['pending', 'confirmed'] },
+        $or: [
+          { checkIn: { $lt: new Date(checkOut) }, checkOut: { $gt: new Date(checkIn) } }
+        ]
+      });
+      if (!overlapping) availableListings.push(listing);
+    }
+
+    res.render('listings/index', { listings: availableListings });
+  }
+);
+
 router.get(
   '/search',
   tokenBucket(rateLimitHeavy),

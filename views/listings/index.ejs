@@ -19,6 +19,9 @@
       { name: "Hot", icon: "fa-solid fa-fire" },
       { name: "Domes", icon: "fa-solid fa-landmark-dome" }
       ];
+      const activeBookingData = typeof bookingdata !== "undefined" && bookingdata ? bookingdata : null;
+      const activeCheckIn = activeBookingData && activeBookingData.checkIn ? activeBookingData.checkIn : "";
+      const activeCheckOut = activeBookingData && activeBookingData.checkOut ? activeBookingData.checkOut : "";
       %>
 
       <body>
@@ -56,6 +59,9 @@
             <span class="inputBox-error"></span>
           </div>
 
+          <div class="deviderrr">
+          </div>
+
           <div class="filter-dropdown-wrap">
             <button type="button" class="filter-dropdown-btn" id="filterDropdownBtn" onclick="toggleFilterDropdown()">
               <i class="fa-solid fa-sliders"></i>
@@ -65,14 +71,40 @@
               <i class="fa-solid fa-chevron-down filter-chevron" id="filterChevron"></i>
             </button>
 
-            <div class="active-filter-chip" id="activeFilterChip" style="display: <%= activeTag ? "flex" : "none" %>;">
+            <div class="active-filter-chip <%= activeTag ? 'show-chip' : 'hide-chip' %>" id="activeFilterChip">
+
               <span id="activeFilterLabel">
                 <%= activeTag %>
               </span>
+
               <a class="chip-close-btn" href="/listings" title="Remove filter">
                 <i class="fa-solid fa-xmark"></i>
               </a>
+
             </div>
+
+            <style>
+              .active-filter-chip {
+                align-items: center;
+                gap: 8px;
+
+                padding: 8px 14px;
+
+                border-radius: 50px;
+
+                background: #fff5ec;
+
+                border: 1px solid rgb(255, 155, 73);
+              }
+
+              .show-chip {
+                display: flex;
+              }
+
+              .hide-chip {
+                display: none;
+              }
+            </style>
 
             <div class="filter-dropdown-panel" id="filterDropdownPanel">
               <p class="filter-dropdown-heading">Select a category</p>
@@ -90,6 +122,9 @@
             </div>
           </div>
 
+          <div class="deviderrr">
+          </div>
+
           <div class="tax-toggle">
             <div class="form-check-reverse form-switch">
               <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault"
@@ -97,16 +132,110 @@
               <label class="form-check-label" for="flexSwitchCheckDefault"></label>
             </div>
           </div>
+<div class="deviderrr">
+          </div>
+          <!-- -------------Check-in----------Check-out---------------- -->
+
+          <form action="/listings/searchx" method="GET" class="search-form availability-search-form" id="availabilitySearchForm">
+            <div class="availability-date-group">
+              <div class="availability-field">
+                <label for="availabilityCheckIn">Check-in</label>
+                <input
+                  type="date"
+                  id="availabilityCheckIn"
+                  name="checkIn"
+                  class="form-control availability-date-input"
+                  value="<%= activeCheckIn %>"
+                  require
+                />
+              </div>
+
+              <div class="availability-field">
+                <label for="availabilityCheckOut">Check-out</label>
+                <input
+                  type="date"
+                  id="availabilityCheckOut"
+                  name="checkOut"
+                  class="form-control availability-date-input"
+                  value="<%= activeCheckOut %>"
+                  required
+                />
+              </div>
+            </div>
+
+            <button type="submit" class="btn-search availability-search-btn">Search</button>
+          </form>
+
         </div>
 
-        <script>
-          document.addEventListener("DOMContentLoaded", function () {
-            var tooltipTriggerList = [].slice.call(document.querySelectorAll("[data-bs-toggle='tooltip']"));
-            tooltipTriggerList.forEach(function (tooltipTriggerEl) {
-              new bootstrap.Tooltip(tooltipTriggerEl);
-            });
+      <script>
+        document.addEventListener("DOMContentLoaded", function () {
+          var tooltipTriggerList = [].slice.call(document.querySelectorAll("[data-bs-toggle='tooltip']"));
+          tooltipTriggerList.forEach(function (tooltipTriggerEl) {
+            new bootstrap.Tooltip(tooltipTriggerEl);
           });
-        </script>
+
+          const availabilityForm = document.getElementById("availabilitySearchForm");
+          const availabilityCheckIn = document.getElementById("availabilityCheckIn");
+          const availabilityCheckOut = document.getElementById("availabilityCheckOut");
+
+          if (!availabilityForm || !availabilityCheckIn || !availabilityCheckOut) {
+            return;
+          }
+
+          const formatDate = (date) => {
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, "0");
+            const day = String(date.getDate()).padStart(2, "0");
+
+            return `${year}-${month}-${day}`;
+          };
+
+          const getNextDate = (dateValue) => {
+            const nextDate = new Date(`${dateValue}T00:00:00`);
+            nextDate.setDate(nextDate.getDate() + 1);
+            return formatDate(nextDate);
+          };
+
+          const today = formatDate(new Date());
+
+          const syncAvailabilityDates = () => {
+            availabilityCheckIn.min = today;
+            availabilityCheckOut.min = availabilityCheckIn.value
+              ? getNextDate(availabilityCheckIn.value)
+              : today;
+
+            if (
+              availabilityCheckIn.value &&
+              availabilityCheckOut.value &&
+              availabilityCheckOut.value <= availabilityCheckIn.value
+            ) {
+              availabilityCheckOut.value = "";
+            }
+
+            availabilityCheckOut.setCustomValidity("");
+          };
+
+          syncAvailabilityDates();
+
+          availabilityCheckIn.addEventListener("change", syncAvailabilityDates);
+          availabilityCheckOut.addEventListener("input", () => {
+            availabilityCheckOut.setCustomValidity("");
+          });
+
+          availabilityForm.addEventListener("submit", (event) => {
+            if (
+              availabilityCheckIn.value &&
+              availabilityCheckOut.value &&
+              availabilityCheckOut.value <= availabilityCheckIn.value
+            ) {
+              event.preventDefault();
+              availabilityCheckOut.setCustomValidity("Check-out must be after check-in.");
+              availabilityCheckOut.reportValidity();
+            }
+          });
+        });
+      </script>
 
         <br />
         <h6 class="explore-page-title-ALL-LOCATION">
@@ -114,9 +243,9 @@
         </h6>
 
         <% if (!hasListings) { %>
-          <p class="explore-page-title-ALL-LOCATION">No listings found.</p>
+          <p class="explore-page-title-ALL-LOCATION">No listings found on this Location, Filter, Dates.</p>
           <% } else { %>
-            <div class="row row-cols-lg-3 row-cols-lg-2 row-cols-lg-1 mt-1">
+            <div class="row row-cols-lg-3 row-cols-lg-2 row-cols-lg-1 mt-1 card-parent">
               <% for (let LISTING of listings) { %>
                 <div class="card" style="width: 20rem">
                   <img src="<%= LISTING.image.url %>" class="card-img-top" alt="listing image" />
@@ -131,38 +260,40 @@
                     <p class="card-text">
                       &#8377; <%= LISTING.price.toLocaleString("en-IN") %>-/night
                         <i class="taxinfo">
-                          +18% GST ( â‚¹ <%= (LISTING.price * 1.18).toLocaleString("en-IN") %> )
+                          +18% GST ( <%= (LISTING.price * 1.18).toLocaleString("en-IN") %> )
 
                             <span class="tooltip-ibtn">
                               <i class="bi bi-info-circle-fill ibtn"></i>
                               <span class="tooltip-text">
                                 2% platform fee (2% of the booking price while booking on a base price of â‚¹ <%=
-                                  LISTING.price.toLocaleString("en-IN") %> X days you are booking )<br>
+                                  LISTING.price.toLocaleString("en-IN") %> × days you are booking for)<br>
                               </span>
                             </span>
                         </i>
                     </p>
 
+
                     <form action="/listings/<%= LISTING.id %>" method="GET" style="display:inline;">
                       <% if (typeof bookingdata !=="undefined" && bookingdata) { %>
                         <input type="hidden" name="bookingdata" value='<%= JSON.stringify(bookingdata) %>'>
                         <% } %>
-                          <button class="button" type="submit">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                              stroke="currentColor" class="w-6 h-6">
-                              <path stroke-linecap="round" stroke-linejoin="round"
-                                d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75"></path>
-                            </svg>
-                            <div class="text">More</div>
-                          </button>
-                    </form>
+                          <button class="noselect" type="submit">
+                            <span class="text">Get in</span>
+                            <span class="icon">
+                              <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
+                                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                <g id="SVGRepo_iconCarrier">
+                                  <path
+                                    d="M14 2H5.50003L4.00003 3.5L6.83581 6.33579L0.585815 12.5858L3.41424 15.4142L9.66424 9.16421L12.5 12L14 10.5L14 2Z"
+                                    fill="#ffffff"></path>
+                                </g>
+                              </svg>
 
-                    <form action="/listings/x/<%= LISTING.id %>" method="GET" style="display:inline;">
-                      <% if (typeof bookingdata !=="undefined" && bookingdata) { %>
-                        <input type="hidden" name="bookingdata" value='<%= JSON.stringify(bookingdata) %>'>
-                        <% } %>
-                          <button class="button" type="submit">
-                            <div class="text">More XXX</div>
+
+                            </span>
+
+
                           </button>
                     </form>
 
