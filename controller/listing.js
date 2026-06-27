@@ -7,6 +7,14 @@ const mbxGeocoding = require("@mapbox/mapbox-sdk/services/geocoding");
 const MAPTOKEN = process.env.MAP_TOKEN;
 const geocodingClient = mbxGeocoding({ accessToken: MAPTOKEN });
 
+const {
+  holidayCategories,
+  amenities,
+  experiences,
+  attractions
+} = require("../views/tags");
+
+
 function escapeRegex(value = "") {
   return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
@@ -29,10 +37,23 @@ module.exports.index = async (req, res) => {
 };
 
 module.exports.rendernewform = (req, res) => {
-  res.render("listings/new");
+  res.render("listings/new", {
+    holidayCategories,
+    amenities,
+    experiences,
+    attractions
+  });
 };
 
 module.exports.createListings = async (req, res, next) => {
+  const checkboxAMFET = Array.isArray(req.body.listing.checkboxAMFET)
+    ? req.body.listing.checkboxAMFET
+    : req.body.listing.checkboxAMFET
+      ? [req.body.listing.checkboxAMFET]
+      : [];
+
+  req.body.listing.checkboxAMFET = checkboxAMFET;
+  console.log("checkboxAMFET:", checkboxAMFET);
 
   // Get coordinates from Mapbox
   const loc = `${req.body.listing.location}, ${req.body.listing.country}`;
@@ -53,6 +74,7 @@ module.exports.createListings = async (req, res, next) => {
 
   // Add fields that don't come from the form
   newListing.owner = req.user._id;
+  newListing.checkboxAMFET = checkboxAMFET;
   newListing.image = {
     url,
     filename,
@@ -146,20 +168,37 @@ module.exports.editAListing = async (req, res) => {
   let originalimgurl = listingItem.image.url;
   originalimgurl = originalimgurl.replace("/upload", "/upload/h_300,w_250");
 
-  res.render("listings/edit", { listing: listingItem, originalimgurl });
+  res.render("listings/edit", {
+    listing: listingItem,
+    originalimgurl,
+    holidayCategories,
+    amenities,
+    experiences,
+    attractions
+  });
 };
 
 module.exports.updateAListing = async (req, res) => {
   let { id } = req.params;
+  const checkboxAMFET = Array.isArray(req.body.listing.checkboxAMFET)
+    ? req.body.listing.checkboxAMFET
+    : req.body.listing.checkboxAMFET
+      ? [req.body.listing.checkboxAMFET]
+      : [];
+
+  req.body.listing.checkboxAMFET = checkboxAMFET;
+
   let list = await Listing.findByIdAndUpdate(id, { ...req.body.listing });
+  list.checkboxAMFET = checkboxAMFET;
 
   if (typeof req.file !== "undefined") {
     let url = req.file.path;
     let filename = req.file.filename;
     list.image = { url, filename };
-    await list.save();
   }
+
   list.capacity = req.body.listing.capacity;
+  await list.save();
 
   req.flash("Success", "Listing Updated!");
   res.redirect(`/listings/${id}`);
@@ -278,3 +317,8 @@ module.exports.filterListingsByTag = async (req, res) => {
     selectedTag: tag,
   });
 };
+
+
+
+
+

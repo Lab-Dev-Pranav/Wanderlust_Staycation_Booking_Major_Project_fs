@@ -1,128 +1,10 @@
 <% layout("/layouts/boilerplate") %>
     <% block('styles').append('<link rel="stylesheet" href="/css/listings_form.css">') %>
 
-        <!-- <body class="new-listing">
 
-            <div class="container">
-                <h1 class="n-f-h1">Add a New Location</h1>
-                <form action="/listings" method="POST" class="needs-validation" novalidate
-                    enctype="multipart/form-data">
-                    <div class="mb-3">
-                        <label for="title" class="form-label">Title</label>
-                        <input type="text" class="form-control" name="listing[title]" id="title" required
-                            placeholder="ex. Beautiful Beach House by PSP Stays">
-                        <div class="invalid-feedback">Please provide a title.</div>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="description" class="form-label">Description</label>
-                        <textarea class="form-control" name="listing[description]" id="description" required
-                            placeholder="Describe the location..."></textarea>
-                        <div class="invalid-feedback">Please provide a description.</div>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="price" class="form-label">Price</label>
-                        <input class="form-control" name="listing[price]" id="price" required placeholder="ex. 10000">
-                        <div class="invalid-feedback">Please provide a valid price.</div>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="location" class="form-label">Location</label>
-                        <input type="text" class="form-control" name="listing[location]" id="location" required
-                            placeholder="ex. lonavala">
-                        <div class="invalid-feedback">Please provide a location.</div>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="country" class="form-label">Country</label>
-                        <input type="text" class="form-control" name="listing[country]" id="country" required
-                            placeholder="ex. India">
-                        <div class="invalid-feedback">Please provide a country...</div>
-                    </div>
-
-
-                    <div class="mb-3">
-                        <label for="exactLocation" class="form-label">Exact Location URL</label>
-                        <input type="text" class="form-control" name="listing[exactLocation]" id="exactLocation"
-                            required placeholder="ex. https://maps.app.goo.gl/xyz">
-                        <div class="invalid-feedback">Please provide an exact location URL.</div>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="country" class="form-label">Tag</label>
-                        <select name="listing[tag]" class="form-select" aria-label="Default select example" required>
-                            <option value="Trending">Trending</option>
-                            <option value="Rooms">Rooms</option>
-                            <option value="Iconic">Iconic</option>
-                            <option value="Mountain">Mountain</option>
-                            <option value="Castles">Castles</option>
-                            <option value="Pools">Pools</option>
-                            <option value="Camping">Camping</option>
-                            <option value="Farms">Farms</option>
-                            <option value="Hot">Hot</option>
-                            <option value="Domes">Domes</option>
-                        </select>
-                        <div class="invalid-feedback">Please provide a tag...</div>
-                    </div>
-
-
-                    <div class="card shadow-sm mt-3">
-                        <div class="card-header d-flex justify-content-between align-items-center">
-                            <h5 class="mb-0">Room Configuration</h5>
-
-                            <button type="button" class="btn btn-success btn-sm" id="addRoomBtn">
-                                + Add Room
-                            </button>
-                        </div>
-
-                        <div class="card-body">
-
-                            <div id="roomsContainer"></div>
-
-                            <hr>
-
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <label class="form-label fw-bold">
-                                        Total Capacity
-                                    </label>
-
-                                    <input type="number" id="totalCapacity" name="listing[capacity]" class="form-control"
-                                        value="0" readonly>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                    <br>
-                    <div class="mb-3">
-                        <label for="image" class="form-label">Upload Image</label>
-                        <input type="file" class="form-control" name="listing[image][url]" id="image">
-                        <div class="invalid-feedback">Please provide a valid URL.</div>
-                    </div>
-
-                    <button type="submit" class="btn btn-primary">Add New</button>
-                </form>
-                <br><br><br>
-            </div>
-
-        </body> -->
 
 
         <div class="new-listing-page">
-
-            <!-- Page Header -->
-            <!-- <div class="new-listing-header">
-
-                <h1>Add a New Location</h1>
-
-                <p>
-                    Fill in the details below to publish your stay on Wanderlust.
-                </p>
-
-            </div> -->
-
 
             <!-- Main Form -->
             <form action="/listings" method="POST" enctype="multipart/form-data" class="new-listing-form">
@@ -379,6 +261,178 @@
                 </div>
 
 
+
+
+                <!-- ===================================== -->
+                <!-- Add amenities  -->
+                <!-- ===================================== -->
+
+                <div class="listing-amenities-box">
+
+                    <div class="listing-amenities-box-head">
+
+
+                    </div>
+                    <div class="listing-amenities-box-tags">
+                        <!-- TAG SET 1 -->
+                        <div class="category-grid">
+                            <% holidayCategories.forEach((category, index) => { %>
+        
+                                <div class="category-card">
+                                    <!-- From Uiverse.io by risabbir -->
+                                    <div class="checkbox-container">
+                                        <div class="checkbox-wrapper">
+                                            <input  class="checkbox" id="holiday-category-<%= index %>" type="checkbox" value="<%= category.name %>" name="listing[checkboxAMFET][]"  />
+                                            <label class="checkbox-label" for="holiday-category-<%= index %>">
+                                                <div class="checkbox-flip">
+                                                    <div class="checkbox-front">
+                                                        <svg fill="white" height="32" width="32" viewBox="0 0 24 24"
+                                                            xmlns="http://www.w3.org/2000/svg">
+                                                            <path d="M19 13H12V19H11V13H5V12H11V6H12V12H19V13Z"
+                                                                class="icon-path"></path>
+                                                        </svg>
+                                                    </div>
+                                                    <div class="checkbox-back">
+                                                        <svg fill="white" height="32" width="32" viewBox="0 0 24 24"
+                                                            xmlns="http://www.w3.org/2000/svg">
+                                                            <path
+                                                                d="M9 19l-7-7 1.41-1.41L9 16.17l11.29-11.3L22 6l-13 13z"
+                                                                class="icon-path"></path>
+                                                        </svg>
+                                                    </div>
+                                                </div>
+                                            </label>
+                                            <label for="holiday-category-<%= index %>" class="c_lable"> <%= category.name %> </label>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <% }) %>
+                        </div>
+
+
+
+                        <hr>
+
+                        <!-- TAG SET 2 -->
+                        <div class="category-grid">
+                            <% amenities.forEach((category, index)=> { %>
+                                <div class="category-card">
+                                    <!-- From Uiverse.io by risabbir -->
+                                    <div class="checkbox-container">
+                                        <div class="checkbox-wrapper">
+                                            <input  class="checkbox" id="amenity-category-<%= index %>" type="checkbox" value="<%= category.name %>" name="listing[checkboxAMFET][]"  />
+                                            <label class="checkbox-label" for="amenity-category-<%= index %>">
+                                                <div class="checkbox-flip">
+                                                    <div class="checkbox-front">
+                                                        <svg fill="white" height="32" width="32" viewBox="0 0 24 24"
+                                                            xmlns="http://www.w3.org/2000/svg">
+                                                            <path d="M19 13H12V19H11V13H5V12H11V6H12V12H19V13Z"
+                                                                class="icon-path"></path>
+                                                        </svg>
+                                                    </div>
+                                                    <div class="checkbox-back">
+                                                        <svg fill="white" height="32" width="32" viewBox="0 0 24 24"
+                                                            xmlns="http://www.w3.org/2000/svg">
+                                                            <path
+                                                                d="M9 19l-7-7 1.41-1.41L9 16.17l11.29-11.3L22 6l-13 13z"
+                                                                class="icon-path"></path>
+                                                        </svg>
+                                                    </div>
+                                                </div>
+                                            </label>
+                                            <label for="amenity-category-<%= index %>" class="c_lable"> <%= category.name %> </label>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <% }) %>
+
+                        </div>
+                        <hr>
+                        <!-- TAG SET 3 -->
+                        <div class="category-grid">
+                            <% experiences.forEach((category, index)=> { %>
+                               <div class="category-card">
+                                    <!-- From Uiverse.io by risabbir -->
+                                    <div class="checkbox-container">
+                                        <div class="checkbox-wrapper">
+                                            <input  class="checkbox" id="experience-category-<%= index %>" type="checkbox" value="<%= category.name %>" name="listing[checkboxAMFET][]"  />
+                                            <label class="checkbox-label" for="experience-category-<%= index %>">
+                                                <div class="checkbox-flip">
+                                                    <div class="checkbox-front">
+                                                        <svg fill="white" height="32" width="32" viewBox="0 0 24 24"
+                                                            xmlns="http://www.w3.org/2000/svg">
+                                                            <path d="M19 13H12V19H11V13H5V12H11V6H12V12H19V13Z"
+                                                                class="icon-path"></path>
+                                                        </svg>
+                                                    </div>
+                                                    <div class="checkbox-back">
+                                                        <svg fill="white" height="32" width="32" viewBox="0 0 24 24"
+                                                            xmlns="http://www.w3.org/2000/svg">
+                                                            <path
+                                                                d="M9 19l-7-7 1.41-1.41L9 16.17l11.29-11.3L22 6l-13 13z"
+                                                                class="icon-path"></path>
+                                                        </svg>
+                                                    </div>
+                                                </div>
+                                            </label>
+                                            <label for="experience-category-<%= index %>" class="c_lable"> <%= category.name %> </label>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <% }) %>
+                        </div>
+
+                        <hr>
+                        <!-- TAG SET 4 -->
+
+                        <div class="category-grid">
+                            <% attractions.forEach((category, index)=> { %>
+                                <div class="category-card">
+                                    <!-- From Uiverse.io by risabbir -->
+                                    <div class="checkbox-container">
+                                        <div class="checkbox-wrapper">
+                                            <input  class="checkbox" id="attraction-category-<%= index %>" type="checkbox" value="<%= category.name %>" name="listing[checkboxAMFET][]"  />
+                                            <label class="checkbox-label" for="attraction-category-<%= index %>">
+                                                <div class="checkbox-flip">
+                                                    <div class="checkbox-front">
+                                                        <svg fill="white" height="32" width="32" viewBox="0 0 24 24"
+                                                            xmlns="http://www.w3.org/2000/svg">
+                                                            <path d="M19 13H12V19H11V13H5V12H11V6H12V12H19V13Z"
+                                                                class="icon-path"></path>
+                                                        </svg>
+                                                    </div>
+                                                    <div class="checkbox-back">
+                                                        <svg fill="white" height="32" width="32" viewBox="0 0 24 24"
+                                                            xmlns="http://www.w3.org/2000/svg">
+                                                            <path
+                                                                d="M9 19l-7-7 1.41-1.41L9 16.17l11.29-11.3L22 6l-13 13z"
+                                                                class="icon-path"></path>
+                                                        </svg>
+                                                    </div>
+                                                </div>
+                                            </label>
+                                            <label for="attraction-category-<%= index %>" class="c_lable"> <%= category.name %> </label>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <% }) %>
+
+                        </div>
+
+
+
+                    </div>
+
+
+
+                </div>
+
+
+
                 <!-- ===================================== -->
                 <!-- ROOM CONFIGURATION -->
                 <!-- ===================================== -->
@@ -427,6 +481,7 @@
                     </div>
 
                 </div>
+
 
 
                 <!-- ===================================== -->
@@ -659,4 +714,6 @@
             // Create first room automatically
             createRoom();
         </script>
+
+
 

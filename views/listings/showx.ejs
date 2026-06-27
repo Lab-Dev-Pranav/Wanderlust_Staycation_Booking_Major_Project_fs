@@ -93,246 +93,275 @@
               </div>
             </div>
             <br>
+
             <!-- -------------------------------- -->
-            <div class="show-listing-description">
-              <h5>
-                About:
-              </h5>
-              <p>
-                <%= listing.description %>
-              </p>
 
-            </div>
+            <% if (listing.checkboxAMFET && listing.checkboxAMFET.length>0) { %>
 
-            <div class="booking-card booking-card-mobile">
+              <div class="listing-amenities-box">
 
-              <h3>Reserve your stay</h3>
-
-              <p class="booking-subtitle">
-                Secure your booking in just a few clicks.
-              </p>
-
-              Pricing: <strong> ₹ <%= listing.price %></strong> / night
-              <span class="tooltip-ibtn" tabindex="0" aria-label="Pricing info">
-                <i class="bi bi-info-circle-fill ibtn"></i>
-                <span class="tooltip-text">
-                  <span class="text-primary">18% GST + 2% Platform Fee of the booking price (Base Price) applicable at
-                    the
-                    time of booking</span>
-                </span>
-              </span>
-              <br>
-              <br>
-
-              <form action="/listings/<%= listing._id %>/book" method="get">
-
-                <% if (bookingdata) { %>
-                  <input type="hidden" name="bookingdata" value='<%= JSON.stringify(bookingdata) %>'>
-                  <% } %>
-
-                    <button type="submit" class="booking-btn">
-                      Reserve Now
-                    </button>
-
-              </form>
-              <hr>
-
-              <% if(currUser && currUser._id.equals(listing.owner._id)){ %>
-
-                <div class="owner-actions">
-
-                  <a href="/listings/<%= listing._id %>/edit" class="edit-btn">
-
-                    Edit Listing
-
-                  </a>
-
-                  <button type="button" class="delete-btn" data-bs-toggle="modal" data-bs-target="#deleteModal">
-
-                    Delete Listing
-
-                  </button>
-
+                <div class="listing-amenities-box-head">
+                  <h6> Amenities & Features</h6>
+                </div>
+                <div class="listing-amenities-box-tags">
+                  <% listing.checkboxAMFET.forEach(amenity=> { %>
+                    <span class="amenity-tag">
+                      <%= amenity %>
+                    </span>
+                    <% }) %>
+                </div>
+              </div>
+              <% } else{ %>
+                <div class="listing-amenities-box-head">
+                  <h6>Amenities & Features</h6>
+                  <p>Not available...</p>
                 </div>
 
                 <% } %>
 
-            </div>
-            <br>
-
-            <!-- --------------------------------------- -->
-            <div class="show-listing-map">
-              <!-- map  -->
-              <h4>Where you'll be</h4>
-              <div id="map"></div>
-            </div>
-            <!-- --------------------------------------- -->
-            <br><br>
-            <% if(currUser){ %>
-
-              <div class="show-listing-add-review">
-
-                <div class="review-form-card">
-
-                  <div class="review-form-header">
-
-                    <div>
-                      <h3>Share your experience</h3>
-                      <p>Help other travellers by writing an honest review.</p>
-                    </div>
-
-                    <div class="review-icon">
-                      <i class="bi bi-chat-heart-fill"></i>
-                    </div>
+                  <!-- -------------------------------- -->
+                  <div class="show-listing-description">
+                    <h5>
+                      About:
+                    </h5>
+                    <p>
+                      <%= listing.description %>
+                    </p>
 
                   </div>
 
-                  <form action="/listings/<%= listing._id %>/reviews" method="POST" class="needs-validation" novalidate>
+                  <div class="booking-card booking-card-mobile">
 
-                    <!-- Rating -->
+                    <h3>Reserve your stay</h3>
 
-                    <div class="rating-section">
+                    <p class="booking-subtitle">
+                      Secure your booking in just a few clicks.
+                    </p>
 
-                      <label class="review-label">
-                        Rating
-                      </label>
+                    Pricing: <strong> ₹ <%= listing.price %></strong> / night
+                    <span class="tooltip-ibtn" tabindex="0" aria-label="Pricing info">
+                      <i class="bi bi-info-circle-fill ibtn"></i>
+                      <span class="tooltip-text">
+                        <span class="text-primary">18% GST + 2% Platform Fee of the booking price (Base Price)
+                          applicable
+                          at
+                          the
+                          time of booking</span>
+                      </span>
+                    </span>
+                    <br>
+                    <br>
 
-                      <div class="rating-slider-box">
+                    <form action="/listings/<%= listing._id %>/book" method="get">
 
-                        <span>⭐</span>
+                      <% if (bookingdata) { %>
+                        <input type="hidden" name="bookingdata" value='<%= JSON.stringify(bookingdata) %>'>
+                        <% } %>
 
-                        <input type="range" min="1" max="5" value="3" id="rating" name="review[rating]">
+                          <button type="submit" class="booking-btn">
+                            Reserve Now
+                          </button>
 
-                        <span id="ratingValue">3</span>
+                    </form>
+                    <hr>
+
+                    <% if(currUser && currUser._id.equals(listing.owner._id)){ %>
+
+                      <div class="owner-actions">
+
+                        <a href="/listings/<%= listing._id %>/edit" class="edit-btn">
+
+                          Edit Listing
+
+                        </a>
+
+                        <button type="button" class="delete-btn" data-bs-toggle="modal" data-bs-target="#deleteModal">
+
+                          Delete Listing
+
+                        </button>
 
                       </div>
 
-                    </div>
+                      <% } %>
 
-                    <!-- Comment -->
+                  </div>
+                  <br>
 
-                    <div class="comment-section">
+                  <!-- --------------------------------------- -->
+                  <div class="show-listing-map">
+                    <!-- map  -->
+                    <h4>Where you'll be</h4>
+                    <div id="map"></div>
+                  </div>
+                  <!-- --------------------------------------- -->
+                  <br><br>
+                  <% if(currUser){ %>
 
-                      <label class="review-label">
-                        Your comments
-                      </label>
+                    <div class="show-listing-add-review">
 
-                      <textarea id="comment" name="review[comment]" rows="6" required
-                        placeholder="What did you like? What could be improved?"></textarea>
+                      <div class="review-form-card">
 
-                      <div class="invalid-feedback">
-                        Please write your review before submitting.
-                      </div>
+                        <div class="review-form-header">
 
-                    </div>
+                          <div>
+                            <h3>Share your experience</h3>
+                            <p>Help other travellers by writing an honest review.</p>
+                          </div>
 
-                    <button class="submit-review-btn">
+                          <div class="review-icon">
+                            <i class="bi bi-chat-heart-fill"></i>
+                          </div>
 
-                      <i class="bi bi-send-fill"></i>
+                        </div>
 
-                      Publish Review
+                        <form action="/listings/<%= listing._id %>/reviews" method="POST" class="needs-validation"
+                          novalidate>
 
-                    </button>
+                          <!-- Rating -->
 
-                  </form>
+                          <div class="rating-section">
 
-                </div>
+                            <label class="review-label">
+                              Rating
+                            </label>
 
-              </div>
+                            <div class="rating-slider-box">
 
-              <script>
+                              <span>⭐</span>
 
-                const slider = document.getElementById("rating");
-                const value = document.getElementById("ratingValue");
+                              <input type="range" min="1" max="5" value="3" id="rating" name="review[rating]">
 
-                slider.addEventListener("input", () => {
+                              <span id="ratingValue">3</span>
 
-                  value.innerText = slider.value;
-
-                });
-
-              </script>
-
-              <% } %>
-
-
-
-                <!-- --------------------------------------- -->
-                <div class="show-listing-reviews">
-                  <h4 class="reviews-heading">
-                    <i class="bi bi-chat-dots-fill"></i> Reviews
-                  </h4>
-
-                  <% if (reviews && reviews.length) { %>
-
-                    <div class="reviews-grid">
-
-                      <% reviews.forEach(review=> { %>
-
-                        <div class="review-card">
-
-                          <div class="review-top">
-
-                            <div class="review-user">
-
-                              <div class="review-avatar">
-                                <%= review.username.charAt(0).toUpperCase() %>
-                              </div>
-
-                              <div>
-                                <h6>
-                                  <%= review.username %>
-                                </h6>
-
-                                <small>
-                                  <%= new Date(review.created_at).toLocaleDateString("en-IN", { day: "numeric" ,
-                                    month: "long" , year: "numeric" }) %>
-                                </small>
-                              </div>
-
-                            </div>
-
-                            <div class="review-rating">
-                              ⭐ <%= review.rating %>/5
                             </div>
 
                           </div>
 
-                          <p class="review-comment">
-                            <%= review.comment %>
-                          </p>
-                          <hr>
+                          <!-- Comment -->
 
-                          <% if (review.username==curr_user.username) { %>
-                            <!-- <hr> -->
-                            <form method="POST"
-                              action="/listings/<%=listing._id%>/reviews/<%=review._id%>?_method=DELETE">
-                              <!-- <button class="btn btn-primary">Delete</button> -->
-                              <button class="d-button">
-                                <svg viewBox="0 0 448 512" class="svgIcon">
-                                  <path
-                                    d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z">
-                                  </path>
-                                </svg>
-                              </button>
-                            </form>
-                            <% } %>
+                          <div class="comment-section">
 
-                        </div>
+                            <label class="review-label">
+                              Your comments
+                            </label>
 
-                        <% }) %>
+                            <textarea id="comment" name="review[comment]" rows="6" required
+                              placeholder="What did you like? What could be improved?"></textarea>
+
+                            <div class="invalid-feedback">
+                              Please write your review before submitting.
+                            </div>
+
+                          </div>
+
+                          <button class="submit-review-btn">
+
+                            <i class="bi bi-send-fill"></i>
+
+                            Publish Review
+
+                          </button>
+
+                        </form>
+
+                      </div>
 
                     </div>
 
-                    <% } else { %>
+                    <script>
 
-                      <div class="no-reviews">
-                        <i class="bi bi-chat-square-text"></i>
-                        <p>No reviews yet.</p>
+                      const slider = document.getElementById("rating");
+                      const value = document.getElementById("ratingValue");
+
+                      slider.addEventListener("input", () => {
+
+                        value.innerText = slider.value;
+
+                      });
+
+                    </script>
+
+                    <% } %>
+
+
+
+                      <!-- --------------------------------------- -->
+                      <div class="show-listing-reviews">
+                        <h4 class="reviews-heading">
+                          <i class="bi bi-chat-dots-fill"></i> Reviews
+                        </h4>
+
+                        <% if (reviews && reviews.length) { %>
+
+                          <div class="reviews-grid">
+
+                            <% reviews.forEach(review=> { %>
+
+                              <div class="review-card">
+
+                                <div class="review-top">
+
+                                  <div class="review-user">
+
+                                    <div class="review-avatar">
+                                      <%= review.username.charAt(0).toUpperCase() %>
+                                    </div>
+
+                                    <div>
+                                      <h6>
+                                        <%= review.username %>
+                                      </h6>
+
+                                      <small>
+                                        <%= new Date(review.created_at).toLocaleDateString("en-IN", { day: "numeric" ,
+                                          month: "long" , year: "numeric" }) %>
+                                      </small>
+                                    </div>
+
+                                  </div>
+
+                                  <div class="review-rating">
+                                    ⭐ <%= review.rating %>/5
+                                  </div>
+
+                                </div>
+
+                                <p class="review-comment">
+                                  <%= review.comment %>
+                                </p>
+                                <hr>
+
+                                <% if (review.username==curr_user.username) { %>
+                                  <!-- <hr> -->
+                                  <form method="POST"
+                                    action="/listings/<%=listing._id%>/reviews/<%=review._id%>?_method=DELETE">
+                                    <!-- <button class="btn btn-primary">Delete</button> -->
+                                    <button class="d-button">
+                                      <svg viewBox="0 0 448 512" class="svgIcon">
+                                        <path
+                                          d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z">
+                                        </path>
+                                      </svg>
+                                    </button>
+                                  </form>
+                                  <% } %>
+
+                              </div>
+
+                              <% }) %>
+
+                          </div>
+
+                          <% } else { %>
+
+                            <div class="no-reviews">
+                              <i class="bi bi-chat-square-text"></i>
+                              <p>No reviews yet.</p>
+                            </div>
+
+                            <% } %>
                       </div>
-
-                      <% } %>
-                </div>
 
           </div>
 

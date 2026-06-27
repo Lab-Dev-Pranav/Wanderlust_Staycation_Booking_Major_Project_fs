@@ -1,223 +1,444 @@
 <% layout("/layouts/boilerplate") %>
-<% block('styles').append('<link rel="stylesheet" href="/css/listings_form.css">') %>
-<%
-  const tags = ["Trending", "Rooms", "Iconic", "Mountain", "Castles", "Pools", "Camping", "Farms", "Hot", "Domes"];
-  const roomTypes = ["Suite Bedroom", "Premium Bedroom", "Normal Bedroom", "Master Bedroom", "Kids Bedroom", "Guest Room", "Dormitory"];
-  const rooms = Array.isArray(listing.rooms) ? listing.rooms : [];
-  const currentImageUrl = listing.image && listing.image.url ? listing.image.url : "";
-  const previewImageUrl = typeof originalimgurl === "string" && originalimgurl ? originalimgurl : currentImageUrl;
-%>
+    <% block('styles').append('<link rel="stylesheet" href="/css/listings_form.css">') %>
+        <% const tags=["Trending", "Rooms" , "Iconic" , "Mountain" , "Castles" , "Pools" , "Camping" , "Farms" , "Hot"
+            , "Domes" ]; const roomTypes=["Suite Bedroom", "Premium Bedroom" , "Normal Bedroom" , "Master Bedroom"
+            , "Kids Bedroom" , "Guest Room" , "Dormitory" ]; const rooms=Array.isArray(listing.rooms) ? listing.rooms :
+            []; const selectedCheckboxAMFET=Array.isArray(listing.checkboxAMFET) ? listing.checkboxAMFET : []; const
+            currentImageUrl=listing.image && listing.image.url ? listing.image.url : "" ; const previewImageUrl=typeof
+            originalimgurl==="string" && originalimgurl ? originalimgurl : currentImageUrl; %>
 
-<div class="new-listing-page">
-    <div class="new-listing-header">
-        <h1>Edit Listing</h1>
-        <p>Update your property details, room setup, and cover image.</p>
-    </div>
-
-    <form action="/listings/<%= listing._id %>?_method=PUT" method="POST" enctype="multipart/form-data" class="new-listing-form needs-validation" novalidate>
-        <div class="listing-top-section">
-            <div class="listing-info-box">
-                <div class="listing-info-header">
-                    <h2>Property Information</h2>
-                    <p>Update the details below to keep your listing accurate for guests.</p>
+            <div class="new-listing-page">
+                <div class="new-listing-header">
+                    <h1>Edit Listing</h1>
+                    <p>Update your property details, room setup, and cover image.</p>
                 </div>
 
-                <div class="listing-info-body">
-                    <div class="form-field full-width">
-                        <label for="title">Property Title</label>
-                        <input type="text" class="form-control" id="title" name="listing[title]" value="<%= listing.title %>" placeholder="Beautiful Beach House by PSP Stays" required>
-                        <div class="invalid-feedback">Please provide a title.</div>
-                    </div>
-
-                    <div class="form-field full-width">
-                        <label for="description">Description</label>
-                        <textarea class="form-control" id="description" name="listing[description]" rows="5" placeholder="Describe your stay..." required><%= listing.description %></textarea>
-                        <div class="invalid-feedback">Please provide a description.</div>
-                    </div>
-
-                    <div class="form-field">
-                        <label for="price">Price (Rs / Night)</label>
-                        <input type="number" class="form-control" id="price" name="listing[price]" value="<%= listing.price %>" placeholder="10000" required>
-                        <div class="invalid-feedback">Please provide a valid price.</div>
-                    </div>
-
-                    <div class="form-field">
-                        <label for="tag">Category</label>
-                        <select class="form-select" id="tag" name="listing[tag]" required>
-                            <option value="">Choose Category</option>
-                            <% tags.forEach(tag => { %>
-                                <option value="<%= tag %>" <%= listing.tag === tag ? "selected" : "" %>><%= tag %></option>
-                            <% }) %>
-                        </select>
-                        <div class="invalid-feedback">Please select a category.</div>
-                    </div>
-
-                    <div class="form-field">
-                        <label for="location">City / Location</label>
-                        <input type="text" class="form-control" id="location" name="listing[location]" value="<%= listing.location %>" placeholder="Lonavala" required>
-                        <div class="invalid-feedback">Please provide a location.</div>
-                    </div>
-
-                    <div class="form-field">
-                        <label for="country">Country</label>
-                        <input type="text" class="form-control" id="country" name="listing[country]" value="<%= listing.country %>" placeholder="India" required>
-                        <div class="invalid-feedback">Please provide a country.</div>
-                    </div>
-
-                    <div class="form-field full-width">
-                        <label for="exactLocation">Google Maps Location</label>
-                        <input type="text" class="form-control" id="exactLocation" name="listing[exactLocation]" value="<%= listing.exactLocation || "" %>" placeholder="https://maps.app.goo.gl/..." required>
-                        <div class="invalid-feedback">Please provide the Google Maps URL.</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="listing-upload-box">
-                <div class="upload-header">
-                    <h2>Property Image</h2>
-                    <p>Keep the current cover photo or upload a replacement.</p>
-                </div>
-
-                <div class="upload-body">
-                    <label for="image" class="image-upload-label">
-                        <div class="image-upload-box">
-                            <div class="upload-icon">
-                                <i class="fa-solid fa-cloud-arrow-up"></i>
+                <form action="/listings/<%= listing._id %>?_method=PUT" method="POST" enctype="multipart/form-data"
+                    class="new-listing-form needs-validation" novalidate>
+                    <div class="listing-top-section">
+                        <div class="listing-info-box">
+                            <div class="listing-info-header">
+                                <h2>Property Information</h2>
+                                <p>Update the details below to keep your listing accurate for guests.</p>
                             </div>
 
-                            <h4>Choose an Image</h4>
+                            <div class="listing-info-body">
+                                <div class="form-field full-width">
+                                    <label for="title">Property Title</label>
+                                    <input type="text" class="form-control" id="title" name="listing[title]"
+                                        value="<%= listing.title %>" placeholder="Beautiful Beach House by PSP Stays"
+                                        required>
+                                    <div class="invalid-feedback">Please provide a title.</div>
+                                </div>
 
-                            <p>
-                                Drag & Drop
-                                <br>
-                                or
-                                <br>
-                                Click to Browse
+                                <div class="form-field full-width">
+                                    <label for="description">Description</label>
+                                    <textarea class="form-control" id="description" name="listing[description]" rows="5"
+                                        placeholder="Describe your stay..."
+                                        required><%= listing.description %></textarea>
+                                    <div class="invalid-feedback">Please provide a description.</div>
+                                </div>
+
+                                <div class="form-field">
+                                    <label for="price">Price (Rs / Night)</label>
+                                    <input type="number" class="form-control" id="price" name="listing[price]"
+                                        value="<%= listing.price %>" placeholder="10000" required>
+                                    <div class="invalid-feedback">Please provide a valid price.</div>
+                                </div>
+
+                                <div class="form-field">
+                                    <label for="tag">Category</label>
+                                    <select class="form-select" id="tag" name="listing[tag]" required>
+                                        <option value="">Choose Category</option>
+                                        <% tags.forEach(tag=> { %>
+                                            <option value="<%= tag %>" <%=listing.tag===tag ? "selected" : "" %>><%= tag
+                                                    %>
+                                            </option>
+                                            <% }) %>
+                                    </select>
+                                    <div class="invalid-feedback">Please select a category.</div>
+                                </div>
+
+                                <div class="form-field">
+                                    <label for="location">City / Location</label>
+                                    <input type="text" class="form-control" id="location" name="listing[location]"
+                                        value="<%= listing.location %>" placeholder="Lonavala" required>
+                                    <div class="invalid-feedback">Please provide a location.</div>
+                                </div>
+
+                                <div class="form-field">
+                                    <label for="country">Country</label>
+                                    <input type="text" class="form-control" id="country" name="listing[country]"
+                                        value="<%= listing.country %>" placeholder="India" required>
+                                    <div class="invalid-feedback">Please provide a country.</div>
+                                </div>
+
+                                <div class="form-field full-width">
+                                    <label for="exactLocation">Google Maps Location</label>
+                                    <input type="text" class="form-control" id="exactLocation"
+                                        name="listing[exactLocation]" value="<%= listing.exactLocation || "" %>"
+                                        placeholder="https://maps.app.goo.gl/..." required>
+                                    <div class="invalid-feedback">Please provide the Google Maps URL.</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="listing-upload-box">
+                            <div class="upload-header">
+                                <h2>Property Image</h2>
+                                <p>Keep the current cover photo or upload a replacement.</p>
+                            </div>
+
+                            <div class="upload-body">
+                                <label for="image" class="image-upload-label">
+                                    <div class="image-upload-box">
+                                        <div class="upload-icon">
+                                            <i class="fa-solid fa-cloud-arrow-up"></i>
+                                        </div>
+
+                                        <h4>Choose an Image</h4>
+
+                                        <p>
+                                            Drag & Drop
+                                            <br>
+                                            or
+                                            <br>
+                                            Click to Browse
+                                        </p>
+                                    </div>
+                                </label>
+
+                                <input type="file" id="image" name="listing[image][url]" accept="image/*" hidden>
+
+                                <div class="image-preview-container">
+                                    <img id="imagePreview" src="<%= previewImageUrl %>" alt="Image Preview"
+                                        <%=previewImageUrl ? ' style="display:block;"' : '' %>>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- ------------------------------------------------------------------------------------- -->
+
+                    <!-- ===================================== -->
+                    <!-- Add amenities  -->
+                    <!-- ===================================== -->
+
+                    <div class="listing-amenities-box">
+
+                        <div class="listing-amenities-box-head">
+
+                            <h3>Select all the Amenities & Features</h3>
+                            <p>You can Select multiple Amenities & Features</p>
+
+                        </div>
+                        <div class="listing-amenities-box-tags">
+                            <!-- TAG SET 1 -->
+                            <div class="category-grid">
+                                <% holidayCategories.forEach((category, index)=> { %>
+
+                                    <div class="category-card">
+                                        <!-- From Uiverse.io by risabbir -->
+                                        <div class="checkbox-container">
+                                            <div class="checkbox-wrapper">
+                                                <input class="checkbox" id="holiday-category-<%= index %>"
+                                                    type="checkbox" value="<%= category.name %>"
+                                                    name="listing[checkboxAMFET][]"
+                                                    <%=selectedCheckboxAMFET.includes(category.name) ? "checked" : "" %>
+                                                />
+                                                <label class="checkbox-label" for="holiday-category-<%= index %>">
+                                                    <div class="checkbox-flip">
+                                                        <div class="checkbox-front">
+                                                            <svg fill="white" height="32" width="32" viewBox="0 0 24 24"
+                                                                xmlns="http://www.w3.org/2000/svg">
+                                                                <path d="M19 13H12V19H11V13H5V12H11V6H12V12H19V13Z"
+                                                                    class="icon-path"></path>
+                                                            </svg>
+                                                        </div>
+                                                        <div class="checkbox-back">
+                                                            <svg fill="white" height="32" width="32" viewBox="0 0 24 24"
+                                                                xmlns="http://www.w3.org/2000/svg">
+                                                                <path
+                                                                    d="M9 19l-7-7 1.41-1.41L9 16.17l11.29-11.3L22 6l-13 13z"
+                                                                    class="icon-path"></path>
+                                                            </svg>
+                                                        </div>
+                                                    </div>
+                                                </label>
+                                                <label for="holiday-category-<%= index %>" class="c_lable">
+                                                    <%= category.name %>
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <% }) %>
+                            </div>
+
+
+
+                            <hr>
+
+                            <!-- TAG SET 2 -->
+                            <div class="category-grid">
+                                <% amenities.forEach((category, index)=> { %>
+                                    <div class="category-card">
+                                        <!-- From Uiverse.io by risabbir -->
+                                        <div class="checkbox-container">
+                                            <div class="checkbox-wrapper">
+                                                <input class="checkbox" id="amenity-category-<%= index %>"
+                                                    type="checkbox" value="<%= category.name %>"
+                                                    name="listing[checkboxAMFET][]"
+                                                    <%=selectedCheckboxAMFET.includes(category.name) ? "checked" : "" %>
+                                                />
+                                                <label class="checkbox-label" for="amenity-category-<%= index %>">
+                                                    <div class="checkbox-flip">
+                                                        <div class="checkbox-front">
+                                                            <svg fill="white" height="32" width="32" viewBox="0 0 24 24"
+                                                                xmlns="http://www.w3.org/2000/svg">
+                                                                <path d="M19 13H12V19H11V13H5V12H11V6H12V12H19V13Z"
+                                                                    class="icon-path"></path>
+                                                            </svg>
+                                                        </div>
+                                                        <div class="checkbox-back">
+                                                            <svg fill="white" height="32" width="32" viewBox="0 0 24 24"
+                                                                xmlns="http://www.w3.org/2000/svg">
+                                                                <path
+                                                                    d="M9 19l-7-7 1.41-1.41L9 16.17l11.29-11.3L22 6l-13 13z"
+                                                                    class="icon-path"></path>
+                                                            </svg>
+                                                        </div>
+                                                    </div>
+                                                </label>
+                                                <label for="amenity-category-<%= index %>" class="c_lable">
+                                                    <%= category.name %>
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <% }) %>
+
+                            </div>
+                            <hr>
+                            <!-- TAG SET 3 -->
+                            <div class="category-grid">
+                                <% experiences.forEach((category, index)=> { %>
+                                    <div class="category-card">
+                                        <!-- From Uiverse.io by risabbir -->
+                                        <div class="checkbox-container">
+                                            <div class="checkbox-wrapper">
+                                                <input class="checkbox" id="experience-category-<%= index %>"
+                                                    type="checkbox" value="<%= category.name %>"
+                                                    name="listing[checkboxAMFET][]"
+                                                    <%=selectedCheckboxAMFET.includes(category.name) ? "checked" : "" %>
+                                                />
+                                                <label class="checkbox-label" for="experience-category-<%= index %>">
+                                                    <div class="checkbox-flip">
+                                                        <div class="checkbox-front">
+                                                            <svg fill="white" height="32" width="32" viewBox="0 0 24 24"
+                                                                xmlns="http://www.w3.org/2000/svg">
+                                                                <path d="M19 13H12V19H11V13H5V12H11V6H12V12H19V13Z"
+                                                                    class="icon-path"></path>
+                                                            </svg>
+                                                        </div>
+                                                        <div class="checkbox-back">
+                                                            <svg fill="white" height="32" width="32" viewBox="0 0 24 24"
+                                                                xmlns="http://www.w3.org/2000/svg">
+                                                                <path
+                                                                    d="M9 19l-7-7 1.41-1.41L9 16.17l11.29-11.3L22 6l-13 13z"
+                                                                    class="icon-path"></path>
+                                                            </svg>
+                                                        </div>
+                                                    </div>
+                                                </label>
+                                                <label for="experience-category-<%= index %>" class="c_lable">
+                                                    <%= category.name %>
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <% }) %>
+                            </div>
+
+                            <hr>
+                            <!-- TAG SET 4 -->
+
+                            <div class="category-grid">
+                                <% attractions.forEach((category, index)=> { %>
+                                    <div class="category-card">
+                                        <!-- From Uiverse.io by risabbir -->
+                                        <div class="checkbox-container">
+                                            <div class="checkbox-wrapper">
+                                                <input class="checkbox" id="attraction-category-<%= index %>"
+                                                    type="checkbox" value="<%= category.name %>"
+                                                    name="listing[checkboxAMFET][]"
+                                                    <%=selectedCheckboxAMFET.includes(category.name) ? "checked" : "" %>
+                                                />
+                                                <label class="checkbox-label" for="attraction-category-<%= index %>">
+                                                    <div class="checkbox-flip">
+                                                        <div class="checkbox-front">
+                                                            <svg fill="white" height="32" width="32" viewBox="0 0 24 24"
+                                                                xmlns="http://www.w3.org/2000/svg">
+                                                                <path d="M19 13H12V19H11V13H5V12H11V6H12V12H19V13Z"
+                                                                    class="icon-path"></path>
+                                                            </svg>
+                                                        </div>
+                                                        <div class="checkbox-back">
+                                                            <svg fill="white" height="32" width="32" viewBox="0 0 24 24"
+                                                                xmlns="http://www.w3.org/2000/svg">
+                                                                <path
+                                                                    d="M9 19l-7-7 1.41-1.41L9 16.17l11.29-11.3L22 6l-13 13z"
+                                                                    class="icon-path"></path>
+                                                            </svg>
+                                                        </div>
+                                                    </div>
+                                                </label>
+                                                <label for="attraction-category-<%= index %>" class="c_lable">
+                                                    <%= category.name %>
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <% }) %>
+
+                            </div>
+
+
+
+                        </div>
+
+
+
+                    </div>
+
+                    <!-- -------------------------------------------------------------------------------------- -->
+
+                    <div class="listing-room-box">
+                        <div class="room-header">
+                            <div>
+                                <h2>Room Configuration</h2>
+                                <p>Update rooms and keep the total capacity in sync automatically.</p>
+                            </div>
+                        </div>
+
+                        <div class="room-body">
+                            <div id="roomsContainer">
+                                <% rooms.forEach((room, index)=> { %>
+                                    <div class="card mb-3 room-card">
+                                        <div class="card-body">
+                                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                                <h5 class="mb-0">Room <%= room.roomNo || index + 1 %>
+                                                </h5>
+
+                                                <button type="button" class="btn btn-outline-danger btn-sm remove-room">
+                                                    Remove
+                                                </button>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-3 mb-3">
+                                                    <label class="form-label">Room Number</label>
+                                                    <input type="number" class="form-control room-no"
+                                                        name="listing[rooms][<%= index %>][roomNo]"
+                                                        value="<%= room.roomNo || index + 1 %>" readonly>
+                                                </div>
+
+                                                <div class="col-md-5 mb-3">
+                                                    <label class="form-label">Room Type</label>
+                                                    <select class="form-select room-type"
+                                                        name="listing[rooms][<%= index %>][roomType]" required>
+                                                        <% roomTypes.forEach(type=> { %>
+                                                            <option value="<%= type %>" <%=room.roomType===type
+                                                                ? "selected" : "" %>><%= type %>
+                                                            </option>
+                                                            <% }) %>
+                                                    </select>
+                                                </div>
+
+                                                <div class="col-md-4 mb-3">
+                                                    <label class="form-label">People Capacity</label>
+                                                    <input type="number" class="form-control room-capacity"
+                                                        name="listing[rooms][<%= index %>][capacity]"
+                                                        value="<%= room.capacity %>" min="1" required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <% }) %>
+                            </div>
+                        </div>
+
+                        <div class="room-footer">
+                            <button type="button" id="addRoomBtn" class="add-room-btn">
+                                <i class="fa-solid fa-plus"></i>
+                                Add Room
+                            </button>
+
+                            <div class="capacity-box">
+                                <span>Total Capacity</span>
+                                <input type="number" id="totalCapacity" name="listing[capacity]"
+                                    value="<%= listing.capacity %>" readonly>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="listing-submit-box">
+                        <div class="submit-left">
+                            <h3>Ready to Save Changes?</h3>
+                            <p>Review the updated property information before applying the changes to this listing.
                             </p>
                         </div>
-                    </label>
 
-                    <input type="file" id="image" name="listing[image][url]" accept="image/*" hidden>
-
-                    <div class="image-preview-container">
-                        <img id="imagePreview" src="<%= previewImageUrl %>" alt="Image Preview"<%= previewImageUrl ? ' style="display:block;"' : '' %>>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="listing-room-box">
-            <div class="room-header">
-                <div>
-                    <h2>Room Configuration</h2>
-                    <p>Update rooms and keep the total capacity in sync automatically.</p>
-                </div>
-            </div>
-
-            <div class="room-body">
-                <div id="roomsContainer">
-                    <% rooms.forEach((room, index) => { %>
-                        <div class="card mb-3 room-card">
-                            <div class="card-body">
-                                <div class="d-flex justify-content-between align-items-center mb-3">
-                                    <h5 class="mb-0">Room <%= room.roomNo || index + 1 %></h5>
-
-                                    <button type="button" class="btn btn-outline-danger btn-sm remove-room">
-                                        Remove
-                                    </button>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-md-3 mb-3">
-                                        <label class="form-label">Room Number</label>
-                                        <input type="number" class="form-control room-no" name="listing[rooms][<%= index %>][roomNo]" value="<%= room.roomNo || index + 1 %>" readonly>
-                                    </div>
-
-                                    <div class="col-md-5 mb-3">
-                                        <label class="form-label">Room Type</label>
-                                        <select class="form-select room-type" name="listing[rooms][<%= index %>][roomType]" required>
-                                            <% roomTypes.forEach(type => { %>
-                                                <option value="<%= type %>" <%= room.roomType === type ? "selected" : "" %>><%= type %></option>
-                                            <% }) %>
-                                        </select>
-                                    </div>
-
-                                    <div class="col-md-4 mb-3">
-                                        <label class="form-label">People Capacity</label>
-                                        <input type="number" class="form-control room-capacity" name="listing[rooms][<%= index %>][capacity]" value="<%= room.capacity %>" min="1" required>
-                                    </div>
-                                </div>
-                            </div>
+                        <div class="submit-right">
+                            <button type="submit" class="publish-btn">
+                                <i class="fa-solid fa-floppy-disk"></i>
+                                Update Listing
+                            </button>
                         </div>
-                    <% }) %>
-                </div>
+                    </div>
+                </form>
             </div>
 
-            <div class="room-footer">
-                <button type="button" id="addRoomBtn" class="add-room-btn">
-                    <i class="fa-solid fa-plus"></i>
-                    Add Room
-                </button>
+            <script>
+                const imageInput = document.getElementById("image");
+                const imagePreview = document.getElementById("imagePreview");
 
-                <div class="capacity-box">
-                    <span>Total Capacity</span>
-                    <input type="number" id="totalCapacity" name="listing[capacity]" value="<%= listing.capacity %>" readonly>
-                </div>
-            </div>
-        </div>
+                if (imageInput && imagePreview) {
+                    imageInput.addEventListener("change", function () {
+                        const file = this.files[0];
 
-        <div class="listing-submit-box">
-            <div class="submit-left">
-                <h3>Ready to Save Changes?</h3>
-                <p>Review the updated property information before applying the changes to this listing.</p>
-            </div>
+                        if (!file) return;
 
-            <div class="submit-right">
-                <button type="submit" class="publish-btn">
-                    <i class="fa-solid fa-floppy-disk"></i>
-                    Update Listing
-                </button>
-            </div>
-        </div>
-    </form>
-</div>
+                        const reader = new FileReader();
 
-<script>
-    const imageInput = document.getElementById("image");
-    const imagePreview = document.getElementById("imagePreview");
+                        reader.onload = function (e) {
+                            imagePreview.src = e.target.result;
+                            imagePreview.style.display = "block";
+                        };
 
-    if (imageInput && imagePreview) {
-        imageInput.addEventListener("change", function () {
-            const file = this.files[0];
+                        reader.readAsDataURL(file);
+                    });
+                }
+            </script>
 
-            if (!file) return;
+            <script>
+                const roomsContainer = document.getElementById("roomsContainer");
+                const addRoomBtn = document.getElementById("addRoomBtn");
+                const totalCapacityInput = document.getElementById("totalCapacity");
 
-            const reader = new FileReader();
+                let roomCount = document.querySelectorAll(".room-card").length;
 
-            reader.onload = function (e) {
-                imagePreview.src = e.target.result;
-                imagePreview.style.display = "block";
-            };
+                function createRoom() {
+                    roomCount++;
 
-            reader.readAsDataURL(file);
-        });
-    }
-</script>
+                    const room = document.createElement("div");
+                    room.className = "card mb-3 room-card";
 
-<script>
-    const roomsContainer = document.getElementById("roomsContainer");
-    const addRoomBtn = document.getElementById("addRoomBtn");
-    const totalCapacityInput = document.getElementById("totalCapacity");
-
-    let roomCount = document.querySelectorAll(".room-card").length;
-
-    function createRoom() {
-        roomCount++;
-
-        const room = document.createElement("div");
-        room.className = "card mb-3 room-card";
-
-        room.innerHTML = `
+                    room.innerHTML = `
             <div class="card-body">
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <h5 class="mb-0">Room ${roomCount}</h5>
@@ -254,55 +475,55 @@
             </div>
         `;
 
-        attachEvents(room);
-        roomsContainer.appendChild(room);
-        updateTotalCapacity();
-    }
+                    attachEvents(room);
+                    roomsContainer.appendChild(room);
+                    updateTotalCapacity();
+                }
 
-    function attachEvents(room) {
-        room.querySelector(".remove-room").addEventListener("click", () => {
-            room.remove();
-            updateRooms();
-            updateTotalCapacity();
-        });
+                function attachEvents(room) {
+                    room.querySelector(".remove-room").addEventListener("click", () => {
+                        room.remove();
+                        updateRooms();
+                        updateTotalCapacity();
+                    });
 
-        room.querySelector(".room-capacity").addEventListener("input", updateTotalCapacity);
-    }
+                    room.querySelector(".room-capacity").addEventListener("input", updateTotalCapacity);
+                }
 
-    function updateRooms() {
-        const rooms = document.querySelectorAll(".room-card");
-        roomCount = 0;
+                function updateRooms() {
+                    const rooms = document.querySelectorAll(".room-card");
+                    roomCount = 0;
 
-        rooms.forEach(room => {
-            roomCount++;
+                    rooms.forEach(room => {
+                        roomCount++;
 
-            room.querySelector("h5").textContent = `Room ${roomCount}`;
-            room.querySelector(".room-no").value = roomCount;
-            room.querySelector(".room-no").name = `listing[rooms][${roomCount - 1}][roomNo]`;
-            room.querySelector(".room-type").name = `listing[rooms][${roomCount - 1}][roomType]`;
-            room.querySelector(".room-capacity").name = `listing[rooms][${roomCount - 1}][capacity]`;
-        });
-    }
+                        room.querySelector("h5").textContent = `Room ${roomCount}`;
+                        room.querySelector(".room-no").value = roomCount;
+                        room.querySelector(".room-no").name = `listing[rooms][${roomCount - 1}][roomNo]`;
+                        room.querySelector(".room-type").name = `listing[rooms][${roomCount - 1}][roomType]`;
+                        room.querySelector(".room-capacity").name = `listing[rooms][${roomCount - 1}][capacity]`;
+                    });
+                }
 
-    function updateTotalCapacity() {
-        let total = 0;
+                function updateTotalCapacity() {
+                    let total = 0;
 
-        document.querySelectorAll(".room-capacity").forEach(input => {
-            total += Number(input.value) || 0;
-        });
+                    document.querySelectorAll(".room-capacity").forEach(input => {
+                        total += Number(input.value) || 0;
+                    });
 
-        totalCapacityInput.value = total;
-    }
+                    totalCapacityInput.value = total;
+                }
 
-    document.querySelectorAll(".room-card").forEach(room => {
-        attachEvents(room);
-    });
+                document.querySelectorAll(".room-card").forEach(room => {
+                    attachEvents(room);
+                });
 
-    if (roomCount === 0) {
-        createRoom();
-    } else {
-        updateTotalCapacity();
-    }
+                if (roomCount === 0) {
+                    createRoom();
+                } else {
+                    updateTotalCapacity();
+                }
 
-    addRoomBtn.addEventListener("click", createRoom);
-</script>
+                addRoomBtn.addEventListener("click", createRoom);
+            </script>

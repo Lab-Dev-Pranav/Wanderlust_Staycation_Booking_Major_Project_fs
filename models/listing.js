@@ -17,6 +17,10 @@ const listingSchema = new schema({
         location: String,
         country: String,
         tag: String,
+        checkboxAMFET: {
+                type: [String],
+                default: []
+        },
         review: [
                 {
                         type: schema.Types.ObjectId,
@@ -80,3 +84,6 @@ const listingSchema = new schema({
 const listing = mongoose.model("listing", listingSchema);
 
 module.exports = listing;
+
+
+

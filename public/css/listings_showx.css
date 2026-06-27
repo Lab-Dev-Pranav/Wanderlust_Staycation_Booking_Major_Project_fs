@@ -395,6 +395,39 @@
       margin: -20px 0px 0px 0px;
 }
 
+/* ---------1.2 -----Amenities & Features---------------- */
+
+.listing-amenities-box-head h6 {
+      margin: 5px 0px 0px 20px;
+      font-size: 1.3rem;
+      font-weight: 700;
+}
+
+.listing-amenities-box-head p {
+      margin: 5px 0px 0px 20px;
+      font-size: 1rem;
+}
+
+.listing-amenities-box-tags {
+      margin: 0px 0px 0px 0px;
+      padding: 10px 20px;
+
+}
+
+.amenity-tag {
+      display: inline-block;
+      background: #fff0e6;
+      color: #ff9955;
+      padding: 8px 18px;
+      border-radius: 25px;
+      margin: 5px;
+      font-weight: 500;
+      font-size: 0.95rem;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, .05);
+      border: 1px solid rgba(255, 155, 85, .2);
+}
+
+
 
 /* -----------2---description------- */
 .show-listing-description {
@@ -673,61 +706,61 @@
 
 
 
-/* From Uiverse.io by vinodjangid07 */ 
+/* From Uiverse.io by vinodjangid07 */
 .d-button {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background-color: rgba(20, 20, 20, 0.582);
-  border: none;
-  font-weight: 600;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.164);
-  cursor: pointer;
-  transition-duration: .3s;
-  overflow: hidden;
-  position: relative;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: rgba(20, 20, 20, 0.582);
+      border: none;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.164);
+      cursor: pointer;
+      transition-duration: .3s;
+      overflow: hidden;
+      position: relative;
 }
 
 .svgIcon {
-  width: 12px;
-  transition-duration: .3s;
+      width: 12px;
+      transition-duration: .3s;
 }
 
 .svgIcon path {
-  fill: white;
+      fill: white;
 }
 
 .d-button:hover {
-  width: 140px;
-  border-radius: 50px;
-  transition-duration: .3s;
-  background-color: rgb(73, 73, 73);
-  align-items: center;
+      width: 140px;
+      border-radius: 50px;
+      transition-duration: .3s;
+      background-color: rgb(73, 73, 73);
+      align-items: center;
 }
 
 .d-button:hover .svgIcon {
-  width: 50px;
-  transition-duration: .3s;
-  transform: translateY(60%);
+      width: 50px;
+      transition-duration: .3s;
+      transform: translateY(60%);
 }
 
 .d-button::before {
-  position: absolute;
-  top: -20px;
-  content: "Delete";
-  color: white;
-  transition-duration: .3s;
-  font-size: 2px;
+      position: absolute;
+      top: -20px;
+      content: "Delete";
+      color: white;
+      transition-duration: .3s;
+      font-size: 2px;
 }
 
 .d-button:hover::before {
-  font-size: 13px;
-  opacity: 1;
-  transform: translateY(30px);
-  transition-duration: .3s;
+      font-size: 13px;
+      opacity: 1;
+      transform: translateY(30px);
+      transition-duration: .3s;
 }
 
 
@@ -1170,20 +1203,21 @@
       }
 
       .room-card {
-             height: 70px;
-             width: 20px;     
+            height: 70px;
+            width: 20px;
       }
 
-      .room-card-icon{
+      .room-card-icon {
             display: none;
       }
 
-      .room-card-info h4{
+      .room-card-info h4 {
             display: none;
       }
-       .room-card-info .room-type{
+
+      .room-card-info .room-type {
             margin: -10px 0px 0px 0px;
-       }
+      }
 
 }
 

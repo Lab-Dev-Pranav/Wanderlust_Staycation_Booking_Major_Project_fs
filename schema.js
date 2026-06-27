@@ -14,6 +14,8 @@ module.exports.listingSchema = Joi.object({
 
         tag: Joi.string().required(),
 
+        checkboxAMFET: Joi.array().items(Joi.string()).optional(),
+
         image: Joi.object({
             url: Joi.string().uri().optional(),
         }).optional(),
@@ -53,4 +55,6 @@ module.exports.reviewSchema = Joi.object({
         comment: Joi.string().required(),
     }).required()
 })
+
+
 

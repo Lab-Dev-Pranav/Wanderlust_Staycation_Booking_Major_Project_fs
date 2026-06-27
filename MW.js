@@ -5,14 +5,27 @@ const { listingSchema, reviewSchema  } = require("./schema.js");
 
 // LISTINGS VALIDATION MW ON CLIENT SIDE
 module.exports.validateListing = (req, res, next) => {
-        let { error } = listingSchema.validate(req.body);
+        if (req.body?.listing) {
+          const legacyCategories = req.body.listing.categories;
+          const checkboxAMFET = req.body.listing.checkboxAMFET;
+
+          if (typeof checkboxAMFET === "undefined" && typeof legacyCategories !== "undefined") {
+            req.body.listing.checkboxAMFET = legacyCategories;
+          }
+
+          delete req.body.listing.categories;
+
+          if (typeof req.body.listing.checkboxAMFET !== "undefined" && !Array.isArray(req.body.listing.checkboxAMFET)) {
+            req.body.listing.checkboxAMFET = [req.body.listing.checkboxAMFET];
+          }
+        }
+
+        let { error, value } = listingSchema.validate(req.body);
         if (error) {
-          //   console.log("IF START");
           let errorMsg = error.details.map((el) => el.message).join(", ");
-          //   console.log("Error Message: " + errorMsg);
           throw new ExpressError(400, errorMsg);
         } else {
-          //   console.log("ELSE START");
+          req.body = value;
           next();
         }
       };
@@ -71,3 +84,5 @@ module.exports.isReviewAuthor = async (req, res, next)=>{
   }
   next();
 }
+
+
