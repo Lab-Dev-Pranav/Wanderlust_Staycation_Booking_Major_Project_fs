@@ -1,51 +1,112 @@
 <% layout("/layouts/boilerplate") %>
+<% block('styles').append('<link rel="stylesheet" href="/css/payment.css">') %>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 
-<div class="container my-5">
+<%
+  const totalDays = Math.ceil((new Date(booking.checkOut) - new Date(booking.checkIn)) / (1000 * 60 * 60 * 24));
+  const statusClass = booking.status === 'confirmed' ? 'payment-status-confirmed' : (booking.status === 'pending' ? 'payment-status-pending' : 'payment-status-other');
+%>
 
-        <h1 class="mb-4">Payment Section</h1>
-          <!-- User Contact (Less Important) -->
- 
+<div class="payment-page">
+  <div class="payment-page-shell">
+    <header class="payment-hero-card">
+      <div class="payment-kicker">Payment Required</div>
+      <h1 class="payment-title">Complete Your Booking Payment</h1>
+      <p class="payment-intro">Review the booking details and confirm your payment to secure the reservation.</p>
 
-  <!-- Booking & Listing Summary -->
-  <div class="shadow-sm p-4 rounded-4 mb-4 bg-white border">
-    <h4 class="mb-3 text-primary">Booking and Listing Details</h4>
-    <div class="row">
-      <div class="col-md-6">
-        <p><strong>Booking ID:</strong> <%= booking._id %></p>
-        <p><strong>Check-In:</strong> <%= new Date(booking.checkIn).toLocaleDateString("en-IN") %> at 01:00 PM</p>
-        <p><strong>Check-Out:</strong> <%= new Date(booking.checkOut).toLocaleDateString("en-IN") %> at 11:00 AM</p>
-        <p><strong>Total Days:</strong> 
-          <%= Math.ceil((new Date(booking.checkOut) - new Date(booking.checkIn)) / (1000 * 60 * 60 * 24)) %>
-        </p>
-        <p><strong>Guests:</strong> <%= booking.people %></p>
+      <div class="payment-stat-strip">
+        <div class="payment-stat-pill">
+          <span>Total Payable</span>
+          <strong>₹<%= grandTotal.toLocaleString("en-IN") %></strong>
+        </div>
+        <div class="payment-stat-pill payment-stat-pill-success">
+          <span>Nights</span>
+          <strong><%= totalDays %></strong>
+        </div>
+        <div class="payment-stat-pill">
+          <span>Guests</span>
+          <strong><%= booking.people %></strong>
+        </div>
       </div>
-      <div class="col-md-6">
-        <p><strong>Listing Title:</strong> <%= listing.title %></p>
-        <p><strong>Location:</strong> <%= listing.location %></p>
-        <p><strong>Country:</strong> <%= listing.country %></p>
-        <p><strong>Price per Night:</strong> ₹<%= listing.price.toLocaleString("en-IN") %></p>
+    </header>
+
+    <section class="payment-section">
+      <div class="payment-section-head">
+        <h2>Booking & Listing Details</h2>
       </div>
-    </div>
-     <div class="shadow-sm p-3 rounded-4 mb-4 bg-white border border-dashed text-muted small">
-    <h6 class="mb-2 text-secondary">Property Owner (Internal Use)</h6>
-    <p><strong>Email:</strong> <%= user.email %></p>
-  </div>
-  </div>
 
-  <!-- Payment Summary -->
-  <div class="shadow-sm p-4 rounded-4 mb-4 bg-light border">
-    <h4 class="mb-3 text-success">Payment Summary</h4>
-    <p><strong>Base Amount:</strong> ₹<%= baseAmount.toLocaleString("en-IN") %></p>
-    <p><strong>GST (18%):</strong> ₹<%= gstAmount.toLocaleString("en-IN") %></p>
-    <p><strong>Platform Fee (2%):</strong> ₹<%= platformFee.toLocaleString("en-IN") %></p>
-    <hr />
-    <p class="fs-5"><strong>Total Payable:</strong> ₹<strong><%= grandTotal.toLocaleString("en-IN") %></strong></p>
+      <div class="payment-summary-grid">
+        <article class="payment-record-card">
+          <header class="payment-record-header">
+            <div class="payment-record-top">
+              <div>
+                <h3><%= listing.title %></h3>
+                <p class="payment-location"><i class="bi bi-geo-alt-fill"></i><span><%= listing.location %>, <%= listing.country %></span></p>
+                <p class="payment-location"><i class="bi bi-tag-fill"></i><span><%= listing.tag %></span></p>
+              </div>
+              <div class="payment-record-badges">
+                <span class="payment-chip">Base: ₹<%= listing.price.toLocaleString("en-IN") %>/night</span>
+                <span class="payment-status-pill <%= statusClass %>">
+                  <%= booking.status.charAt(0).toUpperCase() + booking.status.slice(1) %>
+                </span>
+              </div>
+            </div>
+          </header>
+
+          <div class="payment-record-body">
+            <div class="payment-facts-grid">
+              <div class="payment-fact-card">
+                <span>Check-in</span>
+                <strong><%= new Date(booking.checkIn).toLocaleDateString("en-IN", { weekday: "short", year: "numeric", month: "short", day: "numeric" }) %></strong>
+                <small>01:00 PM</small>
+              </div>
+              <div class="payment-fact-card">
+                <span>Check-out</span>
+                <strong><%= new Date(booking.checkOut).toLocaleDateString("en-IN", { weekday: "short", year: "numeric", month: "short", day: "numeric" }) %></strong>
+                <small>11:00 AM</small>
+              </div>
+              <div class="payment-fact-card">
+                <span>Total Nights</span>
+                <strong><%= totalDays %></strong>
+              </div>
+              <div class="payment-fact-card">
+                <span>Guests</span>
+                <strong><%= booking.people %> / <%= listing.capacity %></strong>
+                <small>Capacity</small>
+              </div>
+            </div>
+
+            <div class="payment-inline-meta">
+              <p><i class="bi bi-map-fill"></i> <a href="<%= listing.exactLocation %>" target="_blank">View exact location on map</a></p>
+              <p><i class="bi bi-calendar-event"></i> Booked on: <strong><%= new Date(booking.createdAt).toLocaleDateString("en-IN", { year: "numeric", month: "long", day: "numeric" }) %></strong></p>
+            </div>
+
+            <div class="payment-bottom-grid">
+              <div class="payment-date-box">
+                <p class="mb-1"><strong>Booking ID:</strong> <code><%= booking._id %></code></p>
+                <p class="mb-0"><strong>Status:</strong> <span class="badge <%= statusClass %>"><%= booking.status.charAt(0).toUpperCase() + booking.status.slice(1) %></span></p>
+              </div>
+
+              <div class="payment-price-box">
+                <p class="mb-1"><strong>Base Amount (₹<%= listing.price.toLocaleString("en-IN") %> × <%= totalDays %> nights):</strong> ₹<%= baseAmount.toLocaleString("en-IN") %></p>
+                <p class="mb-1 text-warning"><strong>+ GST (18%):</strong> ₹<%= gstAmount.toLocaleString("en-IN") %></p>
+                <p class="mb-1 text-info"><strong>+ Platform Fee (2%):</strong> ₹<%= platformFee.toLocaleString("en-IN") %></p>
+                <p class="mb-0 fw-bold fs-4 text-success payment-grand-total">Total Payable: ₹<%= grandTotal.toLocaleString("en-IN") %></p>
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="payment-section">
+      <div class="payment-card-actions">
+        <form action="/payments/<%= booking._id %>/confirm" method="POST">
+          <button type="submit" class="payment-btn payment-btn-primary payment-btn-block">
+            <i class="bi bi-credit-card-2-front-fill"></i> Confirm Payment — ₹<%= grandTotal.toLocaleString("en-IN") %>
+          </button>
+        </form>
+      </div>
+    </section>
   </div>
-
-
-  <!-- Confirm Payment -->
-   <!-- /payments/:id/confirm -->
-  <form action="/payments/<%= booking._id %>/confirm" method="POST">
-    <button type="submit" class="btn btn-success btn-lg w-100 shadow-sm">Confirm Payment</button>
-  </form>
 </div>

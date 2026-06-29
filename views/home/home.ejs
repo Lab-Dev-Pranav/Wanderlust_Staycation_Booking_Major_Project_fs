@@ -16,7 +16,7 @@
           <h2>Friendly holiday rentals at your <br /><i>Dream Location</i></h2>
           <h2>A place to call home on your next adventure</h2>
 
-          <form action="/search" method="GET" class="search-form">
+          <form action="/search" method="GET" class="search-form" id="searchForm" novalidate>
             <p class="intro-text">Discover dreamy villas, houses, cabins & more</p>
 
             <div class="input-row">
@@ -25,9 +25,10 @@
             </div>
 
             <div class="input-row">
-              <input type="date" name="checkIn" class="form-control" required />
-              <input type="date" name="checkOut" class="form-control" required />
+              <input type="date" name="checkIn" class="form-control" id="checkIn" required />
+              <input type="date" name="checkOut" class="form-control" id="checkOut" required />
             </div>
+            <span class="errorathome"></span>
 
             <div class="input-row">
               <button type="submit" class="btn-search">Search</button>
@@ -35,7 +36,6 @@
           </form>
         </div>
       </div>
-
 
       <div class="container my-5">
 
@@ -104,7 +104,7 @@
           <div class="row g-3 justify-content-center">
 
 
-                 <div class="category-grid">
+            <div class="category-grid">
 
               <% amenities.forEach(category=> { %>
 
@@ -133,7 +133,7 @@
           <h3 class="text-center mb-4">Unique Experiences</h3>
           <div class="row g-3 justify-content-center">
 
-               <div class="category-grid">
+            <div class="category-grid">
 
               <% experiences.forEach(category=> { %>
 
@@ -152,7 +152,7 @@
                 <% }) %>
 
             </div>
-           
+
           </div>
         </section>
 
@@ -161,7 +161,7 @@
           <h3 class="text-center mb-4">Top Attractions</h3>
           <div class="row g-3 justify-content-center">
 
-              <div class="category-grid">
+            <div class="category-grid">
 
               <% attractions.forEach(category=> { %>
 
@@ -195,3 +195,94 @@
 
 
     </body>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        const checkInInput = document.getElementById('checkIn');
+        const checkOutInput = document.getElementById('checkOut');
+        const searchForm = document.getElementById('searchForm');
+        const errorathome = document.querySelector(".errorathome");
+
+
+        // Calculate minimum check-in date (10 days from today)
+        const today = new Date();
+        const minCheckIn = new Date(today);
+        minCheckIn.setDate(today.getDate() + 10);
+
+        // Format date as YYYY-MM-DD for input min attribute
+        const formatDate = (date) => {
+          const year = date.getFullYear();
+          const month = String(date.getMonth() + 1).padStart(2, '0');
+          const day = String(date.getDate()).padStart(2, '0');
+          return `${year}-${month}-${day}`;
+        };
+
+        // Set minimum date for check-in
+        checkInInput.min = formatDate(minCheckIn);
+
+        // Update check-out min date when check-in changes
+        checkInInput.addEventListener('change', function () {
+          const checkInDate = new Date(this.value);
+          const minCheckOut = new Date(checkInDate);
+          minCheckOut.setDate(checkInDate.getDate() + 1);
+          checkOutInput.min = formatDate(minCheckOut);
+
+          // If check-out is before new min, clear it
+          if (checkOutInput.value && new Date(checkOutInput.value) < minCheckOut) {
+            checkOutInput.value = '';
+          }
+        });
+
+        // Form validation on submit
+        searchForm.addEventListener('submit', function (e) {
+          const checkInValue = checkInInput.value;
+          if (!checkInValue) {
+            e.preventDefault();
+            // alert('Please select a check-in date');
+            errorathome.textContent = "⊘ Choose a check-in date";
+            clearreeor()
+            return;
+          }
+
+          const selectedCheckIn = new Date(checkInValue);
+          const todayStart = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+
+          if (selectedCheckIn < minCheckIn) {
+            e.preventDefault();
+            // alert(`Check-in date must be at least 10 days from today (${formatDate(minCheckIn)} or later)`);
+            errorathome.textContent = `Check-in date must be at least 10 days from today (${formatDate(minCheckIn)} or later)`;
+            checkInInput.focus();
+            clearreeor()
+            return;
+          }
+
+          const checkOutValue = checkOutInput.value;
+          if (!checkOutValue) {
+            e.preventDefault();
+            // alert('Please select a check-out date');
+            errorathome.textContent = `Please select a check-out date`;
+            clearreeor()
+            return;
+          }
+
+          const selectedCheckOut = new Date(checkOutValue);
+          if (selectedCheckOut <= selectedCheckIn) {
+            e.preventDefault();
+            // alert('Check-out date must be after check-in date');
+            errorathome.textContent = `Check-out date must be after check-in date`;
+            checkOutInput.focus();
+            clearreeor()
+            return;
+          }
+        });
+
+
+
+        function clearreeor() {
+          setTimeout(() => {
+            errorathome.textContent = "";
+          }, 5000);
+        }
+
+      });
+    </script>

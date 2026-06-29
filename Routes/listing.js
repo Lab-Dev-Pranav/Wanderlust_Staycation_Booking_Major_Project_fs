@@ -144,6 +144,7 @@ router.get(
       capacity: { $gte: people }
     });
 
+
     // Filter out listings that are already booked for those dates
     const availableListings = [];
     for (let listing of listings) {
