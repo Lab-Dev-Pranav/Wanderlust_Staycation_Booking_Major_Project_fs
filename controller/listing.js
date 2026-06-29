@@ -179,7 +179,10 @@ module.exports.editAListing = async (req, res) => {
 };
 
 module.exports.updateAListing = async (req, res) => {
-  let { id } = req.params;
+
+  const { id } = req.params;
+
+  // Handle Amenities
   const checkboxAMFET = Array.isArray(req.body.listing.checkboxAMFET)
     ? req.body.listing.checkboxAMFET
     : req.body.listing.checkboxAMFET
@@ -188,20 +191,64 @@ module.exports.updateAListing = async (req, res) => {
 
   req.body.listing.checkboxAMFET = checkboxAMFET;
 
-  let list = await Listing.findByIdAndUpdate(id, { ...req.body.listing });
-  list.checkboxAMFET = checkboxAMFET;
+  // Fetch Listing
+  const list = await Listing.findById(id);
 
-  if (typeof req.file !== "undefined") {
-    let url = req.file.path;
-    let filename = req.file.filename;
-    list.image = { url, filename };
+  if (!list) {
+    req.flash("error", "Listing does not exist.");
+    return res.redirect("/listings");
   }
 
+  // Check if location changed
+  const locationChanged =
+    list.location !== req.body.listing.location ||
+    list.country !== req.body.listing.country;
+
+  // Update all fields
+  Object.assign(list, req.body.listing);
+
+  // Amenities
+  list.checkboxAMFET = checkboxAMFET;
+
+  // Update Geometry only if location changed
+  if (locationChanged) {
+
+    const loc = `${req.body.listing.location}, ${req.body.listing.country}`;
+
+    const resp = await geocodingClient
+      .forwardGeocode({
+        query: loc,
+        limit: 1,
+      })
+      .send();
+
+    if (!resp.body.features.length) {
+      req.flash("error", "Invalid location. Please enter a valid city and country.");
+      return res.redirect(`/listings/${id}/edit`);
+    }
+
+    list.geometry = resp.body.features[0].geometry;
+  }
+
+  // Update Image
+  if (req.file) {
+
+    list.image = {
+      url: req.file.path,
+      filename: req.file.filename
+    };
+
+  }
+
+  // Capacity
   list.capacity = req.body.listing.capacity;
+
+  // Save
   await list.save();
 
   req.flash("Success", "Listing Updated!");
   res.redirect(`/listings/${id}`);
+
 };
 
 

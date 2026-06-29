@@ -29,7 +29,6 @@ const rateLimitLight = {
   refillTime: 15000,
   tokensPerRefill: 2
 };
-
 const rateLimitLighter = {
   capacity: 50,
   refillTime: 15000,

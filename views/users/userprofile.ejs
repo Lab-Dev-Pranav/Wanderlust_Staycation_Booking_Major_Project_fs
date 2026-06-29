@@ -1,59 +1,67 @@
 <% layout("/layouts/boilerplate") %>
-<% block('styles').append('<link rel="stylesheet" href="/css/users_profile.css">') %>
+  <% block('styles').append('<link rel="stylesheet" href="/css/users_profile.css">') %>
 
-<div class="container py-5">
-  <div class="card shadow-lg mb-5">
-    <div class="card-body">
-      <div class="row align-items-center">
-        <!-- Profile Image -->
-        <div class="col-md-4 text-center mb-3 mb-md-0">
-          <% if (userprofile.profilePhoto && userprofile.profilePhoto.url) { %>
-            <img src="<%= userprofile.profilePhoto.url %>" alt="Profile Photo"
-              class="img-thumbnail rounded-circle" style="width: 160px; height: 160px; object-fit: cover;">
-          <% } else { %>
-            <div class="bg-secondary text-white d-flex align-items-center justify-content-center rounded-circle"
-              style="width: 160px; height: 160px;">
-              <i class="bi bi-person-circle" style="font-size: 4rem;"></i>
+    <div class="container py-5">
+      <div class="card shadow-lg mb-5">
+        <div class="card-body">
+          <div class="row align-items-center">
+            <!-- Profile Image -->
+            <div class="col-md-4 text-center mb-3 mb-md-0">
+              <% if (userprofile.profilePhoto && userprofile.profilePhoto.url) { %>
+
+                <img src="<%= userprofile.profilePhoto.url %>" alt="Profile Photo" class="img-thumbnail rounded-circle"
+                  style="width: 160px; height: 160px; object-fit: cover;">
+                <% } else { %>
+                  <div class="bg-secondary text-white d-flex align-items-center justify-content-center rounded-circle"
+                    style="width: 160px; height: 160px;">
+                    <i class="bi bi-person-circle" style="font-size: 4rem;"></i>
+                  </div>
+                  <% } %>
             </div>
-          <% } %>
-        </div>
 
-        <!-- User Info -->
-        <div class="col-md-8">
-          <h4 class="text-primary fw-bold">@<%= userprofile.username %></h4>
-          <p class="mb-2">
-            <i class="bi bi-envelope-fill me-2 text-muted"></i>
-            <strong><%= userprofile.email %></strong>
-          </p>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Listings -->
-  <% if (curuserlistings.length > 0) { %>
-    <h5 class="mb-4 text-success">Locations owned by @<%= userprofile.username %> — <%= curuserlistings.length %> total</h5>
-  <% } else { %>
-    <div class="alert alert-warning">There are no locations owned by @<%= userprofile.username %>.</div>
-  <% } %>
-
-  <div class="row">
-    <% for(let LISTING of curuserlistings) { %>
-      <div class="col-md-4 mb-4">
-        <div class="card h-100 shadow-sm">
-          <img src="<%= LISTING.image.url %>" class="card-img-top" alt="<%= LISTING.title %>"
-            style="height: 200px; object-fit: cover;">
-          <div class="card-body">
-            <h5 class="card-title fw-semibold"><%= LISTING.title %></h5>
-            <p class="card-text text-muted"><%= LISTING.tag %></p>
-            <a href="/listings/<%= LISTING.id %>" class="btn btn-outline-primary btn-sm">More Info</a>
+            <!-- User Info -->
+            <div class="col-md-8">
+              <h4 class="text-primary fw-bold">@<%= userprofile.username %>
+              </h4>
+              <p class="mb-2">
+                <i class="bi bi-envelope-fill me-2 text-muted"></i>
+                <strong>
+                  <%= userprofile.email %>
+                </strong>
+              </p>
+            </div>
           </div>
         </div>
       </div>
-    <% } %>
-  </div>
-</div>
 
-<!-- Styles -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+      <!-- Listings -->
+      <% if (curuserlistings.length> 0) { %>
+        <h5 class="mb-4 text-success">Locations owned by @<%= userprofile.username %> — <%= curuserlistings.length %>
+              total</h5>
+        <% } else { %>
+          <div class="alert alert-warning">There are no locations owned by @<%= userprofile.username %>.</div>
+          <% } %>
 
+            <div class="row">
+              <% for(let LISTING of curuserlistings) { %>
+                <div class="col-md-4 mb-4">
+                  <div class="card h-100 shadow-sm">
+                    <img src="<%= LISTING.image.url %>" class="card-img-top" alt="<%= LISTING.title %>"
+                      style="height: 200px; object-fit: cover;">
+                    <div class="card-body">
+                      <h5 class="card-title fw-semibold">
+                        <%= LISTING.title %>
+                      </h5>
+                      <p class="card-text text-muted">
+                        <%= LISTING.tag %>
+                      </p>
+                      <a href="/listings/<%= LISTING.id %>" class="btn btn-outline-primary btn-sm">More Info</a>
+                    </div>
+                  </div>
+                </div>
+                <% } %>
+            </div>
+    </div>
+
+    <!-- Styles -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">

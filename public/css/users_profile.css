@@ -112,9 +112,11 @@ a {
     display: grid;
     height: fit-content;
   }
+
   .user-info-x-1-main-L {
     width: 100%;
   }
+
   .user-info-x-1-main-R {
     width: 100%;
   }
@@ -124,17 +126,21 @@ a {
   .user-info-x-1-main-L {
     height: 140px;
   }
+
   .user-info-img svg {
     height: 100px;
     margin: 35px 0px 0px -30px;
   }
+
   .user-info-img h2 {
     font-size: 20px;
     margin: 70px 0px 0px -20px;
   }
+
   .user-info-x-1-main-R-maill {
     font-size: 17px;
   }
+
   .user-info-x-1-main-R-m:nth-child(2) {
     margin: -0px 0px 0px 0px;
   }
@@ -209,11 +215,9 @@ a {
   border-radius: 15px;
   cursor: pointer;
   transition: 0.3s ease;
-  background: linear-gradient(
-    to bottom right,
-    #2e8eff 0%,
-    rgba(46, 142, 255, 0) 30%
-  );
+  background: linear-gradient(to bottom right,
+      #2e8eff 0%,
+      rgba(46, 142, 255, 0) 30%);
   background-color: rgba(46, 142, 255, 0.2);
   display: flex;
   align-items: center;
@@ -299,6 +303,7 @@ a {
   visibility: visible;
   opacity: 1;
 }
+
 /* PROFILE PAGE REBUILD */
 .profile-page {
   --profile-ink: #17324a;
@@ -878,6 +883,7 @@ a {
 }
 
 @media (max-width: 1100px) {
+
   .profile-meta-grid,
   .booking-facts-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -889,6 +895,7 @@ a {
 }
 
 @media (max-width: 992px) {
+
   .profile-hero-card,
   .booking-card-shell,
   .profile-banner-card,
@@ -975,6 +982,7 @@ a {
     flex-direction: column;
   }
 }
+
 /* ALL USERS PAGE REBUILD */
 .all-users-page {
   --host-ink: #17324a;
