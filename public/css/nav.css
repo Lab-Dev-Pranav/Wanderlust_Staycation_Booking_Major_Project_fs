@@ -86,6 +86,14 @@ body {
   align-items: center;
 }
 
+.site-nav-collapse.collapse:not(.show) {
+  display: none !important;
+}
+
+.site-nav-collapse.collapse.show {
+  display: flex !important;
+}
+
 .site-nav-links,
 .site-nav-actions {
   display: flex;

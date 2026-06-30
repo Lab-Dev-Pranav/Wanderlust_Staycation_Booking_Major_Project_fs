@@ -1,94 +1,909 @@
-<nav class="navbar navbar-expand-lg site-nav sticky-top">
-  <div class="site-nav-shell">
-    <a class="navbar-brand site-brand" href="/">
-      <span class="site-brand-mark">
-        <i class="fa-solid fa-compass fa-spin"></i>
-      </span>
-      <span class="site-brand-text">
-        <strong>Wanderlust</strong>
-        <small>Staycation</small>
-        <small>Hosting & Booking</small>
-      </span>
-    </a>
+<nav class="wl-navbar">
 
-    <button
-      class="navbar-toggler site-nav-toggler"
-      type="button"
-      data-bs-toggle="collapse"
-      data-bs-target="#navbarNavAltMarkup"
-      aria-controls="navbarNavAltMarkup"
-      aria-expanded="false"
-      aria-label="Toggle navigation"
-    >
-      <span class="site-nav-toggle-line"></span>
-      <span class="site-nav-toggle-line"></span>
-      <span class="site-nav-toggle-line"></span>
-    </button>
+    <div class="wl-container">
 
-    <div class="collapse navbar-collapse site-nav-collapse" id="navbarNavAltMarkup">
-      <div class="navbar-nav site-nav-links">
-        <a class="nav-link site-nav-link" href="/">Home</a>
-        <a class="nav-link site-nav-link" href="/listings">Explore</a>
-        <a class="nav-link site-nav-link" href="/listings/new">Add Staycation</a>
-        <% if (currUser) { %>
-          <a class="nav-link site-nav-link" href="/user">Host</a>
-        <% } %>
-      </div>
+        <!-- ========================= -->
+        <!-- Logo -->
+        <!-- ========================= -->
 
-      <div class="navbar-nav ms-lg-auto site-nav-actions">
-        <% if (!currUser) { %>
-          <a class="nav-link site-action-link" href="/signup">
-            <span class="site-action-pill site-action-pill-primary">Register</span>
-          </a>
+        <a href="/" class="wl-logo">
 
-          <a class="nav-link site-action-link" href="/login" aria-label="Login">
-            <span class="site-icon-button">
-              <span class="material-symbols-outlined">login</span>
-            </span>
-          </a>
-        <% } %>
+            <div class="wl-logo-icon">
 
-        <% if (currUser) { %>
-          <a class="nav-link site-profile-link" href="/profile" aria-label="Profile">
-            <span class="site-profile-chip">
-              <span class="site-profile-avatar-wrap">
-                <% if (curr_user.profilePhoto && curr_user.profilePhoto.url) { %>
-                  <img src="<%= curr_user.profilePhoto.url %>" alt="Profile Photo" class="profile-photo-nev" />
-                <% } else { %>
-                  <span class="site-profile-fallback">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="#000000" shape-rendering="geometricPrecision"
-                      text-rendering="geometricPrecision" image-rendering="optimizeQuality" clip-rule="evenodd"
-                      viewBox="0 0 512 512" height="35" width="35" aria-hidden="true">
-                      <path fill="#00000090" fill-rule="nonzero"
-                        d="M256 0c68 0 132.89 26.95 180.96 75.04C485.05 122.99 512 188.11 512 256c0 68-26.95 132.89-75.04 180.96-23.49 23.56-51.72 42.58-83.15 55.6C323.59 505.08 290.54 512 256 512c-34.55 0-67.6-6.92-97.83-19.44l-.07-.03c-31.25-12.93-59.42-31.93-83.02-55.54l-.07-.07C26.9 388.82 0 324.03 0 256 0 116.78 112.74 0 256 0zm-52.73 332.87a67.668 67.668 0 01-5.6-6.74c-10.84-14.83-20.55-31.61-30.32-47.22-7.06-10.41-10.78-19.71-10.78-27.14 0-7.95 4.22-17.23 12.64-19.34-1.11-15.99-1.49-31.77-.74-48.88.37-4.08 1.12-8.17 2.23-12.27 4.84-17.1 16.73-30.86 31.61-40.15 5.2-3.35 10.78-5.94 17.1-8.18 10.78-4.09 5.57-20.45 17.48-20.82 27.88-.74 73.61 23.06 91.46 42.38 10.41 11.16 17.1 26.03 18.22 45.74l-1.12 44.03c5.2 1.49 8.55 4.84 10.04 10.04 1.49 5.95 0 14.13-5.2 25.67 0 .36-.38.36-.38.74-11.47 18.91-23.39 40.77-36.57 58.33-6.63 8.83-12.07 7.26-6.42 15.74 26.88 36.96 79.9 31.82 112.61 56.44 35.73-40.16 55.15-91.48 55.15-145.24 0-58.34-22.8-113.35-64.07-154.61v-.08C369.44 60.1 314.23 37.32 256 37.32 134.4 37.32 37.32 135.83 37.32 256c0 53.85 19.41 105.03 55.15 145.24 32.72-24.62 85.73-19.48 112.61-56.44 4.68-7.01 3.48-6.33-1.81-11.93z" />
-                    </svg>
-                  </span>
+                <i class="fa-solid fa-compass"></i>
+
+            </div>
+
+            <div class="wl-logo-text">
+
+                <h3>Wanderlust</h3>
+
+                <p>Hosting & Booking</p>
+
+            </div>
+
+        </a>
+
+
+        <!-- ========================= -->
+        <!-- Hamburger -->
+        <!-- ========================= -->
+
+        <button
+            class="wl-menu-btn"
+            id="menuBtn"
+            aria-label="Toggle Menu">
+
+            <span></span>
+            <span></span>
+            <span></span>
+
+        </button>
+
+
+        <!-- ========================= -->
+        <!-- Navigation -->
+        <!-- ========================= -->
+
+        <div class="wl-nav" id="mobileNav">
+
+            <!-- Left Links -->
+
+            <div class="wl-nav-links">
+
+                <a href="/">Home</a>
+
+                <a href="/listings">Explore</a>
+
+                <a href="/listings/new">
+
+                    Add Staycation
+
+                </a>
+
+                <% if(currUser){ %>
+
+                    <a href="/user">
+
+                        Host
+
+                    </a>
+
                 <% } %>
-              </span>
-              <span class="site-profile-copy">
-                <strong>@<%= currUser.username %></strong>
 
-                <small>Profile</small>
-              </span>
-            </span>
-          </a>
+            </div>
 
-          <a class="nav-link site-action-link" href="/logout" aria-label="Logout">
-            <span class="site-icon-button site-icon-button-logout">
-              <svg fill="#525252" height="26" width="26" version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="-179.2 -179.2 870.40 870.40" aria-hidden="true">
-                <g>
-                  <g>
-                    <path d="M358.401,192V12.8c0-7.066-5.734-12.8-12.8-12.8h-332.8c-7.066,0-12.8,5.734-12.8,12.8v486.4 c0,7.066,5.734,12.8,12.8,12.8h332.8c7.066,0,12.8-5.734,12.8-12.8V320h-25.6v166.4h-307.2V25.6h307.2V192H358.401z" />
-                  </g>
-                  <g>
-                    <path d="M508.161,246.844l-74.931-76.595c-4.941-5.06-13.047-5.146-18.099-0.205c-5.052,4.941-5.146,13.056-0.205,18.099 l53.854,55.057H193.673c-7.066,0-12.8,5.734-12.8,12.8c0,7.066,5.734,12.8,12.8,12.8h275.098l-53.854,55.057 c-4.941,5.043-4.847,13.158,0.205,18.099c5.06,4.941,13.158,4.855,18.099-0.205l75.128-76.8 C513.289,259.9,513.204,251.785,508.161,246.844z" />
-                  </g>
-                </g>
-              </svg>
-            </span>
-          </a>
-        <% } %>
-      </div>
+
+            <!-- Right Links -->
+
+            <div class="wl-nav-actions">
+
+                <% if(!currUser){ %>
+
+                    <a href="/signup" class="wl-register">
+
+                        Register
+
+                    </a>
+
+                    <a href="/login" class="wl-login">
+
+                        <i class="fa-solid fa-right-to-bracket"></i>
+
+                        Login
+
+                    </a>
+
+                <% } %>
+
+
+                <% if(currUser){ %>
+
+                    <a href="/profile" class="wl-profile">
+
+                        <div class="wl-profile-image">
+
+                            <% if(curr_user.profilePhoto && curr_user.profilePhoto.url){ %>
+
+                                <img
+                                    src="<%= curr_user.profilePhoto.url %>"
+                                    alt="Profile">
+
+                            <% }else{ %>
+
+                                <i class="fa-solid fa-user"></i>
+
+                            <% } %>
+
+                        </div>
+
+                        <div class="wl-profile-info">
+
+                            <span>
+
+                                @<%= currUser.username %>
+
+                            </span>
+
+                            <small>
+
+                                View Profile
+
+                            </small>
+
+                        </div>
+
+                    </a>
+
+
+                    <a
+                        href="/logout"
+                        class="wl-logout">
+
+                        <i class="fa-solid fa-right-from-bracket"></i>
+
+                    </a>
+
+                <% } %>
+
+            </div>
+
+        </div>
+
     </div>
-  </div>
+
 </nav>
+
+<style>
+  /* =====================================================
+                WANDERLUST NAVBAR
+===================================================== */
+
+:root{
+
+    --primary:#f18832;
+    --primary-dark:#db7016;
+
+    --dark:#1f2937;
+    --text:#555;
+
+    --white:#fff;
+
+    --border:#ececec;
+
+    --shadow:0 12px 35px rgba(0,0,0,.08);
+
+}
+
+
+/* =====================================================
+                    NAVBAR
+===================================================== */
+
+.wl-navbar{
+
+    position:sticky;
+
+    top:0;
+
+    z-index:999;
+
+    width:100%;
+
+    background:rgba(255,255,255,.9);
+
+    backdrop-filter:blur(18px);
+
+    border-bottom:1px solid #eee;
+
+}
+
+
+/* =====================================================
+                CONTAINER
+===================================================== */
+
+.wl-container{
+
+    width:min(1400px,95%);
+
+    margin:auto;
+
+    height:78px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+}
+
+
+/* =====================================================
+                    LOGO
+===================================================== */
+
+.wl-logo{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:15px;
+
+    text-decoration:none;
+
+}
+
+
+.wl-logo-icon{
+
+    width:52px;
+
+    height:52px;
+
+    border-radius:16px;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    background:#fff4eb;
+
+    color:var(--primary);
+
+    font-size:1.5rem;
+
+}
+
+
+.wl-logo-text h3{
+
+    margin:0;
+
+    color:var(--dark);
+
+    font-size:1.25rem;
+
+    font-weight:700;
+
+}
+
+
+.wl-logo-text p{
+
+    margin:2px 0 0;
+
+    color:#777;
+
+    font-size:.75rem;
+
+    letter-spacing:1px;
+
+}
+
+
+/* =====================================================
+                NAVIGATION
+===================================================== */
+
+.wl-nav{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    flex:1;
+
+    margin-left:50px;
+
+}
+
+
+.wl-nav-links{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+}
+
+
+.wl-nav-links a{
+
+    text-decoration:none;
+
+    color:var(--dark);
+
+    font-weight:600;
+
+    padding:11px 18px;
+
+    border-radius:40px;
+
+    transition:.3s;
+
+}
+
+
+.wl-nav-links a:hover{
+
+    background:#fff3e8;
+
+    color:var(--primary);
+
+}
+
+
+/* =====================================================
+                ACTIONS
+===================================================== */
+
+.wl-nav-actions{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:14px;
+
+}
+
+
+/* =====================================================
+                REGISTER
+===================================================== */
+
+.wl-register{
+
+    text-decoration:none;
+
+    background:linear-gradient(135deg,#f6a35b,var(--primary));
+
+    color:white;
+
+    padding:12px 22px;
+
+    border-radius:40px;
+
+    font-weight:600;
+
+    transition:.3s;
+
+}
+
+
+.wl-register:hover{
+
+    transform:translateY(-2px);
+
+}
+
+
+/* =====================================================
+                LOGIN
+===================================================== */
+
+.wl-login{
+
+    width:48px;
+
+    height:48px;
+
+    border-radius:50%;
+
+    background:#f5f5f5;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    text-decoration:none;
+
+    color:#444;
+
+    transition:.3s;
+
+}
+
+
+.wl-login:hover{
+
+    background:#ffe7d0;
+
+    color:var(--primary);
+
+}
+
+
+/* =====================================================
+                PROFILE
+===================================================== */
+
+.wl-profile{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    text-decoration:none;
+
+    background:#fff4ea;
+
+    padding:6px 15px 6px 6px;
+
+    border-radius:50px;
+
+    transition:.3s;
+
+}
+
+
+.wl-profile:hover{
+
+    transform:translateY(-2px);
+
+}
+
+
+.wl-profile-image{
+
+    width:44px;
+
+    height:44px;
+
+    border-radius:50%;
+
+    overflow:hidden;
+
+    background:#fff;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+}
+
+
+.wl-profile-image img{
+
+    width:100%;
+
+    height:100%;
+
+    object-fit:cover;
+
+}
+
+
+.wl-profile-image i{
+
+    color:#777;
+
+}
+
+
+.wl-profile-info{
+
+    display:flex;
+
+    flex-direction:column;
+
+}
+
+
+.wl-profile-info span{
+
+    color:var(--dark);
+
+    font-weight:700;
+
+    font-size:.92rem;
+
+}
+
+
+.wl-profile-info small{
+
+    color:#777;
+
+    font-size:.72rem;
+
+}
+
+
+/* =====================================================
+                LOGOUT
+===================================================== */
+
+.wl-logout{
+
+    width:46px;
+
+    height:46px;
+
+    border-radius:50%;
+
+    background:#f4f4f4;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    color:#444;
+
+    text-decoration:none;
+
+    transition:.3s;
+
+}
+
+
+.wl-logout:hover{
+
+    color:#fff;
+
+    background:#ef4444;
+
+}
+
+
+/* =====================================================
+            HAMBURGER
+===================================================== */
+
+.wl-menu-btn{
+
+    display:none;
+
+    width:50px;
+
+    height:50px;
+
+    border:none;
+
+    background:none;
+
+    cursor:pointer;
+
+    flex-direction:column;
+
+    justify-content:center;
+
+    gap:6px;
+
+}
+
+
+.wl-menu-btn span{
+
+    width:28px;
+
+    height:3px;
+
+    background:#222;
+
+    border-radius:50px;
+
+    transition:.35s;
+
+}
+
+/* =====================================================
+                RESPONSIVE
+===================================================== */
+
+@media (max-width:992px){
+
+    .wl-container{
+
+        height:75px;
+
+        position:relative;
+
+    }
+
+    .wl-menu-btn{
+
+        display:flex;
+
+    }
+
+    .wl-nav{
+
+        position:absolute;
+
+        top:90px;
+
+        left:0;
+
+        width:100%;
+
+        background:#fff;
+
+        border-radius:24px;
+
+        box-shadow:0 20px 45px rgba(0,0,0,.12);
+
+        padding:25px;
+
+        margin-left:0;
+
+        display:flex;
+
+        flex-direction:column;
+
+        align-items:stretch;
+
+        gap:25px;
+
+        transform:translateY(-20px);
+
+        opacity:0;
+
+        visibility:hidden;
+
+        pointer-events:none;
+
+        transition:.35s ease;
+
+    }
+
+    .wl-nav.active{
+
+        opacity:1;
+
+        visibility:visible;
+
+        pointer-events:auto;
+
+        transform:translateY(0);
+
+    }
+
+    .wl-nav-links{
+
+        width:100%;
+
+        display:flex;
+
+        flex-direction:column;
+
+        gap:12px;
+
+    }
+
+    .wl-nav-links a{
+
+        width:100%;
+
+        padding:15px 18px;
+
+        border-radius:14px;
+
+        background:#fafafa;
+
+    }
+
+    .wl-nav-links a:hover{
+
+        background:#fff3ea;
+
+    }
+
+    .wl-nav-actions{
+
+        width:100%;
+
+        display:flex;
+
+        flex-direction:column;
+
+        gap:15px;
+
+        padding-top:20px;
+
+        border-top:1px solid #ececec;
+
+    }
+
+    .wl-register{
+
+        width:100%;
+
+        display:flex;
+
+        justify-content:center;
+
+    }
+
+    .wl-login{
+
+        width:100%;
+
+        height:52px;
+
+        border-radius:14px;
+
+    }
+
+    .wl-profile{
+
+        width:100%;
+
+    }
+
+    .wl-logout{
+
+        width:100%;
+
+        height:52px;
+
+        border-radius:14px;
+
+    }
+
+}
+
+
+/* =====================================================
+                MOBILE
+===================================================== */
+
+@media (max-width:576px){
+
+    .wl-container{
+
+        width:94%;
+
+    }
+
+    .wl-logo{
+
+        gap:10px;
+
+    }
+
+    .wl-logo-icon{
+
+        width:45px;
+
+        height:45px;
+
+        border-radius:14px;
+
+    }
+
+    .wl-logo-text h3{
+
+        font-size:1rem;
+
+    }
+
+    .wl-logo-text p{
+
+        font-size:.65rem;
+
+    }
+
+    .wl-nav{
+
+        padding:18px;
+
+        top:82px;
+
+    }
+
+}
+
+
+/* =====================================================
+            HAMBURGER ANIMATION
+===================================================== */
+
+.wl-menu-btn.active span:nth-child(1){
+
+    transform:translateY(9px) rotate(45deg);
+
+}
+
+.wl-menu-btn.active span:nth-child(2){
+
+    opacity:0;
+
+}
+
+.wl-menu-btn.active span:nth-child(3){
+
+    transform:translateY(-9px) rotate(-45deg);
+
+}
+
+</style>
+
+
+<script>
+
+
+const menuBtn=document.getElementById("menuBtn");
+
+const mobileNav=document.getElementById("mobileNav");
+
+menuBtn.addEventListener("click",()=>{
+
+    menuBtn.classList.toggle("active");
+
+    mobileNav.classList.toggle("active");
+
+});
+
+
+// Close when clicking outside
+
+document.addEventListener("click",(e)=>{
+
+    if(
+
+        !mobileNav.contains(e.target)
+
+        &&
+
+        !menuBtn.contains(e.target)
+
+    ){
+
+        menuBtn.classList.remove("active");
+
+        mobileNav.classList.remove("active");
+
+    }
+
+});
+
+
+// ESC closes menu
+
+document.addEventListener("keydown",(e)=>{
+
+    if(e.key==="Escape"){
+
+        menuBtn.classList.remove("active");
+
+        mobileNav.classList.remove("active");
+
+    }
+
+});
+
+
+// Close after clicking a link (mobile)
+
+document.querySelectorAll(".wl-nav a").forEach(link=>{
+
+    link.addEventListener("click",()=>{
+
+        menuBtn.classList.remove("active");
+
+        mobileNav.classList.remove("active");
+
+    });
+
+});
+
+
+</script>
